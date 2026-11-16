@@ -20,7 +20,7 @@ const PRODUTOS = [
 ];
 function criarExemplo(id, nome, bairro, foto, nota, quantidade, descricao, cor, profissionais, temProdutos) {
   return {
-    id:id, nome:nome, bairro:bairro, foto:foto, fotos:[FOTOS[foto],FOTOS[(foto+1)%6],FOTOS[(foto+2)%6]],
+    id:id, dono:id, nome:nome, bairro:bairro, foto:foto, capa:FOTOS[(foto+3)%6], fotos:[FOTOS[foto],FOTOS[(foto+1)%6],FOTOS[(foto+2)%6]], fotosProfissionais:{},
     nota:nota, quantidade:quantidade, descricao:descricao, cor:cor,
     horario:'Segunda a sexta: 09h às 19h | Sábado: 09h às 17h | Domingo: fechado',
     profissionais:profissionais, servicos:SERVICOS.map(s=>({...s})),
@@ -48,10 +48,61 @@ let barbearias = carregar('barbearias', JSON.parse(JSON.stringify(EXEMPLOS)));
 let agendamentos = carregar('agendamentos', []);
 let pedidos = carregar('pedidos', []);
 function salvar() {
-  localStorage.setItem(CHAVE+'barbearias', JSON.stringify(barbearias));
-  localStorage.setItem(CHAVE+'agendamentos', JSON.stringify(agendamentos));
-  localStorage.setItem(CHAVE+'pedidos', JSON.stringify(pedidos));
+  try {
+    localStorage.setItem(CHAVE+'barbearias', JSON.stringify(barbearias));
+    localStorage.setItem(CHAVE+'agendamentos', JSON.stringify(agendamentos));
+    localStorage.setItem(CHAVE+'pedidos', JSON.stringify(pedidos));
+    return true;
+  } catch (erro) {
+    aviso('Espaço do navegador cheio. Remova algumas imagens e tente novamente.');
+    return false;
+  }
 }
+
+// Login fictício do TCC. As senhas são públicas no JavaScript: NÃO é autenticação real.
+// Cada usuário visualiza somente sua barbearia na interface de demonstração.
+const CONTAS_DEMO = [
+  {usuario:'estacao47', senha:'demo123', nome:'Estação 47 Barber'},
+  {usuario:'nobre', senha:'demo123', nome:'Nobre Barbearia'},
+  {usuario:'distrito', senha:'demo123', nome:'Distrito do Corte'},
+  {usuario:'vertice', senha:'demo123', nome:'Vértice Barber'}
+];
+const donoLogado = () => sessionStorage.getItem(CHAVE+'dono') || '';
+const minhasLojas = () => barbearias.filter(b=>(b.dono || b.id)===donoLogado());
+const podeEditar = b => !!b && !!donoLogado() && (b.dono || b.id)===donoLogado();
+
+function aplicarTema() {
+  const escuro = localStorage.getItem(CHAVE+'tema')==='escuro';
+  document.body.classList.toggle('theme-dark',escuro);
+  document.querySelector('#theme-label').textContent=escuro?'Claro':'Escuro';
+  document.querySelector('#theme-toggle').setAttribute('aria-label',escuro?'Ativar modo claro':'Ativar modo escuro');
+}
+function atualizarCabecalho() {
+  const rota=decodeURIComponent(location.hash||'#inicio');
+  const b=rota.startsWith('#barbearia/')?loja(rota.split('/')[1]):null;
+  document.querySelector('#logo-home').hidden=!!b;
+  document.querySelector('#nav-links').hidden=!!b;
+  document.querySelector('#nav-admin').hidden=!!b;
+  const nome=document.querySelector('#shop-header-name');
+  nome.hidden=!b;
+  if (b) nome.innerHTML='<span>'+seguro(b.nome)+'</span><a class="logo-mark shop-home-mark" href="#inicio" title="Voltar ao BarberSync" aria-label="Voltar ao BarberSync">B<span>✦</span></a>';
+  const admin=document.querySelector('#nav-admin');
+  admin.textContent=donoLogado()?'Meu painel ↗':'Área do barbeiro ↗';
+  admin.href=donoLogado()?'#painel':'#login';
+}
+function telaLogin() {
+  if(donoLogado()){location.hash='#painel';return;}
+  document.documentElement.style.setProperty('--accent','#c99457');
+  app.innerHTML='<section class="page-intro"><div class="wrap"><div class="eyebrow">ÁREA DO PROPRIETÁRIO</div><h1>Acesse sua barbearia</h1><p>Entre para gerenciar horários, equipe, fotos e resultados.</p></div></section>'+
+    '<section class="page-content"><div class="wrap login-layout"><div class="panel"><div class="login-icon">✂</div><h2>Login do barbeiro</h2>'+
+    '<p class="muted small">Acesso demonstrativo para apresentação do TCC.</p>'+
+    '<form id="form-login">'+campo('Usuário','login-usuario','')+campo('Senha','login-senha','','password')+
+    '<button type="submit" class="btn btn-primary btn-block">Entrar no meu painel →</button></form>'+
+    '<div class="login-example"><strong>Conta para testar</strong><p style="margin:6px 0">Usuário: <code>estacao47</code><br>Senha: <code>demo123</code></p>'+
+    '<span class="small">Outros usuários: nobre, distrito, vertice. Todos com a mesma senha de demonstração.</span></div>'+
+    '<p class="help">Login visual, sem servidor e sem proteção real. Não utilize uma senha pessoal.</p></div></div></section>';
+}
+
 const dinheiro = valor => Number(valor).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const seguro = texto => String(texto == null ? '' : texto).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const loja = id => barbearias.find(b=>b.id===id);
@@ -147,18 +198,21 @@ function telaBarbearia(id) {
   if (!b) { location.hash='#inicio'; return; }
   document.documentElement.style.setProperty('--accent',/^#[0-9a-f]{6}$/i.test(b.cor)?b.cor:'#c99457');
   app.innerHTML=
-    '<section class="detail-header"><div class="wrap">'+
+    '<section class="detail-header cover-header"><img class="cover-background" src="'+seguro(b.capa||b.fotos[0])+'" alt="" aria-hidden="true"><div class="wrap">'+
       '<div class="breadcrumb"><a href="#inicio">Início</a> / Barbearias / '+seguro(b.nome)+'</div>'+
       '<div class="detail-title-row"><div><span class="eyebrow">✦ BARUERI • '+seguro(b.bairro.toUpperCase())+'</span><h1>'+seguro(b.nome)+'</h1><p>⌖ '+seguro(b.bairro)+', Barueri – SP</p></div>'+
       '<div class="rating">'+estrelas(b)+' <span class="small">• Avaliações de demonstração</span></div></div>'+
+      (podeEditar(b)?'<p style="margin:18px 0 0"><button class="btn btn-primary btn-sm" data-editar-loja="'+seguro(b.id)+'">✎ Editar minha barbearia</button></p>':'')+
     '</div></section>'+
-    '<div class="wrap detail-main"><div class="gallery">'+b.fotos.map((foto,i)=>'<img src="'+seguro(foto)+'" alt="Foto ilustrativa '+(i+1)+' da barbearia" loading="lazy">').join('')+'</div>'+
+    '<div class="wrap detail-main"><div class="gallery">'+b.fotos.map((foto,i)=>'<img src="'+seguro(foto)+'" alt="Foto '+(i+1)+' da barbearia" loading="lazy">').join('')+'</div>'+
     '<div class="detail-grid"><div>'+
       '<section class="panel"><span class="eyebrow">SOBRE NÓS</span><h3>Conheça nosso espaço</h3><p>'+seguro(b.descricao)+'</p><p class="small">📍 '+seguro(b.bairro)+', Barueri – SP</p><p class="small">🕒 '+seguro(b.horario)+'</p></section>'+
       '<section class="panel"><span class="eyebrow">O QUE FAZEMOS</span><h3>Serviços e valores</h3>'+
         b.servicos.map(s=>'<div class="service-row"><div><strong>'+seguro(s.nome)+'</strong><span>⏱ '+seguro(s.duracao)+'</span></div><strong>'+dinheiro(s.preco)+'</strong></div>').join('')+
       '</section>'+
-      '<section class="panel"><span class="eyebrow">NOSSA EQUIPE</span><h3>Profissionais</h3><div class="pros">'+b.profissionais.map(p=>'<span class="pro">✂ '+seguro(p)+'</span>').join('')+'</div></section>'+
+      '<section class="panel"><span class="eyebrow">NOSSA EQUIPE</span><h3>Profissionais</h3><div class="professional-grid">'+b.profissionais.map(p=>
+        '<div class="pro-card">'+((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')+
+        '<strong>'+seguro(p)+'</strong><span>Barbeiro profissional</span></div>').join('')+'</div></section>'+
       '<section class="panel"><span class="eyebrow">O QUE OS CLIENTES DIZEM</span><h3>Avaliações <span class="rating">'+estrelas(b)+'</span></h3>'+
       '<p class="small">Comentários fictícios ou cadastrados localmente neste navegador.</p>'+
       [...b.avaliacoes].reverse().map(a=>'<div class="review"><div class="review-head"><strong>'+seguro(a.nome)+'</strong><span class="stars">'+('★'.repeat(Number(a.estrelas)))+'</span></div><p>'+seguro(a.texto)+'</p></div>').join('')+
@@ -302,8 +356,10 @@ function modalCadastro() {
 function renderizar() {
   fecharModal();
   const rota=decodeURIComponent(location.hash||'#inicio');
+  atualizarCabecalho();
   if (rota.startsWith('#barbearia/')) telaBarbearia(rota.split('/')[1]);
   else if (rota==='#painel') telaPainel();
+  else if (rota==='#login') telaLogin();
   else if (rota==='#meus-agendamentos') telaMeusAgendamentos();
   else telaInicio();
   window.scrollTo(0,0);
@@ -396,4 +452,5 @@ document.addEventListener('submit',e=>{
   }
 });
 window.addEventListener('hashchange',renderizar);
+aplicarTema();
 renderizar();
