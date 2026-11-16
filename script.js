@@ -145,6 +145,7 @@ function telaCadastroCliente() {
     campo('Usuário (mín. 4 caracteres)','novo-cliente-usuario','')+
     campo('Senha demonstrativa (mín. 4 caracteres)','novo-cliente-senha','','password')+
     campo('Telefone fictício (opcional)','novo-cliente-telefone','','tel').replace(' required>','>')+
+    '<label class="terms-consent"><input type="checkbox" required> Li e concordo com os <a href="#politicas">Termos e Políticas</a> do protótipo.</label>'+ 
     '<button type="submit" class="btn btn-primary btn-block">Criar conta de cliente →</button></form>'+
     '<div class="auth-switch">Já tem conta? <a href="#login-cliente">Fazer login</a></div>'+
     '<p class="help">Não existe cadastro real, servidor ou criptografia. Não forneça dados pessoais verdadeiros.</p></div></div></section>';
@@ -163,6 +164,7 @@ function telaCadastroBarbeiro() {
        PLANOS.map(p=>'<option value="'+p.id+'" '+(p.id===escolhido?'selected':'')+'>'+p.nome+' — '+dinheiro(p.preco)+'/mês</option>').join('')+
     '</select></div>'+
     '<p class="book-alert">Nenhum pagamento ou assinatura será efetuado. Os preços são apenas propostas para o TCC.</p>'+
+    '<label class="terms-consent"><input type="checkbox" required> Li e concordo com os <a href="#politicas">Termos e Políticas</a> do protótipo.</label>'+ 
     '<button type="submit" class="btn btn-primary btn-block">Criar meu acesso e vitrine →</button></form>'+
     '<div class="auth-switch">Já tem cadastro? <a href="#login">Fazer login</a></div>'+
     '<p class="help">Senha demonstrativa armazenada localmente. Não use credenciais reais.</p></div></div></section>';
