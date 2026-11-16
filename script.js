@@ -374,7 +374,7 @@ function telaMeusAgendamentos() {
   (agendamentos.length ? [...agendamentos].reverse().map(a=>
     '<div class="account-card"><span class="eyebrow">'+seguro(a.status)+'</span><h3>'+seguro((loja(a.idLoja)||{}).nome||'Barbearia')+'</h3>'+
     '<p>'+seguro(a.servico)+' com '+seguro(a.profissional)+' • '+dataBR(a.data)+' às '+seguro(a.hora)+'</p>'+
-    '<div class="list-row"><strong>'+dinheiro(a.preco)+'</strong>'+(a.status!=='Cancelado'?'<button class="btn btn-outline btn-sm" data-cancelar="'+a.id+'">Cancelar agendamento</button>':'<span class="muted small">Cancelado</span>')+'</div></div>'
+    '<div class="list-row"><strong>'+dinheiro(a.preco)+'</strong>'+(a.status==='Confirmado'?'<button class="btn btn-outline btn-sm" data-cancelar="'+a.id+'">Cancelar agendamento</button>':'<span class="muted small">'+(a.status==='Concluído'?'Atendimento realizado':'Cancelado')+'</span>')+'</div></div>'
     ).join('') : '<div class="empty"><h3>Sem agendamentos por aqui</h3><p>Escolha uma barbearia e reserve um horário.</p><a class="btn btn-primary" href="#inicio">Explorar barbearias</a></div>')+
   '</div>';
 }
@@ -522,7 +522,7 @@ document.addEventListener('click',e=>{
   const cancel=el.closest('[data-cancelar]');
   if (cancel && confirm('Cancelar este agendamento de demonstração?')) {
     const a=agendamentos.find(x=>String(x.id)===cancel.dataset.cancelar);
-    if (a) { a.status='Cancelado'; salvar(); telaMeusAgendamentos(); aviso('Agendamento cancelado.'); }
+    if (a && a.status==='Confirmado') { a.status='Cancelado'; salvar(); telaMeusAgendamentos(); aviso('Agendamento cancelado.'); }
   }
   const remover=el.closest('[data-remover-produto]');
   if (remover && podeEditar(loja(barbeariaPainel))) { const b=loja(barbeariaPainel); b.produtos=b.produtos.filter(p=>p.id!==remover.dataset.removerProduto); salvar(); telaPainel(); aviso('Produto excluído.'); }
