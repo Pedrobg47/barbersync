@@ -206,3 +206,84 @@ td strong{display:block}
 }
 /* Acessibilidade: foco visível para navegação por teclado */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[role=link]:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+
+/* Identidade dentro da barbearia e alternância entre claro e escuro */
+[hidden]{display:none!important}
+.nav-actions{display:flex;align-items:center;gap:11px;margin-left:auto}
+.theme-toggle{background:#24322a;border:1px solid #516355;color:#f4f6ee;padding:10px 12px;border-radius:9px;min-width:87px;font-weight:700;font-size:12px}
+.theme-toggle:hover{background:#35473b}
+.shop-header-name{display:flex;align-items:center;justify-content:flex-end;gap:13px;font-weight:800;max-width:280px;text-align:right;font-size:16px}
+.shop-home-mark{flex:0 0 33px;width:33px;height:33px;font-size:21px;text-align:center}
+.cover-header{position:relative;overflow:hidden;isolation:isolate}
+.cover-header .cover-background{position:absolute;inset:0;width:100%;height:100%;z-index:-2;object-fit:cover}
+.cover-header:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0a1611f5,#0a1711c9 58%,#0a171197);z-index:-1}
+.gallery{grid-template-columns:repeat(3,minmax(0,1fr));height:auto;gap:11px}
+.gallery img{height:190px}
+.gallery img:first-child{grid-column:span 2}
+.professional-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:13px}
+.pro-card{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:12px;text-align:center}
+.pro-card img,.pro-avatar{width:84px;height:84px;object-fit:cover;border-radius:50%;margin:0 auto 9px;background:#b8c6b7;display:grid;place-items:center;font-size:29px;font-weight:800;color:#294131}
+.pro-card strong{font-size:13px;display:block}
+.pro-card span{font-size:11px;color:var(--muted)}
+.image-manager{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:12px;margin-top:14px}
+.image-tile{background:var(--paper);border:1px solid var(--line);border-radius:11px;overflow:hidden;padding:7px}
+.image-tile img{width:100%;height:92px;object-fit:cover;border-radius:7px}
+.image-tile button{width:100%;margin-top:7px}
+.image-empty{background:#dfe7dd;display:grid;place-items:center;height:90px;font-size:35px;border-radius:9px;color:#3b6046}
+.upload-label{display:block;border:1px dashed #95a39a;padding:14px;border-radius:11px;cursor:pointer;font-weight:700;margin-top:11px}
+.upload-label input{display:block;margin-top:8px;max-width:100%;font-size:12px}
+.upload-tip{font-size:12px;color:var(--muted);margin:8px 0}
+.owner-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.owner-toolbar select{max-width:230px;min-height:37px;border-radius:9px;border:1px solid var(--line);background:var(--white);color:var(--ink)}
+.login-layout{width:min(440px,100%);margin:0 auto}
+.login-layout .panel{padding:32px}
+.login-layout .field{margin:16px 0}
+.login-icon{font-size:31px;margin-bottom:10px}
+.login-example{background:#e9eee7;border-radius:10px;padding:14px;font-size:13px;margin-top:18px}
+.revenue-table td:first-child{font-weight:800}
+.revenue-info{background:#edf2e9;border-radius:10px;padding:13px;color:#425b48;font-size:12px}
+.photo-profile{display:grid;grid-template-columns:60px 1fr;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding:14px 0}
+.photo-profile img,.photo-profile .pro-avatar{margin:0;width:58px;height:58px;font-size:20px}
+.photo-profile label{font-size:12px;font-weight:800}
+.photo-profile input{display:block;margin:5px 0;max-width:100%;font-size:12px}
+.photo-profile .btn{min-height:30px}
+.photo-profile:last-child{border-bottom:0}
+.side-btn.active{background:#e8eee7;color:#1b3423}
+body.theme-dark{
+  --paper:#111b16;--ink:#eaf1eb;--muted:#abb9ad;--line:#33453a;--white:#202e25;--dark:#19271e
+}
+body.theme-dark .shop-card,body.theme-dark .search-panel,body.theme-dark .panel,
+body.theme-dark .sidebar,body.theme-dark .stat,body.theme-dark .account-card,
+body.theme-dark .modal,body.theme-dark .product,body.theme-dark .empty,
+body.theme-dark .pro-card,body.theme-dark .image-tile{background:#202e25;color:#eaf1eb;border-color:#34483a}
+body.theme-dark .field input,body.theme-dark .field textarea,body.theme-dark .field select,
+body.theme-dark .owner-toolbar select{background:#142219;color:#eaf1eb;border-color:#4d6153}
+body.theme-dark .field label,body.theme-dark .list-row span,body.theme-dark .card-desc,
+body.theme-dark .panel p,body.theme-dark .review p,body.theme-dark .footer p{color:#b3c1b5}
+body.theme-dark .benefit-strip{background:#1b2920}
+body.theme-dark .benefit-icon,body.theme-dark .pro,body.theme-dark .pill,
+body.theme-dark .login-example{background:#304538;color:#eaf1eb;border-color:#405a48}
+body.theme-dark .pill.active,body.theme-dark .pill:hover{background:#b98b55;color:#0c1710}
+body.theme-dark .btn-outline{color:#eaf1eb;border-color:#748675}
+body.theme-dark .btn-outline:hover{background:#35473a}
+body.theme-dark .price-preview,body.theme-dark .revenue-info,
+body.theme-dark .color-preview{background:#2e4334;color:#eaf1eb}
+body.theme-dark .owner-note{background:#413828;color:#f1dfba;border-color:#69563c}
+body.theme-dark .stat small,body.theme-dark .tag{color:#b1c8b5}
+body.theme-dark .card-foot,body.theme-dark .service-row,body.theme-dark .review,
+body.theme-dark .list-row,body.theme-dark td,body.theme-dark th{border-color:#3c4f42}
+body.theme-dark .card-foot strong,body.theme-dark .card-body h3{color:#eaf1eb}
+body.theme-dark .side-btn{color:#aebbaf}
+body.theme-dark .side-btn:hover,body.theme-dark .side-btn.active{background:#304738;color:#f5f8f2}
+body.theme-dark .image-empty{background:#304638;color:#c5d5c7}
+@media(max-width:640px){
+ .nav-actions{gap:7px}
+ .theme-toggle{min-width:0;padding:8px}
+ .theme-toggle span{display:none}
+ .shop-header-name{font-size:13px;max-width:220px}
+ .gallery{display:flex;overflow-x:auto;height:auto;scroll-snap-type:x mandatory}
+ .gallery img,.gallery img:first-child,.gallery img:last-child{display:block;flex:0 0 78%;width:78%;height:210px;scroll-snap-align:start}
+ .login-layout .panel{padding:20px}
+ .professional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
