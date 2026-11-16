@@ -255,56 +255,103 @@ function atualizarHorarios() {
 }
 
 // 5. Área do dono: agenda, avaliações, pedidos e personalização.
+function resumoReceita(b, agenda, vendas) {
+  // Faturamento demonstrativo: apenas serviços concluídos e pedidos entregues.
+  const concluidos=agenda.filter(a=>a.status==='Concluído');
+  const entregues=vendas.filter(p=>p.status==='Entregue');
+  const servicos=concluidos.reduce((s,a)=>s+Number(a.preco||0),0);
+  const produtos=entregues.reduce((s,p)=>s+Number(p.preco||0),0);
+  const nomes=[...new Set([...b.profissionais,...concluidos.map(a=>a.profissional)])];
+  const profissionais=nomes.map(nome=>{
+    const feitos=concluidos.filter(a=>a.profissional===nome);
+    return {nome:nome,atendimentos:feitos.length,total:feitos.reduce((s,a)=>s+Number(a.preco||0),0)};
+  });
+  return {servicos:servicos,produtos:produtos,total:servicos+produtos,profissionais:profissionais};
+}
 function telaPainel() {
-  const b=loja(barbeariaPainel)||barbearias[0];
-  if (!b) return;
+  if (!donoLogado()) { telaLogin(); return; }
+  const disponiveis=minhasLojas();
+  if (!disponiveis.length) { sessionStorage.removeItem(CHAVE+'dono'); telaLogin();return; }
+  const b=disponiveis.find(x=>x.id===barbeariaPainel)||disponiveis[0];
   barbeariaPainel=b.id;
   const agenda=agendamentos.filter(a=>a.idLoja===b.id);
   const vendas=pedidos.filter(p=>p.idLoja===b.id);
-  const totalVendas=vendas.reduce((s,p)=>s+p.preco,0);
+  const financeiro=resumoReceita(b,agenda,vendas);
   document.documentElement.style.setProperty('--accent','#c99457');
-  const abas=[['visao','▦ Visão geral'],['agenda','▤ Agenda'],['avaliacoes','☆ Avaliações'],['pedidos','▣ Pedidos'],['aparencia','◐ Personalizar'],['catalogo','◈ Produtos']];
+  const abas=[['visao','▦ Visão geral'],['agenda','▤ Agenda'],['faturamento','▥ Faturamento'],['avaliacoes','☆ Avaliações'],['pedidos','▣ Pedidos'],['aparencia','◐ Informações e cores'],['fotos','▧ Fotos e equipe'],['catalogo','◈ Produtos']];
   app.innerHTML=
-    '<section class="page-intro"><div class="wrap"><div class="eyebrow">GESTÃO DA BARBEARIA</div><h1>Painel do barbeiro</h1><p>Acompanhe atendimentos e personalize a página do seu negócio.</p></div></section>'+
-    '<div class="wrap page-content"><div class="owner-note">⚠ Área demonstrativa sem login. Qualquer pessoa neste navegador pode visualizar e alterar os dados fictícios; não utilize dados reais.</div>'+
-    '<div class="dashboard"><aside class="sidebar"><small>Menu do estabelecimento</small>'+
+    '<section class="page-intro"><div class="wrap"><div class="eyebrow">GESTÃO DA BARBEARIA</div><h1>Painel do barbeiro</h1><p>Personalize sua vitrine, gerencie a agenda e acompanhe os resultados.</p></div></section>'+
+    '<div class="wrap page-content"><div class="owner-note">⚠ Login de demonstração, sem autenticação real ou banco de dados. Dados e imagens ficam neste navegador. Use somente informações fictícias.</div>'+
+    '<div class="dashboard"><aside class="sidebar"><small>Minha barbearia</small>'+
       abas.map(a=>'<button class="side-btn '+(abaPainel===a[0]?'active':'')+'" data-aba="'+a[0]+'">'+a[1]+'</button>').join('')+
     '</aside><div class="owner-main"><div class="owner-top"><div><div class="eyebrow">PAINEL DO PARCEIRO</div><h2>'+seguro(b.nome)+'</h2></div>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap"><select id="selecionar-loja" aria-label="Selecionar barbearia">'+barbearias.map(x=>'<option value="'+seguro(x.id)+'" '+(x.id===b.id?'selected':'')+'>'+seguro(x.nome)+'</option>').join('')+'</select>'+
-      '<button class="btn btn-dark btn-sm" data-cadastrar>+ Cadastrar barbearia</button></div></div>'+
-    conteudoPainel(b,agenda,vendas,totalVendas)+
+      '<div class="owner-toolbar"><select id="selecionar-loja" aria-label="Selecionar minha barbearia">'+disponiveis.map(x=>'<option value="'+seguro(x.id)+'" '+(x.id===b.id?'selected':'')+'>'+seguro(x.nome)+'</option>').join('')+'</select>'+
+      '<button class="btn btn-dark btn-sm" data-cadastrar>+ Nova barbearia</button><button class="btn btn-outline btn-sm" data-logout>Sair</button></div></div>'+
+    conteudoPainel(b,agenda,vendas,financeiro)+
     '</div></div><div style="margin-top:28px"><button class="btn btn-outline btn-sm" data-reset>↺ Restaurar dados da demonstração</button></div></div>';
 }
 function tabelaAgenda(agenda) {
-  if (!agenda.length) return '<p class="muted">Nenhum agendamento registrado. Faça uma reserva na vitrine para vê-la aqui.</p>';
-  return '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Data / Hora</th><th>Status</th></tr></thead><tbody>'+
+  if (!agenda.length) return '<p class="muted">Nenhum agendamento encontrado. Faça uma reserva na vitrine para vê-la aqui.</p>';
+  return '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Data / Hora</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
     [...agenda].sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).map(a=>
-      '<tr><td><strong>'+seguro(a.cliente)+'</strong><span class="muted small">'+seguro(a.telefone)+'</span></td><td>'+seguro(a.servico)+'</td><td>'+seguro(a.profissional)+'</td><td>'+dataBR(a.data)+' '+seguro(a.hora)+'</td><td><span class="order-label">'+seguro(a.status)+'</span></td></tr>'
+      '<tr><td><strong>'+seguro(a.cliente)+'</strong><span class="muted small">'+seguro(a.telefone)+'</span></td><td>'+seguro(a.servico)+'</td><td>'+seguro(a.profissional)+'</td><td>'+dataBR(a.data)+' '+seguro(a.hora)+'</td><td><span class="order-label">'+seguro(a.status)+'</span></td>'+
+      '<td>'+(a.status==='Confirmado'?'<button class="btn btn-primary btn-sm" data-concluir="'+seguro(a.id)+'">Concluir</button>':'—')+'</td></tr>'
     ).join('')+'</tbody></table></div>';
 }
-function conteudoPainel(b,agenda,vendas,totalVendas) {
-  if (abaPainel==='visao') return     '<div class="stats"><div class="stat"><small>Agendamentos cadastrados</small><strong>'+agenda.filter(a=>a.status!=='Cancelado').length+'</strong><span>Neste navegador</span></div>'+
-    '<div class="stat"><small>Pedidos de produtos</small><strong>'+vendas.length+'</strong><span>Pedidos simulados</span></div>'+
-    '<div class="stat"><small>Valor dos pedidos</small><strong>'+dinheiro(totalVendas)+'</strong><span>Estimativa fictícia, não é faturamento real</span></div></div>'+
-    '<div class="panel"><div class="section-head"><h3>Próximos agendamentos</h3><button class="btn btn-outline btn-sm" data-aba="agenda">Ver agenda</button></div>'+tabelaAgenda(agenda.filter(a=>a.status!=='Cancelado' && a.data>=hoje()))+'</div>'+
-    '<div class="panel"><h3>Como apresentar o sistema</h3><p>Abra uma barbearia na vitrine, crie um agendamento e volte para este painel. O registro aparecerá aqui porque o JavaScript salva os dados no localStorage.</p><a class="btn btn-outline" href="#barbearia/'+seguro(b.id)+'">Ver página da barbearia ↗</a></div>';
-  if (abaPainel==='agenda') return '<div class="panel"><h3>Agenda de clientes</h3>'+tabelaAgenda(agenda)+'</div>';
+function conteudoPainel(b,agenda,vendas,financeiro) {
+  if (abaPainel==='visao') return
+    '<div class="stats"><div class="stat"><small>Agendamentos ativos</small><strong>'+agenda.filter(a=>a.status==='Confirmado').length+'</strong><span>Aguardando atendimento</span></div>'+
+    '<div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong><span>Valor simulado</span></div>'+
+    '<div class="stat"><small>Produtos entregues</small><strong>'+dinheiro(financeiro.produtos)+'</strong><span>Pedidos concluídos</span></div>'+
+    '<div class="stat"><small>Faturamento total</small><strong>'+dinheiro(financeiro.total)+'</strong><span>Demonstrativo, não real</span></div></div>'+
+    '<div class="panel"><div class="section-head"><h3>Próximos agendamentos</h3><button class="btn btn-outline btn-sm" data-aba="agenda">Ver agenda</button></div>'+tabelaAgenda(agenda.filter(a=>a.status==='Confirmado' && a.data>=hoje()))+'</div>'+
+    '<div class="panel"><div class="section-head"><h3>Por profissional</h3><button class="btn btn-outline btn-sm" data-aba="faturamento">Ver detalhes</button></div>'+
+    tabelaFaturamento(financeiro.profissionais)+
+    '<p class="small muted">Somente atendimentos marcados como concluídos entram no total de cada barbeiro.</p></div>'+
+    '<div class="panel"><h3>Minha vitrine</h3><p>Veja sua barbearia como o cliente vê ou edite as fotos e informações.</p>'+
+    '<a class="btn btn-outline" href="#barbearia/'+seguro(b.id)+'">Abrir minha barbearia ↗</a> '+
+    '<button class="btn btn-primary" data-aba="fotos">Gerenciar fotos</button></div>';
+  if (abaPainel==='agenda') return
+    '<div class="panel"><h3>Agenda de clientes</h3><p>Ao concluir um atendimento, o valor entra no faturamento demonstrativo do profissional e da barbearia.</p>'+tabelaAgenda(agenda)+'</div>';
+  if (abaPainel==='faturamento') return
+    '<div class="stats"><div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong></div>'+
+    '<div class="stat"><small>Produtos entregues</small><strong>'+dinheiro(financeiro.produtos)+'</strong></div>'+
+    '<div class="stat"><small>Faturamento total da barbearia</small><strong>'+dinheiro(financeiro.total)+'</strong></div></div>'+
+    '<div class="panel"><h3>Faturamento de cada barbeiro</h3>'+
+    tabelaFaturamento(financeiro.profissionais)+
+    '<p class="revenue-info">O total individual considera apenas serviços concluídos. A barbearia soma os serviços concluídos e os produtos marcados como entregues. Todos os valores são fictícios.</p></div>';
   if (abaPainel==='avaliacoes') return '<div class="panel"><h3>Avaliações de '+seguro(b.nome)+'</h3><p>Nota demonstrativa: <strong>'+estrelas(b)+'</strong></p>'+
     [...b.avaliacoes].reverse().map(a=>'<div class="review"><div class="review-head"><strong>'+seguro(a.nome)+'</strong><span class="stars">'+('★'.repeat(Number(a.estrelas)))+'</span></div><p>'+seguro(a.texto)+'</p></div>').join('')+'</div>';
-  if (abaPainel==='pedidos') return '<div class="panel"><h3>Pedidos realizados</h3><p>Fluxo simulado. Não há cobrança ou processamento de pagamento.</p>'+
-    (vendas.length ? '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Produto</th><th>Valor</th><th>Status</th></tr></thead><tbody>'+
-     [...vendas].reverse().map(p=>'<tr><td>'+seguro(p.cliente)+'</td><td>'+seguro(p.produto)+'</td><td>'+dinheiro(p.preco)+'</td><td><span class="order-label">Aguardando retirada</span></td></tr>').join('')+
+  if (abaPainel==='pedidos') return '<div class="panel"><h3>Pedidos de produtos</h3><p>Marque um pedido como entregue para incluí-lo no faturamento fictício da barbearia. Não há pagamento real.</p>'+
+    (vendas.length ? '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Produto</th><th>Valor</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
+     [...vendas].reverse().map(p=>'<tr><td>'+seguro(p.cliente)+'</td><td>'+seguro(p.produto)+'</td><td>'+dinheiro(p.preco)+'</td><td><span class="order-label">'+seguro(p.status||'Aguardando retirada')+'</span></td>'+
+     '<td>'+(p.status==='Entregue'?'—':'<button class="btn btn-primary btn-sm" data-entregar="'+seguro(p.id)+'">Entregue</button>')+'</td></tr>').join('')+
      '</tbody></table></div>' : '<p class="muted">Nenhum pedido por enquanto.</p>')+'</div>';
-  if (abaPainel==='aparencia') return '<div class="panel"><h3>Personalizar minha barbearia</h3><p>Estas mudanças aparecem imediatamente na página pública deste navegador.</p>'+
+  if (abaPainel==='aparencia') return '<div class="panel"><h3>Informações e identidade visual</h3><p>Edite o nome, cor principal, descrição, funcionamento e integrantes da sua equipe.</p>'+
     '<form id="form-aparencia" class="form-grid">'+
       '<div class="full">'+campo('Nome da barbearia','editar-nome',b.nome)+'</div>'+
       '<div class="field"><label for="editar-bairro">Bairro</label><input id="editar-bairro" value="'+seguro(b.bairro)+'" required></div>'+
       '<div class="field"><label for="editar-cor">Cor principal da página</label><input id="editar-cor" type="color" value="'+seguro(b.cor)+'"></div>'+
       '<div class="field full"><label for="editar-descricao">Descrição</label><textarea id="editar-descricao" required>'+seguro(b.descricao)+'</textarea></div>'+
-      '<div class="field full"><label for="editar-horario">Horário de funcionamento</label><input id="editar-horario" value="'+seguro(b.horario)+'" required></div>'+
+      '<div class="field full"><label for="editar-horario">Horário de funcionamento (texto para o cliente)</label><input id="editar-horario" value="'+seguro(b.horario)+'" required></div>'+
       '<div class="field full"><label for="editar-profissionais">Profissionais (separados por vírgula)</label><input id="editar-profissionais" value="'+seguro(b.profissionais.join(', '))+'" required></div>'+
+      '<p class="help full">A agenda demonstrativa usa horários fixos. Para mudar fotos dos profissionais, abra a aba Fotos e equipe.</p>'+
       '<div class="full"><div class="color-preview" style="border-left:9px solid '+seguro(b.cor)+'"><strong>'+seguro(b.nome)+'</strong><br><span class="small">Prévia simples da sua marca</span></div></div>'+
-      '<div class="full">'+botao('Salvar personalização')+'</div></form></div>';
+      '<div class="full">'+botao('Salvar alterações')+'</div></form></div>';
+  if (abaPainel==='fotos') return
+    '<div class="panel"><h3>Capa da barbearia</h3><p>Esta imagem aparece ao fundo quando o cliente abre sua barbearia.</p>'+
+    '<img class="cover-preview" src="'+seguro(b.capa||b.fotos[0])+'" alt="Imagem de capa atual">'+
+    '<label class="upload-label" for="upload-capa">Alterar imagem de capa<input id="upload-capa" type="file" accept="image/*"></label>'+
+    '<p class="upload-tip">Selecione uma foto JPG, PNG ou WebP, até 6 MB. O sistema reduz a foto para guardar no navegador.</p></div>'+
+    '<div class="panel"><h3>Fotos da galeria</h3><p>Essas imagens aparecem no perfil e na vitrine. Máximo de 6 fotos.</p>'+
+    '<div class="image-manager">'+b.fotos.map((foto,i)=>'<div class="image-tile"><img src="'+seguro(foto)+'" alt="Foto '+(i+1)+'"><button class="btn btn-outline btn-sm" data-remover-galeria="'+i+'" '+(b.fotos.length===1?'disabled':'')+'>Excluir</button></div>').join('')+'</div>'+
+    '<label class="upload-label" for="upload-galeria">+ Adicionar fotos da barbearia<input id="upload-galeria" type="file" accept="image/*" multiple></label>'+
+    '<p class="upload-tip">As fotos são armazenadas apenas neste dispositivo e podem ocupar o espaço local do navegador.</p></div>'+
+    '<div class="panel"><h3>Fotos dos profissionais</h3><p>Escolha uma foto para cada barbeiro da sua equipe.</p>'+
+    b.profissionais.map(p=>'<div class="photo-profile">'+
+      ((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')+
+      '<div><strong>'+seguro(p)+'</strong><label>Escolher foto<input type="file" accept="image/*" data-upload-prof="'+seguro(p)+'"></label>'+
+      ((b.fotosProfissionais||{})[p]?'<button class="btn btn-outline btn-sm" data-remover-foto-prof="'+seguro(p)+'">Remover foto</button>':'')+'</div></div>').join('')+'</div>';
   if (abaPainel==='catalogo') return '<div class="panel"><h3>Gerenciar produtos</h3><p>Cadastre itens simples para aparecerem na página da barbearia.</p>'+
     '<form id="form-produto" class="form-grid"><div class="field"><label for="novo-produto">Nome do produto</label><input id="novo-produto" maxlength="60" required></div>'+
     '<div class="field"><label for="novo-preco">Preço (R$)</label><input id="novo-preco" type="number" min="1" step="0.01" required></div>'+
@@ -312,6 +359,11 @@ function conteudoPainel(b,agenda,vendas,totalVendas) {
     '<div class="panel"><h3>Produtos cadastrados</h3>'+
       (b.produtos.length?b.produtos.map(p=>'<div class="list-row"><div><strong>'+seguro(p.nome)+'</strong><span>'+dinheiro(p.preco)+'</span></div><button class="btn btn-outline btn-sm" data-remover-produto="'+seguro(p.id)+'">Excluir</button></div>').join(''):'<p class="muted">Nenhum produto cadastrado.</p>')+'</div>';
   return '';
+}
+function tabelaFaturamento(profissionais) {
+  return '<div class="table-wrap"><table class="revenue-table"><thead><tr><th>Barbeiro</th><th>Atendimentos concluídos</th><th>Faturamento demonstrativo</th></tr></thead><tbody>'+
+    profissionais.map(p=>'<tr><td>'+seguro(p.nome)+'</td><td>'+p.atendimentos+'</td><td>'+dinheiro(p.total)+'</td></tr>').join('')+
+    '</tbody></table></div>';
 }
 
 // 6. Histórico local, cadastro, avaliações e checkout fictício.
