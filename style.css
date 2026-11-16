@@ -175,11 +175,11 @@ td strong{display:block}
 }
 @media(max-width:640px){
  .wrap{width:min(100% - 30px,1160px)}
- .nav{height:67px;gap:10px}
+ .nav{height:auto;min-height:67px;gap:10px;padding:11px 0;flex-wrap:wrap}
  .logo{font-size:14px}
  .logo-mark{width:30px;height:30px;font-size:20px}
- .nav-links{display:none}
- .nav-admin{font-size:11px;padding:8px}
+ .nav-links{display:flex;order:3;width:100%;justify-content:center;padding-top:8px;border-top:1px solid #ffffff22;gap:20px;font-size:11px}
+ .nav-admin{font-size:11px;padding:8px;margin-left:auto}
  .hero{min-height:auto}
  .hero-content{padding:54px 0 70px}
  .hero h1{letter-spacing:-1px}
@@ -204,3 +204,5 @@ td strong{display:block}
  .footer-right{align-items:start}
  .toast{left:16px;right:16px;bottom:15px}
 }
+/* Acessibilidade: foco visível para navegação por teclado */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[role=link]:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
