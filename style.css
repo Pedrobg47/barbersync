@@ -424,3 +424,7 @@ body.theme-dark .product-icon{color:#e4c383}
  .product-manager-row{grid-template-columns:65px minmax(0,1fr)}
  .product-manager-row .btn{grid-column:1/-1}
 }
+
+.terms-consent{display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.6;margin:14px 0;color:var(--muted)}
+.terms-consent input{margin-top:5px;accent-color:#d8aa56}
+.terms-consent a{color:var(--accent);font-weight:800;text-decoration:underline}
