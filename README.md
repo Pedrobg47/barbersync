@@ -8,20 +8,20 @@ Somente **HTML, CSS e JavaScript puro**. Sem React, Node, banco de dados, backen
 
 | Arquivo | Explicação |
 |---|---|
-| \`index.html\` | Estrutura do cabeçalho, navegação, conteúdo e rodapé. |
-| \`style.css\` | Visual azul-marinho, preto e dourado, temas escuro/claro e responsividade. |
-| \`script.js\` | Regras simples para telas, cadastros demonstrativos, agendamentos e cálculo de faturamento. |
-| \`README.md\` | Este guia para o TCC. |
+| `index.html` | Estrutura do cabeçalho, navegação, conteúdo e rodapé. |
+| `style.css` | Visual azul-marinho, preto e dourado, temas escuro/claro e responsividade. |
+| `script.js` | Regras simples para telas, cadastros demonstrativos, agendamentos e cálculo de faturamento. |
+| `README.md` | Este guia para o TCC. |
 
 ## Como abrir
 
-Abra \`index.html\` no navegador. Para publicar, importe o repositório na Vercel como projeto estático (**Other**, sem build) e faça o deploy. Caso já tenha um deploy da Vercel integrado ao GitHub, consulte a implantação da branch \`main\`.
+Abra `index.html` no navegador. Para publicar, importe o repositório na Vercel como projeto estático (**Other**, sem build) e faça o deploy. Caso já tenha um deploy da Vercel integrado ao GitHub, consulte a implantação da branch `main`.
 
 ## Contas de demonstração
 
-**Barbeiro (já criado):** usuário \`estacao47\`, senha \`demo123\`. Outras contas: \`nobre\`, \`distrito\`, \`vertice\`, todas com \`demo123\`.
+**Barbeiro (já criado):** usuário `estacao47`, senha `demo123`. Outras contas: `nobre`, `distrito`, `vertice`, todas com `demo123`.
 
-**Cliente (já criado):** usuário \`cliente\`, senha \`demo123\`.
+**Cliente (já criado):** usuário `cliente`, senha `demo123`.
 
 É possível **criar novos usuários**:
 - **Barbeiro:** Área do barbeiro → Criar conta de barbeiro. Defina usuário, senha fictícia, nome da barbearia, bairro e plano. Uma vitrine nova é criada localmente e associada ao login de demonstração.
@@ -47,7 +47,7 @@ Abra \`index.html\` no navegador. Para publicar, importe o repositório na Verce
 - **Avaliações:** média, quantidade, distribuição por estrelas e lista de comentários do próprio navegador.
 - **Pedidos:** marque produtos simulados como **Entregue**.
 - **Informações e cores:** edite descrição, horário exibido, nome, bairro, profissionais e cor de destaque.
-- **Fotos e equipe:** envie foto de capa, galeria e imagens dos profissionais. O JavaScript comprime as fotos antes de salvá-las em \`localStorage\`.
+- **Fotos e equipe:** envie foto de capa, galeria e imagens dos profissionais. O JavaScript comprime as fotos antes de salvá-las em `localStorage`.
 - **Produtos:** crie produtos, edite a imagem de **cada** produto existente (ex.: pomada modeladora e óleo para barba) e exclua itens.
 
 ### Dados de exemplo para o TCC
@@ -69,21 +69,21 @@ A página **Políticas e termos** contém um modelo acadêmico com termos de uso
 
 ## Como os códigos funcionam (explicação para professores)
 
-- \`barbearias\`, \`agendamentos\` e \`pedidos\` são **arrays de objetos**, não tabelas em banco.
-- \`filter()\` e \`sort()\` ajudam a procurar barbearias e encontrar reservas.
-- \`horariosLivres()\` encontra horários dentro da grade fixa e ignora reservas confirmadas/concluídas do mesmo profissional. \`proximaDataDisponivel()\` escolhe uma data com vagas.
-- \`resumoReceita()\` calcula o total de serviços **Concluídos** por barbeiro e soma os pedidos **Entregues** para o resultado geral.
-- \`painelAvaliacoes()\` calcula distribuição por estrelas com base nos comentários locais. A nota ilustrativa histórica da vitrine é mostrada separadamente.
-- \`localStorage\` salva contas fictícias, agendamentos, barbearias, fotos, pedidos e tema. \`sessionStorage\` simula qual usuário está logado durante a sessão.
-- \`comprimirFoto()\` utiliza \`canvas\` no navegador, sem enviar imagens para qualquer servidor.
-- O site usa \`location.hash\` para mudar de tela (\`#inicio\`, \`#planos\`, \`#politicas\`, \`#login\`, \`#login-cliente\`, \`#cadastro-cliente\`, \`#cadastro-barbeiro\`, \`#painel\`, \`#conta-cliente\`).
+- `barbearias`, `agendamentos` e `pedidos` são **arrays de objetos**, não tabelas em banco.
+- `filter()` e `sort()` ajudam a procurar barbearias e encontrar reservas.
+- `horariosLivres()` encontra horários dentro da grade fixa e ignora reservas confirmadas/concluídas do mesmo profissional. `proximaDataDisponivel()` escolhe uma data com vagas.
+- `resumoReceita()` calcula o total de serviços **Concluídos** por barbeiro e soma os pedidos **Entregues** para o resultado geral.
+- `painelAvaliacoes()` calcula distribuição por estrelas com base nos comentários locais. A nota ilustrativa histórica da vitrine é mostrada separadamente.
+- `localStorage` salva contas fictícias, agendamentos, barbearias, fotos, pedidos e tema. `sessionStorage` simula qual usuário está logado durante a sessão.
+- `comprimirFoto()` utiliza `canvas` no navegador, sem enviar imagens para qualquer servidor.
+- O site usa `location.hash` para mudar de tela (`#inicio`, `#planos`, `#politicas`, `#login`, `#login-cliente`, `#cadastro-cliente`, `#cadastro-barbeiro`, `#painel`, `#conta-cliente`).
 
 ## Roteiro rápido de apresentação
 
 1. Abra a vitrine, mostre o tema **azul-marinho/preto/dourado**, alterne entre escuro e claro e filtre uma barbearia.
-2. Entre como cliente usando \`cliente\` / \`demo123\`. Abra uma barbearia e faça um agendamento.
+2. Entre como cliente usando `cliente` / `demo123`. Abra uma barbearia e faça um agendamento.
 3. Confira o agendamento em **Minha conta**.
-4. Entre como barbeiro usando \`estacao47\` / \`demo123\`. Na **Agenda**, localize a nova reserva e marque **Concluir**.
+4. Entre como barbeiro usando `estacao47` / `demo123`. Na **Agenda**, localize a nova reserva e marque **Concluir**.
 5. Abra **Faturamento** para mostrar que o profissional e a barbearia receberam os valores *simulados*.
 6. Abra **Avaliações** e mostre média e distribuição de estrelas.
 7. Vá em **Produtos** e envie uma foto para a pomada ou o óleo de barba. Confira a imagem no perfil público.
