@@ -15,8 +15,8 @@ const SERVICOS = [
   { id:'combo', nome:'Corte + barba', preco:65, duracao:'60 min' }
 ];
 const PRODUTOS = [
-  { id:'pomada', nome:'Pomada modeladora', preco:35, emoji:'🧴' },
-  { id:'oleo', nome:'Óleo para barba', preco:29, emoji:'🪒' }
+  { id:'pomada', nome:'Pomada modeladora', preco:35, emoji:'🧴', imagem:'' },
+  { id:'oleo', nome:'Óleo para barba', preco:29, emoji:'🪒', imagem:'' }
 ];
 function criarExemplo(id, nome, bairro, foto, nota, quantidade, descricao, cor, profissionais, temProdutos) {
   return {
@@ -32,10 +32,10 @@ function criarExemplo(id, nome, bairro, foto, nota, quantidade, descricao, cor, 
   };
 }
 const EXEMPLOS = [
-  criarExemplo('estacao47','Estação 47 Barber','Alphaville',0,4.9,128,'Um espaço moderno para cuidar do seu visual, com atendimento personalizado e clima descontraído.','#c99457',['Lucas','André','Bruno'],true),
-  criarExemplo('nobre','Nobre Barbearia','Centro',1,4.8,94,'Cortes clássicos, tendências atuais e atenção a cada detalhe.','#b7794d',['Gustavo','Matheus'],true),
-  criarExemplo('distrito','Distrito do Corte','Jardim Belval',2,4.7,76,'Tradição de barbearia combinada com técnicas e estilos atuais.','#8aa68c',['Pedro','Diego'],false),
-  criarExemplo('vertice','Vértice Barber','Jardim Silveira',3,4.9,61,'Ambiente acolhedor, cortes precisos e uma experiência feita para você.','#be9b6c',['Caio','Renato'],true)
+  criarExemplo('estacao47','Estação 47 Barber','Alphaville',0,4.9,128,'Um espaço moderno para cuidar do seu visual, com atendimento personalizado e clima descontraído.','#d8aa56',['Lucas','André','Bruno'],true),
+  criarExemplo('nobre','Nobre Barbearia','Centro',1,4.8,94,'Cortes clássicos, tendências atuais e atenção a cada detalhe.','#c39651',['Gustavo','Matheus'],true),
+  criarExemplo('distrito','Distrito do Corte','Jardim Belval',2,4.7,76,'Tradição de barbearia combinada com técnicas e estilos atuais.','#c6a160',['Pedro','Diego'],false),
+  criarExemplo('vertice','Vértice Barber','Jardim Silveira',3,4.9,61,'Ambiente acolhedor, cortes precisos e uma experiência feita para você.','#e3b864',['Caio','Renato'],true)
 ];
 
 // 2. LocalStorage guarda dados APENAS neste navegador.
@@ -47,11 +47,15 @@ function carregar(nome, padrao) {
 let barbearias = carregar('barbearias', JSON.parse(JSON.stringify(EXEMPLOS)));
 let agendamentos = carregar('agendamentos', []);
 let pedidos = carregar('pedidos', []);
+let contasBarbeiros = carregar('contasBarbeiros', []);
+let contasClientes = carregar('contasClientes', []);
 function salvar() {
   try {
     localStorage.setItem(CHAVE+'barbearias', JSON.stringify(barbearias));
     localStorage.setItem(CHAVE+'agendamentos', JSON.stringify(agendamentos));
     localStorage.setItem(CHAVE+'pedidos', JSON.stringify(pedidos));
+    localStorage.setItem(CHAVE+'contasBarbeiros', JSON.stringify(contasBarbeiros));
+    localStorage.setItem(CHAVE+'contasClientes', JSON.stringify(contasClientes));
     return true;
   } catch (erro) {
     aviso('Espaço do navegador cheio. Remova algumas imagens e tente novamente.');
@@ -68,11 +72,21 @@ const CONTAS_DEMO = [
   {usuario:'vertice', senha:'demo123', nome:'Vértice Barber'}
 ];
 const donoLogado = () => sessionStorage.getItem(CHAVE+'dono') || '';
+const clienteLogado = () => sessionStorage.getItem(CHAVE+'cliente') || '';
+const dadosCliente = () => contasClientes.find(c=>c.usuario===clienteLogado());
+const contaBarbeiro = usuario => [...CONTAS_DEMO,...contasBarbeiros].find(c=>c.usuario===usuario);
+const nomeCliente = () => (dadosCliente()||{}).nome || '';
+const telefoneCliente = () => (dadosCliente()||{}).telefone || '';
+const PLANOS = [
+  {id:'essencial',nome:'Essencial',preco:39.90,descricao:'Para começar sua presença digital.',recursos:['Vitrine com fotos e avaliações','Agendamento demonstrativo','Cadastro de serviços e equipe']},
+  {id:'profissional',nome:'Profissional',preco:79.90,descricao:'Para organizar a rotina da barbearia.',recursos:['Tudo do plano Essencial','Painel de agenda e faturamento','Fotos de profissionais e produtos','Visão geral das avaliações']},
+  {id:'premium',nome:'Premium',preco:129.90,descricao:'Uma experiência completa para seu negócio.',recursos:['Tudo do plano Profissional','Destaque visual na vitrine','Personalização ampliada','Suporte prioritário (proposta futura)']}
+];
 const minhasLojas = () => barbearias.filter(b=>(b.dono || b.id)===donoLogado());
 const podeEditar = b => !!b && !!donoLogado() && (b.dono || b.id)===donoLogado();
 
 function aplicarTema() {
-  const escuro = localStorage.getItem(CHAVE+'tema')==='escuro';
+  const escuro = localStorage.getItem(CHAVE+'tema')!=='claro';
   document.body.classList.toggle('theme-dark',escuro);
   document.querySelector('#theme-label').textContent=escuro?'Claro':'Escuro';
   document.querySelector('#theme-toggle').setAttribute('aria-label',escuro?'Ativar modo claro':'Ativar modo escuro');
@@ -83,16 +97,20 @@ function atualizarCabecalho() {
   document.querySelector('#logo-home').hidden=!!b;
   document.querySelector('#nav-links').hidden=!!b;
   document.querySelector('#nav-admin').hidden=!!b;
+  document.querySelector('#nav-client').hidden=!!b;
   const nome=document.querySelector('#shop-header-name');
   nome.hidden=!b;
   if (b) nome.innerHTML='<span>'+seguro(b.nome)+'</span><a class="logo-mark shop-home-mark" href="#inicio" title="Voltar ao BarberSync" aria-label="Voltar ao BarberSync">B<span>✦</span></a>';
   const admin=document.querySelector('#nav-admin');
   admin.textContent=donoLogado()?'Meu painel ↗':'Área do barbeiro ↗';
   admin.href=donoLogado()?'#painel':'#login';
+  const cliente=document.querySelector('#nav-client');
+  cliente.textContent=clienteLogado()?'Minha conta ↗':'Entrar como cliente';
+  cliente.href=clienteLogado()?'#conta-cliente':'#login-cliente';
 }
 function telaLogin() {
   if(donoLogado()){location.hash='#painel';return;}
-  document.documentElement.style.setProperty('--accent','#c99457');
+  document.documentElement.style.setProperty('--accent','#d8aa56');
   app.innerHTML='<section class="page-intro"><div class="wrap"><div class="eyebrow">ÁREA DO PROPRIETÁRIO</div><h1>Acesse sua barbearia</h1><p>Entre para gerenciar horários, equipe, fotos e resultados.</p></div></section>'+
     '<section class="page-content"><div class="wrap login-layout"><div class="panel"><div class="login-icon">✂</div><h2>Login do barbeiro</h2>'+
     '<p class="muted small">Acesso demonstrativo para apresentação do TCC.</p>'+
@@ -149,7 +167,7 @@ function botao(texto,classe) {
 
 // 3. Página inicial: busca, filtros e vitrine de barbearias.
 function telaInicio() {
-  document.documentElement.style.setProperty('--accent','#c99457');
+  document.documentElement.style.setProperty('--accent','#d8aa56');
   app.innerHTML =
     '<section class="hero"><div class="wrap hero-content">'+
       '<div class="eyebrow">✦ O melhor do seu bairro, em um lugar</div>'+
@@ -196,7 +214,7 @@ function atualizarCards() {
 function telaBarbearia(id) {
   const b=loja(id);
   if (!b) { location.hash='#inicio'; return; }
-  document.documentElement.style.setProperty('--accent',/^#[0-9a-f]{6}$/i.test(b.cor)?b.cor:'#c99457');
+  document.documentElement.style.setProperty('--accent',/^#[0-9a-f]{6}$/i.test(b.cor)?b.cor:'#d8aa56');
   app.innerHTML=
     '<section class="detail-header cover-header"><img class="cover-background" src="'+seguro(b.capa||b.fotos[0])+'" alt="" aria-hidden="true"><div class="wrap">'+
       '<div class="breadcrumb"><a href="#inicio">Início</a> / Barbearias / '+seguro(b.nome)+'</div>'+
@@ -277,7 +295,7 @@ function telaPainel() {
   const agenda=agendamentos.filter(a=>a.idLoja===b.id);
   const vendas=pedidos.filter(p=>p.idLoja===b.id);
   const financeiro=resumoReceita(b,agenda,vendas);
-  document.documentElement.style.setProperty('--accent','#c99457');
+  document.documentElement.style.setProperty('--accent','#d8aa56');
   const abas=[['visao','▦ Visão geral'],['agenda','▤ Agenda'],['faturamento','▥ Faturamento'],['avaliacoes','☆ Avaliações'],['pedidos','▣ Pedidos'],['aparencia','◐ Informações e cores'],['fotos','▧ Fotos e equipe'],['catalogo','◈ Produtos']];
   app.innerHTML=
     '<section class="page-intro"><div class="wrap"><div class="eyebrow">GESTÃO DA BARBEARIA</div><h1>Painel do barbeiro</h1><p>Personalize sua vitrine, gerencie a agenda e acompanhe os resultados.</p></div></section>'+
@@ -368,7 +386,7 @@ function tabelaFaturamento(profissionais) {
 
 // 6. Histórico local, cadastro, avaliações e checkout fictício.
 function telaMeusAgendamentos() {
-  document.documentElement.style.setProperty('--accent','#c99457');
+  document.documentElement.style.setProperty('--accent','#d8aa56');
   app.innerHTML='<section class="page-intro"><div class="wrap"><div class="eyebrow">SEUS HORÁRIOS</div><h1>Meus agendamentos</h1><p>Reservas feitas neste navegador durante a demonstração.</p></div></section>'+
   '<div class="wrap page-content"><div class="owner-note">Os registros não são vinculados a uma conta real. Não use informações pessoais de verdade.</div>'+
   (agendamentos.length ? [...agendamentos].reverse().map(a=>
