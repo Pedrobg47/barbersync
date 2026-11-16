@@ -44,7 +44,7 @@ function carregar(nome, padrao) {
   try { return JSON.parse(localStorage.getItem(CHAVE+nome)) || padrao; }
   catch (erro) { return padrao; }
 }
-let barbearias = carregar('barbearias', EXEMPLOS);
+let barbearias = carregar('barbearias', JSON.parse(JSON.stringify(EXEMPLOS)));
 let agendamentos = carregar('agendamentos', []);
 let pedidos = carregar('pedidos', []);
 function salvar() {
@@ -229,8 +229,7 @@ function tabelaAgenda(agenda) {
     ).join('')+'</tbody></table></div>';
 }
 function conteudoPainel(b,agenda,vendas,totalVendas) {
-  if (abaPainel==='visao') return
-    '<div class="stats"><div class="stat"><small>Agendamentos cadastrados</small><strong>'+agenda.filter(a=>a.status!=='Cancelado').length+'</strong><span>Neste navegador</span></div>'+
+  if (abaPainel==='visao') return     '<div class="stats"><div class="stat"><small>Agendamentos cadastrados</small><strong>'+agenda.filter(a=>a.status!=='Cancelado').length+'</strong><span>Neste navegador</span></div>'+
     '<div class="stat"><small>Pedidos de produtos</small><strong>'+vendas.length+'</strong><span>Pedidos simulados</span></div>'+
     '<div class="stat"><small>Valor dos pedidos</small><strong>'+dinheiro(totalVendas)+'</strong><span>Estimativa fictícia, não é faturamento real</span></div></div>'+
     '<div class="panel"><div class="section-head"><h3>Próximos agendamentos</h3><button class="btn btn-outline btn-sm" data-aba="agenda">Ver agenda</button></div>'+tabelaAgenda(agenda.filter(a=>a.status!=='Cancelado' && a.data>=hoje()))+'</div>'+
