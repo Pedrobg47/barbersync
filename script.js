@@ -440,8 +440,7 @@ function tabelaAgenda(agenda) {
     ).join('')+'</tbody></table></div>';
 }
 function conteudoPainel(b,agenda,vendas,financeiro) {
-  if (abaPainel==='visao') return
-    '<div class="stats"><div class="stat"><small>Agendamentos ativos</small><strong>'+agenda.filter(a=>a.status==='Confirmado').length+'</strong><span>Aguardando atendimento</span></div>'+
+  if (abaPainel==='visao') return     '<div class="stats"><div class="stat"><small>Agendamentos ativos</small><strong>'+agenda.filter(a=>a.status==='Confirmado').length+'</strong><span>Aguardando atendimento</span></div>'+
     '<div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong><span>Valor simulado</span></div>'+
     '<div class="stat"><small>Produtos entregues</small><strong>'+dinheiro(financeiro.produtos)+'</strong><span>Pedidos concluídos</span></div>'+
     '<div class="stat"><small>Faturamento total</small><strong>'+dinheiro(financeiro.total)+'</strong><span>Demonstrativo, não real</span></div></div>'+
@@ -453,10 +452,8 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
     '<div class="panel"><h3>Minha vitrine</h3><p>Veja sua barbearia como o cliente vê ou edite as fotos e informações.</p>'+
     '<a class="btn btn-outline" href="#barbearia/'+seguro(b.id)+'">Abrir minha barbearia ↗</a> '+
     '<button class="btn btn-primary" data-aba="fotos">Gerenciar fotos</button></div>';
-  if (abaPainel==='agenda') return
-    '<div class="panel"><h3>Agenda de clientes</h3><p>Ao concluir um atendimento, o valor entra no faturamento demonstrativo do profissional e da barbearia.</p>'+tabelaAgenda(agenda)+'</div>';
-  if (abaPainel==='faturamento') return
-    '<div class="stats"><div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong></div>'+
+  if (abaPainel==='agenda') return     '<div class="panel"><h3>Agenda de clientes</h3><p>Ao concluir um atendimento, o valor entra no faturamento demonstrativo do profissional e da barbearia.</p>'+tabelaAgenda(agenda)+'</div>';
+  if (abaPainel==='faturamento') return     '<div class="stats"><div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong></div>'+
     '<div class="stat"><small>Produtos entregues</small><strong>'+dinheiro(financeiro.produtos)+'</strong></div>'+
     '<div class="stat"><small>Faturamento total da barbearia</small><strong>'+dinheiro(financeiro.total)+'</strong></div></div>'+
     '<div class="panel"><h3>Faturamento de cada barbeiro</h3><p>Exemplo: Lucas conclui um corte de R$ 45 e o total é atualizado. Reservas pendentes não são faturamento.</p><button type="button" class="btn btn-outline btn-sm" data-aba="agenda">Abrir agenda para concluir atendimentos →</button>'+
@@ -480,8 +477,7 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
       '<p class="help full">A agenda demonstrativa usa horários fixos. Para mudar fotos dos profissionais, abra a aba Fotos e equipe.</p>'+
       '<div class="full"><div class="color-preview" style="border-left:9px solid '+seguro(b.cor)+'"><strong>'+seguro(b.nome)+'</strong><br><span class="small">Prévia simples da sua marca</span></div></div>'+
       '<div class="full">'+botao('Salvar alterações')+'</div></form></div>';
-  if (abaPainel==='fotos') return
-    '<div class="panel"><h3>Capa da barbearia</h3><p>Esta imagem aparece ao fundo quando o cliente abre sua barbearia.</p>'+
+  if (abaPainel==='fotos') return     '<div class="panel"><h3>Capa da barbearia</h3><p>Esta imagem aparece ao fundo quando o cliente abre sua barbearia.</p>'+
     '<img class="cover-preview" src="'+seguro(b.capa||b.fotos[0])+'" alt="Imagem de capa atual">'+
     '<label class="upload-label" for="upload-capa">Alterar imagem de capa<input id="upload-capa" type="file" accept="image/*"></label>'+
     '<p class="upload-tip">Selecione uma foto JPG, PNG ou WebP, até 6 MB. O sistema reduz a foto para guardar no navegador.</p></div>'+
