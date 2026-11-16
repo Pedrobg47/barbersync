@@ -73,7 +73,8 @@ const CONTAS_DEMO = [
 ];
 const donoLogado = () => sessionStorage.getItem(CHAVE+'dono') || '';
 const clienteLogado = () => sessionStorage.getItem(CHAVE+'cliente') || '';
-const dadosCliente = () => contasClientes.find(c=>c.usuario===clienteLogado());
+const CONTAS_CLIENTE_DEMO = [{usuario:'cliente',senha:'demo123',nome:'Cliente TCC',telefone:'(11) 90000-0000'}];
+const dadosCliente = () => [...CONTAS_CLIENTE_DEMO,...contasClientes].find(c=>c.usuario===clienteLogado());
 const contaBarbeiro = usuario => [...CONTAS_DEMO,...contasBarbeiros].find(c=>c.usuario===usuario);
 const nomeCliente = () => (dadosCliente()||{}).nome || '';
 const telefoneCliente = () => (dadosCliente()||{}).telefone || '';
@@ -132,6 +133,7 @@ function telaLoginCliente() {
     '<h2>Entrar como cliente</h2><p class="muted small">Acesso demonstrativo para o TCC.</p>'+
     '<form id="form-login-cliente">'+campo('Usuário','cliente-usuario','')+campo('Senha','cliente-senha','','password')+
     '<button type="submit" class="btn btn-primary btn-block">Entrar como cliente →</button></form>'+
+    '<div class="login-example"><strong>Teste rápido:</strong> cliente / demo123</div>'+
     '<div class="auth-switch">Primeira vez aqui? <a href="#cadastro-cliente">Criar conta de cliente</a></div>'+
     '<p class="help">Cadastre dados fictícios. As informações ficam somente neste navegador.</p></div></div></section>';
 }
@@ -523,16 +525,22 @@ function tabelaFaturamento(profissionais) {
 }
 
 // 6. Histórico local, cadastro, avaliações e checkout fictício.
+function cardsAgendamentos(lista) {
+  if (!lista.length) return '<div class="empty"><h3>Nenhuma reserva registrada</h3><p>Escolha uma barbearia e faça seu primeiro agendamento de demonstração.</p><a class="btn btn-primary" href="#inicio">Explorar barbearias →</a></div>';
+  return [...lista].reverse().map(a=>
+    '<div class="account-card"><span class="eyebrow">'+seguro(a.status)+'</span><h3>'+seguro((loja(a.idLoja)||{}).nome||'Barbearia')+'</h3>'+
+    '<p>'+seguro(a.servico)+' • '+seguro(a.profissional)+' • '+dataBR(a.data)+' às '+seguro(a.hora)+'</p>'+
+    '<div class="list-row"><strong>'+dinheiro(a.preco)+'</strong>'+
+    (a.status==='Confirmado'?'<button class="btn btn-outline btn-sm" data-cancelar="'+a.id+'">Cancelar agendamento</button>':'<span class="muted small">'+(a.status==='Concluído'?'Atendimento realizado':'Cancelado')+'</span>')+'</div></div>'
+  ).join('');
+}
 function telaMeusAgendamentos() {
   document.documentElement.style.setProperty('--accent','#d8aa56');
-  app.innerHTML='<section class="page-intro"><div class="wrap"><div class="eyebrow">SEUS HORÁRIOS</div><h1>Meus agendamentos</h1><p>Reservas feitas neste navegador durante a demonstração.</p></div></section>'+
-  '<div class="wrap page-content"><div class="owner-note">Os registros não são vinculados a uma conta real. Não use informações pessoais de verdade.</div>'+
-  (agendamentos.length ? [...agendamentos].reverse().map(a=>
-    '<div class="account-card"><span class="eyebrow">'+seguro(a.status)+'</span><h3>'+seguro((loja(a.idLoja)||{}).nome||'Barbearia')+'</h3>'+
-    '<p>'+seguro(a.servico)+' com '+seguro(a.profissional)+' • '+dataBR(a.data)+' às '+seguro(a.hora)+'</p>'+
-    '<div class="list-row"><strong>'+dinheiro(a.preco)+'</strong>'+(a.status==='Confirmado'?'<button class="btn btn-outline btn-sm" data-cancelar="'+a.id+'">Cancelar agendamento</button>':'<span class="muted small">'+(a.status==='Concluído'?'Atendimento realizado':'Cancelado')+'</span>')+'</div></div>'
-    ).join('') : '<div class="empty"><h3>Sem agendamentos por aqui</h3><p>Escolha uma barbearia e reserve um horário.</p><a class="btn btn-primary" href="#inicio">Explorar barbearias</a></div>')+
-  '</div>';
+  const logado=!!clienteLogado();
+  const seus=agendamentos.filter(a=>logado?a.clienteUsuario===clienteLogado():!a.clienteUsuario&&!a.exemplo);
+  app.innerHTML='<section class="page-intro"><div class="wrap"><div class="eyebrow">SEUS HORÁRIOS</div><h1>Meus agendamentos</h1><p>Reservas criadas neste navegador para a apresentação do TCC.</p></div></section>'+
+    '<div class="wrap page-content"><div class="book-alert">'+(logado?'Mostrando reservas vinculadas à sua conta de demonstração.':'Você está como visitante. <a href="#login-cliente">Entre como cliente</a> para vincular novos agendamentos à sua conta.')+'</div>'+
+    cardsAgendamentos(seus)+'</div>';
 }
 function modalAvaliacao(id) {
   abrirModal(cabecalhoModal('Avaliar barbearia')+
@@ -628,6 +636,12 @@ function renderizar() {
   if (rota.startsWith('#barbearia/')) telaBarbearia(rota.split('/')[1]);
   else if (rota==='#painel') telaPainel();
   else if (rota==='#login') telaLogin();
+  else if (rota==='#login-cliente') telaLoginCliente();
+  else if (rota==='#cadastro-cliente') telaCadastroCliente();
+  else if (rota.startsWith('#cadastro-barbeiro')) telaCadastroBarbeiro();
+  else if (rota==='#conta-cliente') telaContaCliente();
+  else if (rota==='#planos') telaPlanos();
+  else if (rota==='#politicas') telaPoliticas();
   else if (rota==='#meus-agendamentos') telaMeusAgendamentos();
   else telaInicio();
   window.scrollTo(0,0);
@@ -652,7 +666,8 @@ document.addEventListener('click',e=>{
     if(inseriu) {salvar();telaPainel();aviso('Dados fictícios adicionados para a apresentação.');}
     else aviso('Já existem agendamentos nesta barbearia.');
   }
-  if (el.closest('[data-logout]')) {sessionStorage.removeItem(CHAVE+'dono');location.hash='#login';atualizarCabecalho();aviso('Sessão de demonstração encerrada.');}
+  if (el.closest('[data-logout]')) {sessionStorage.removeItem(CHAVE+'dono');location.hash='#login';renderizar();aviso('Sessão do barbeiro encerrada.');}
+  if (el.closest('[data-logout-cliente]')) {sessionStorage.removeItem(CHAVE+'cliente');location.hash='#login-cliente';renderizar();aviso('Sessão do cliente encerrada.');}
   const edit=el.closest('[data-editar-loja]');
   if (edit && podeEditar(loja(edit.dataset.editarLoja))) {
     barbeariaPainel=edit.dataset.editarLoja;abaPainel='aparencia';location.hash='#painel';
@@ -687,13 +702,23 @@ document.addEventListener('click',e=>{
   const cancel=el.closest('[data-cancelar]');
   if (cancel && confirm('Cancelar este agendamento de demonstração?')) {
     const a=agendamentos.find(x=>String(x.id)===cancel.dataset.cancelar);
-    if (a && a.status==='Confirmado') { a.status='Cancelado'; salvar(); telaMeusAgendamentos(); aviso('Agendamento cancelado.'); }
+    const permitido=!!a && (clienteLogado()?a.clienteUsuario===clienteLogado():!a.clienteUsuario&&!a.exemplo);
+    if (permitido && a.status==='Confirmado') {
+      a.status='Cancelado'; salvar();
+      if(location.hash==='#conta-cliente') telaContaCliente(); else telaMeusAgendamentos();
+      aviso('Agendamento cancelado.');
+    }
   }
   const remover=el.closest('[data-remover-produto]');
   if (remover && podeEditar(loja(barbeariaPainel))) { const b=loja(barbeariaPainel); b.produtos=b.produtos.filter(p=>p.id!==remover.dataset.removerProduto); salvar(); telaPainel(); aviso('Produto excluído.'); }
-  if (el.closest('[data-reset]') && donoLogado() && confirm('Apagar todas as alterações e agendamentos desta demonstração?')) {
-    ['barbearias','agendamentos','pedidos'].forEach(k=>localStorage.removeItem(CHAVE+k));
-    barbearias=JSON.parse(JSON.stringify(EXEMPLOS)); agendamentos=[]; pedidos=[]; barbeariaPainel=barbearias[0].id; abaPainel='visao'; telaPainel(); aviso('Dados de demonstração restaurados.');
+  if (el.closest('[data-reset]') && podeEditar(loja(barbeariaPainel)) && confirm('Restaurar os dados de teste desta barbearia?')) {
+    const b=loja(barbeariaPainel);
+    agendamentos=agendamentos.filter(a=>a.idLoja!==b.id);
+    pedidos=pedidos.filter(p=>p.idLoja!==b.id);
+    const original=EXEMPLOS.find(x=>x.id===b.id);
+    if(original) Object.assign(b,JSON.parse(JSON.stringify(original)));
+    inserirExemplosLoja(b);
+    salvar();abaPainel='visao';telaPainel();aviso('Demonstração restaurada nesta barbearia.');
   }
 });
 document.addEventListener('keydown',e=>{
@@ -714,19 +739,68 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('submit',e=>{
   const form=e.target;
-  if (!['form-login','form-agendar','form-avaliacao','form-compra','form-cadastro','form-aparencia','form-produto'].includes(form.id)) return;
+  if (!['form-login','form-login-cliente','form-cadastro-cliente','form-cadastro-barbeiro','form-agendar','form-avaliacao','form-compra','form-cadastro','form-aparencia','form-produto'].includes(form.id)) return;
   e.preventDefault();
   if (form.id==='form-login') {
     const usuario=document.querySelector('#login-usuario').value.trim().toLowerCase();
     const senha=document.querySelector('#login-senha').value;
-    const conta=CONTAS_DEMO.find(c=>c.usuario===usuario && c.senha===senha);
+    const conta=contaBarbeiro(usuario);
+    if(conta && conta.senha!==senha) {aviso('Usuário ou senha de demonstração incorretos.');return;}
     if (!conta) {aviso('Usuário ou senha de demonstração incorretos.');return;}
     sessionStorage.setItem(CHAVE+'dono',conta.usuario);
-    barbeariaPainel=conta.usuario;
+    barbeariaPainel=(barbearias.find(b=>(b.dono||b.id)===conta.usuario)||{}).id||conta.usuario;
     abaPainel='visao';
     location.hash='#painel';
     renderizar();
     aviso('Bem-vindo ao painel de '+conta.nome+'!');
+    return;
+  }
+  if (form.id==='form-login-cliente') {
+    const usuario=document.querySelector('#cliente-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#cliente-senha').value;
+    const conta=[...CONTAS_CLIENTE_DEMO,...contasClientes].find(c=>c.usuario===usuario && c.senha===senha);
+    if(!conta) {aviso('Usuário ou senha de demonstração incorretos.');return;}
+    sessionStorage.setItem(CHAVE+'cliente',conta.usuario);
+    location.hash='#conta-cliente';renderizar();aviso('Login de cliente realizado!');
+    return;
+  }
+  if(form.id==='form-cadastro-cliente') {
+    const nome=document.querySelector('#cliente-nome').value.trim();
+    const usuario=document.querySelector('#novo-cliente-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#novo-cliente-senha').value;
+    const telefone=document.querySelector('#novo-cliente-telefone').value.trim();
+    if(!nome || !/^[a-z0-9_]{4,24}$/.test(usuario) || senha.length<4) {
+      aviso('Preencha nome, usuário (4 a 24 caracteres, sem espaços) e senha com 4 caracteres.');return;
+    }
+    if([...CONTAS_CLIENTE_DEMO,...contasClientes].some(c=>c.usuario===usuario)) {
+      aviso('Este usuário de cliente já existe.');return;
+    }
+    contasClientes.push({nome,usuario,senha,telefone});
+    if(!salvar()) {contasClientes.pop();return;}
+    sessionStorage.setItem(CHAVE+'cliente',usuario);
+    location.hash='#conta-cliente';renderizar();aviso('Conta de cliente de demonstração criada!');
+    return;
+  }
+  if(form.id==='form-cadastro-barbeiro') {
+    const nome=document.querySelector('#dono-nome').value.trim();
+    const usuario=document.querySelector('#dono-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#dono-senha').value;
+    const nomeLoja=document.querySelector('#dono-barbearia').value.trim();
+    const bairro=document.querySelector('#dono-bairro').value;
+    const plano=document.querySelector('#dono-plano').value;
+    if(!nome||!nomeLoja||!/^[a-z0-9_]{4,24}$/.test(usuario)||senha.length<4) {
+      aviso('Preencha nome, usuário (4 a 24 caracteres, sem espaços) e senha com 4 caracteres.');return;
+    }
+    if(contaBarbeiro(usuario)) {aviso('Este usuário de barbeiro já existe.');return;}
+    if(!PLANOS.some(p=>p.id===plano)) {aviso('Selecione um plano da demonstração.');return;}
+    const nova=criarExemplo('loja'+Date.now(),nomeLoja,bairro,4,0,0,'Bem-vindo à nossa barbearia!', '#d8aa56',['Barbeiro 1'],false);
+    nova.avaliacoes=[];nova.dono=usuario;nova.plano=plano;
+    contasBarbeiros.push({nome,usuario,senha,plano});
+    barbearias.push(nova);
+    if(!salvar()) {contasBarbeiros.pop();barbearias.pop();return;}
+    sessionStorage.setItem(CHAVE+'dono',usuario);
+    barbeariaPainel=nova.id;abaPainel='visao';
+    location.hash='#painel';renderizar();aviso('Barbearia criada! Personalize sua vitrine.');
     return;
   }
   if (['form-cadastro','form-aparencia','form-produto'].includes(form.id) && !podeEditar(loja(barbeariaPainel))) {
