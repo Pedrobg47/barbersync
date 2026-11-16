@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111614">
+  <meta name="description" content="BarberSync: encontre barbearias em Barueri, agende seu corte e conheça os profissionais. Projeto demonstrativo de TCC.">
+  <title>BarberSync | Seu próximo corte começa aqui</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="logo" href="#inicio" aria-label="BarberSync, início">
+        <span class="logo-mark">B<span>✦</span></span><span>BARBER<span class="logo-gold">SYNC</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Menu principal">
+        <a href="#inicio">Explorar</a>
+        <a href="#meus-agendamentos">Meus agendamentos</a>
+      </nav>
+      <a class="nav-admin" href="#painel">Área do barbeiro <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div><strong>BARBER<span class="logo-gold">SYNC</span></strong><p>Seu estilo, sua escolha. Feito para Barueri.</p></div>
+      <div class="footer-right"><span>Projeto acadêmico demonstrativo • TCC</span><span>Sem pagamento, login ou integração real com o Google</span></div>
+    </div>
+  </footer>
+
+  <div id="modal-root"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
