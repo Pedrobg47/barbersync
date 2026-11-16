@@ -317,22 +317,30 @@ function telaBarbearia(id) {
       [...b.avaliacoes].reverse().map(a=>'<div class="review"><div class="review-head"><strong>'+seguro(a.nome)+'</strong><span class="stars">'+('★'.repeat(Number(a.estrelas)))+'</span></div><p>'+seguro(a.texto)+'</p></div>').join('')+
       '<button class="btn btn-outline" data-avaliar="'+seguro(b.id)+'">☆ Escrever avaliação</button></section>'+
       (b.produtos.length ? '<section class="panel"><span class="eyebrow">PRODUTOS DISPONÍVEIS</span><h3>Leve seu estilo para casa</h3><div class="product-grid">'+
-        b.produtos.map(p=>'<div class="product"><div class="product-icon">'+seguro(p.emoji)+'</div><strong>'+seguro(p.nome)+'</strong><small>Retirada na barbearia</small><div class="product-bottom"><b>'+dinheiro(p.preco)+'</b><button class="btn btn-sm btn-dark" data-comprar="'+seguro(b.id)+'" data-produto="'+seguro(p.id)+'">Pedir ↗</button></div></div>').join('')+
+        b.produtos.map(p=>'<div class="product"><div class="product-thumb">'+(p.imagem?'<img src="'+seguro(p.imagem)+'" alt="Foto de '+seguro(p.nome)+'">':'<span aria-label="Sem foto cadastrada">'+seguro(p.emoji||'🧴')+'</span>')+'</div><strong>'+seguro(p.nome)+'</strong><small>Retirada na barbearia</small><div class="product-bottom"><b>'+dinheiro(p.preco)+'</b><button class="btn btn-sm btn-dark" data-comprar="'+seguro(b.id)+'" data-produto="'+seguro(p.id)+'">Pedir ↗</button></div></div>').join('')+
       '</div></section>' : '')+
     '</div><aside class="panel booking"><span class="eyebrow">RESERVE SEU HORÁRIO</span><h3>Agende seu próximo corte</h3><p class="small">Escolha o serviço e encontre um horário disponível.</p>'+
       '<form id="form-agendar">'+
       '<div class="field"><label for="servico">Serviço</label><select id="servico" required>'+b.servicos.map((s,i)=>'<option value="'+i+'">'+seguro(s.nome)+' — '+dinheiro(s.preco)+'</option>').join('')+'</select></div>'+
       '<div class="field"><label for="profissional">Profissional</label><select id="profissional" required>'+b.profissionais.map(p=>'<option>'+seguro(p)+'</option>').join('')+'</select></div>'+
-      '<div class="field"><label for="dia">Data</label><input id="dia" type="date" min="'+hoje()+'" value="'+hoje()+'" required></div>'+
+      '<div class="field"><label for="dia">Data</label><input id="dia" type="date" min="'+hoje()+'" value="'+proximaDataDisponivel(b.id,b.profissionais[0])+'" required></div>'+
       '<div class="field"><label for="hora">Horário</label><select id="hora" required></select></div>'+
-      '<div class="field"><label for="nome-cliente">Seu nome</label><input id="nome-cliente" maxlength="60" placeholder="Nome e sobrenome" required></div>'+
-      '<div class="field"><label for="telefone-cliente">WhatsApp</label><input id="telefone-cliente" type="tel" maxlength="20" placeholder="(11) 99999-9999" required></div>'+
-      '<div class="price-preview" id="resumo-preco"></div><button type="submit" class="btn btn-primary btn-block">Confirmar agendamento →</button>'+
+      '<div class="field"><label for="nome-cliente">Seu nome</label><input id="nome-cliente" maxlength="60" placeholder="Nome e sobrenome" value="'+seguro(nomeCliente())+'" required></div>'+
+      '<div class="field"><label for="telefone-cliente">WhatsApp</label><input id="telefone-cliente" type="tel" maxlength="20" placeholder="(11) 99999-9999" value="'+seguro(telefoneCliente())+'" required></div>'+
+      '<div class="price-preview" id="resumo-preco"></div><div id="aviso-horarios" class="help" aria-live="polite"></div><button id="confirmar-agendamento" type="submit" class="btn btn-primary btn-block">Confirmar agendamento →</button>'+
       '<p class="help">Agendamento de demonstração. Não envia mensagens nem reserva horário em outros dispositivos.</p></form></aside></div></div>';
   atualizarHorarios();
 }
+function proximaDataDisponivel(id,profissional) {
+  for(let i=0;i<15;i++) {
+    const d=new Date();d.setDate(d.getDate()+i);
+    const data=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if (horariosLivres(id,data,profissional).length) return data;
+  }
+  return hoje();
+}
 function horariosLivres(id,data,profissional) {
-  if (!data || data<hoje()) return [];
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data||'') || data<hoje()) return [];
   const dia=new Date(data+'T12:00:00').getDay();
   if (dia===0) return [];
   const fim=dia===6?17:19;
@@ -351,6 +359,38 @@ function atualizarHorarios() {
   document.querySelector('#resumo-preco').textContent='Total do serviço: '+dinheiro(servico.preco);
   const horarios=horariosLivres(b.id,document.querySelector('#dia').value,document.querySelector('#profissional').value);
   document.querySelector('#hora').innerHTML=horarios.length ? horarios.map(h=>'<option>'+h+'</option>').join('') : '<option value="">Nenhum horário disponível</option>';
+  document.querySelector('#confirmar-agendamento').disabled=!horarios.length;
+  document.querySelector('#aviso-horarios').textContent=horarios.length?'Horários disponíveis para simulação. A reserva aparecerá na agenda do barbeiro.':'Sem horários nessa data. Escolha outra data ou profissional.';
+}
+
+// Exemplos fictícios evitam painel vazio na apresentação do TCC.
+function dataRelativa(dias) {
+  const d=new Date();d.setDate(d.getDate()+dias);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function inserirExemplosLoja(b) {
+  if (agendamentos.some(a=>a.idLoja===b.id)) return false;
+  const pro1=b.profissionais[0]||'Profissional 1';
+  const pro2=b.profissionais[1]||pro1;
+  const corte=b.servicos[0]||SERVICOS[0],combo=b.servicos[2]||corte;
+  const dataAgendada=proximaDataDisponivel(b.id,pro1);
+  const horarios=horariosLivres(b.id,dataAgendada,pro1);
+  const codigo=Date.now()+Math.floor(Math.random()*10000);
+  agendamentos.push(
+    {id:codigo,idLoja:b.id,cliente:'Cliente Exemplo A',telefone:'(11) 90000-0000',servico:corte.nome,profissional:pro1,data:dataRelativa(-2),hora:'10:00',preco:corte.preco,status:'Concluído',exemplo:true},
+    {id:codigo+1,idLoja:b.id,cliente:'Cliente Exemplo B',telefone:'(11) 90000-0000',servico:combo.nome,profissional:pro2,data:dataRelativa(-1),hora:'14:00',preco:combo.preco,status:'Concluído',exemplo:true},
+    {id:codigo+2,idLoja:b.id,cliente:'Cliente Exemplo C',telefone:'(11) 90000-0000',servico:corte.nome,profissional:pro1,data:dataAgendada,hora:horarios[0]||'10:00',preco:corte.preco,status:'Confirmado',exemplo:true}
+  );
+  if(b.produtos.length) pedidos.push({id:codigo+3,idLoja:b.id,cliente:'Cliente Exemplo D',produto:b.produtos[0].nome,preco:b.produtos[0].preco,status:'Entregue',exemplo:true});
+  return true;
+}
+function prepararExemplosIniciais() {
+  if(localStorage.getItem(CHAVE+'dadosDemonstracaoV3')) return;
+  if(!agendamentos.length && !pedidos.length) {
+    barbearias.filter(b=>['estacao47','nobre','distrito','vertice'].includes(b.id)).forEach(inserirExemplosLoja);
+    salvar();
+  }
+  localStorage.setItem(CHAVE+'dadosDemonstracaoV3','1');
 }
 
 // 5. Área do dono: agenda, avaliações, pedidos e personalização.
@@ -675,7 +715,7 @@ document.addEventListener('submit',e=>{
     if (!horariosLivres(b.id,data,profissional).includes(hora)) { aviso('Este horário não está mais disponível.'); atualizarHorarios(); return; }
     const cliente=document.querySelector('#nome-cliente').value.trim(), telefone=document.querySelector('#telefone-cliente').value.trim();
     if (!cliente||!telefone) return;
-    agendamentos.push({id:Date.now(),idLoja:b.id,cliente:cliente,telefone:telefone,servico:servico.nome,profissional:profissional,data:data,hora:hora,preco:servico.preco,status:'Confirmado'});
+    agendamentos.push({id:Date.now(),idLoja:b.id,cliente:cliente,clienteUsuario:clienteLogado()||'',telefone:telefone,servico:servico.nome,profissional:profissional,data:data,hora:hora,preco:servico.preco,status:'Confirmado'});
     salvar(); telaBarbearia(b.id);
     abrirModal(cabecalhoModal('Agendamento registrado!')+'<p>Seu horário de demonstração foi registrado em <strong>'+seguro(b.nome)+'</strong>, dia <strong>'+dataBR(data)+'</strong> às <strong>'+seguro(hora)+'</strong>.</p><a class="btn btn-primary btn-block" href="#meus-agendamentos">Ver meus agendamentos →</a>');
     aviso('Horário registrado com sucesso!');
@@ -712,5 +752,6 @@ document.addEventListener('submit',e=>{
   }
 });
 window.addEventListener('hashchange',renderizar);
+prepararExemplosIniciais();
 aplicarTema();
 renderizar();
