@@ -1,78 +1,100 @@
-# BarberSync — Protótipo de TCC
+# BarberSync — Protótipo de TCC (front-end)
 
-**BarberSync** é uma vitrine de barbearias de **Barueri (SP)**. Este projeto demonstra o fluxo de escolha de barbearia, agendamento, avaliações e pedidos, além de um painel simples para o responsável pelo estabelecimento.
+**BarberSync** é uma vitrine de barbearias de **Barueri (SP)**, onde o cliente pode escolher um local, ver fotos e avaliações ilustrativas, agendar atendimento e simular um pedido de produto. O dono acessa um painel separado, personaliza sua vitrine e consulta sua agenda e resultados.
 
-> **Importante:** é um **protótipo acadêmico somente de front-end**, e não uma plataforma operacional. As barbearias, notas, comentários e fotos são ilustrativos; não vêm do Google. Não use dados pessoais verdadeiros nos formulários.
+> **Atenção:** este é um protótipo acadêmico de HTML, CSS e JavaScript puro. **Não há backend, banco de dados, API Google Maps, integração com Google Meu Negócio, autenticação real ou pagamento online.** Utilize apenas dados fictícios.
 
-## Executar
+## Como abrir
 
-1. Baixe o repositório ou abra-o no VS Code.
-2. Abra o arquivo `index.html` no navegador.
-3. Se quiser publicar, importe o repositório na **Vercel**, escolha o framework **Other** e mantenha a pasta de saída padrão (a raiz). Não precisa instalar pacotes nem rodar comandos de build.
-4. As fotos externas precisam de conexão com a internet. O restante funciona no navegador.
+1. Abra o arquivo `index.html` no navegador (ou publique a raiz deste repositório na Vercel como **Other**, sem comando de build).
+2. Explore a vitrine, use os filtros e abra uma barbearia.
+3. Clique em **Área do barbeiro** para testar o acesso do proprietário.
+4. Para visualizar as imagens ilustrativas do Unsplash, o navegador precisa estar conectado à internet. As fotos enviadas pelo dono ficam no próprio navegador.
 
-## Organização do código
+## Contas de login demonstrativas
 
-| Arquivo | O que faz |
+| Usuário | Senha de demonstração | Barbearia |
+| --- | --- | --- |
+| `estacao47` | `demo123` | Estação 47 Barber |
+| `nobre` | `demo123` | Nobre Barbearia |
+| `distrito` | `demo123` | Distrito do Corte |
+| `vertice` | `demo123` | Vértice Barber |
+
+Cada conta **simula** o acesso à sua própria barbearia. Caso o dono cadastre uma nova barbearia pelo painel, ela também fica vinculada à mesma conta.
+
+**Atenção à segurança:** os usuários e senhas estão escritos no JavaScript; portanto esse login **não é seguro e não protege dados reais**. Para um produto real, o login precisaria ser validado pelo servidor e usar autenticação segura. No TCC, a proposta é demonstrar a **tela e o fluxo de entrada**, sem fazer o módulo de backend.
+
+## Estrutura simples para explicar aos professores
+
+| Arquivo | Para que serve |
 | --- | --- |
-| `index.html` | Estrutura básica, cabeçalho, menu e rodapé. |
-| `style.css` | Cores, cartões, formulários, aparência e responsividade. |
-| `script.js` | Dados fictícios, montagem das telas e eventos de botões/formulários. |
-| `README.md` | Explicação e roteiro para a apresentação. |
+| `index.html` | Esqueleto das páginas, logo, cabeçalho e botão do modo escuro |
+| `style.css` | Cores, fontes, grade de fotos, responsividade, modo claro/escuro |
+| `script.js` | Vitrine, formulários, filtros, login simulado, galeria, agenda e faturamento |
+| `README.md` | Explicação do projeto |
 
-**Tecnologias:** HTML, CSS e JavaScript puro, sem React, sem bibliotecas, sem API, sem servidor e sem banco de dados.
+Não é preciso instalar React, bibliotecas, Node.js ou banco de dados.
 
-### Como funciona
+## O que é possível demonstrar
 
-- O site usa **hash na URL** para trocar de tela: `#inicio`, `#barbearia/estacao47`, `#meus-agendamentos` e `#painel`.
-- O array `barbearias` contém as informações usadas para desenhar os cards e perfis.
-- `filter()` e `sort()` fazem a busca e a ordenação da vitrine.
-- Um formulário de agendamento usa data, horário, serviço e profissional. O JavaScript verifica horários já registrados **neste navegador** para evitar duplicações locais.
-- A função `salvar()` usa `localStorage`, um armazenamento simples do próprio navegador, para persistir barbearias, pedidos, agendamentos e avaliações.
-- O painel lê esses mesmos dados e mostra os agendamentos, avaliações, produtos e valores de pedidos de demonstração.
-- Na aba **Personalizar**, é possível trocar cor, nome, descrição, horário exibido e profissionais. Na aba **Produtos**, é possível cadastrar ou excluir produtos.
-- O botão **Restaurar dados da demonstração** limpa os registros locais e volta aos exemplos iniciais.
+### Cliente
+- Busca e filtros por nome, bairro, avaliações e preço.
+- Perfil da barbearia com **foto de capa**, galeria de fotos, serviços, preços, profissionais com foto e avaliações.
+- No cabeçalho do perfil aparece **o nome da barbearia à direita**, ao lado do pequeno logo **B**, que volta à página inicial.
+- Agendamento com data, serviço e profissional, salvo apenas neste navegador.
+- Avaliação fictícia e pedido simulado de produto.
+- Botão para escolher **modo claro ou escuro**, com preferência lembrada no navegador.
 
-## Roteiro de apresentação (5 a 8 minutos)
+### Proprietário
+- Login demonstrativo em **Área do barbeiro**.
+- Painel com agendamentos, avaliações, pedidos, personalização e produtos.
+- Aba **Informações e cores**: nome, bairro, descrição, cor, texto de funcionamento e nomes dos profissionais.
+- Aba **Fotos e equipe**: alterar imagem de fundo/capa, adicionar ou excluir fotos da galeria, enviar a foto de cada profissional.
+- As imagens são reduzidas pelo JavaScript usando `canvas` e salvas em `localStorage` (sem upload para servidor). Formatos JPG, PNG e WebP; limite de 6 MB por arquivo, até 6 fotos na galeria.
+- Aba **Agenda**: botão **Concluir** para registrar um atendimento concluído.
+- Aba **Pedidos**: botão **Entregue** para finalizar um pedido fictício.
+- Aba **Faturamento**: receita demonstrativa da barbearia e **total individual por barbeiro**, incluindo quantidade de atendimentos concluídos.
 
-1. **Vitrine:** abra a página inicial, busque uma barbearia, filtre por bairro e ordene pelas avaliações.
-2. **Perfil:** abra a Estação 47 Barber, mostre a galeria, serviços, preços, profissionais e horário de funcionamento.
-3. **Reserva:** escolha um dia, horário e profissional e registre um agendamento com dados inventados.
-4. **Área do barbeiro:** entre no painel e mostre o agendamento na agenda.
-5. **Personalização:** mude a cor principal da barbearia, salve e volte à página dela para mostrar a mudança.
-6. **Avaliações e compras:** publique uma avaliação de demonstração, faça um pedido fictício de produto e mostre-o no painel.
-7. **Cadastro:** cadastre uma nova barbearia e confirme que ela aparece na vitrine.
+### Regra do faturamento
 
-## Perguntas que professores podem fazer
+Para não confundir reservas com serviços prestados:
 
-**Por que não usaram banco de dados?**  
-Porque o objetivo do TCC nesta versão é demonstrar o fluxo e a interface do usuário. O `localStorage` permite simular o armazenamento sem infraestrutura de servidor.
+`Faturamento do profissional = soma do valor dos atendimentos marcados como Concluído para aquele profissional.`
 
-**Como a busca funciona?**  
-O código pega as barbearias de um array, filtra pelo texto ou bairro e desenha os cards que correspondem à busca.
+`Faturamento da barbearia = serviços concluídos + pedidos de produtos marcados como Entregue.`
 
-**O agendamento é real?**  
-Não. Ele funciona como protótipo apenas neste navegador. Outro dispositivo não vê a reserva e, sem servidor, não existe controle global de disponibilidade.
+Os valores são **simulados**: não há cobrança nem verificação de recebimento. Agendamentos ainda confirmados não entram no faturamento.
 
-**Como o dono muda o design da página?**  
-Um formulário edita os campos da barbearia e salva no `localStorage`. A página usa a cor salva na variável CSS `--accent`.
+## Como a tecnologia funciona
 
-**As avaliações são importadas do Google?**  
-Não. Os exemplos foram criados para a apresentação. Para exibir dados reais do Google seria necessário adicionar uma integração autorizada pela **Places API**, com chave, configurações de faturamento e regras de atribuição. Isso seria uma etapa futura separada.
+- **Array de objetos:** as barbearias, os agendamentos e pedidos são listas de objetos JavaScript.
+- **`filter()` e `sort()`:** filtram e ordenam as barbearias ou os horários.
+- **`localStorage`:** guarda alterações, reservas, pedidos, avaliações, fotos e tema **somente no navegador atual**.
+- **`sessionStorage`:** lembra qual usuário de demonstração entrou, durante a sessão da aba.
+- **`canvas`:** redimensiona fotos locais antes de armazená-las.
+- **`location.hash`:** muda a rota sem precisar de frameworks. Exemplos: `#inicio`, `#barbearia/estacao47`, `#login`, `#painel`.
+- **Variáveis CSS:** as cores do tema escuro e da barbearia mudam por estilos e uma classe no elemento `body`.
 
-**O sistema possui login, autenticação ou pagamento de verdade?**  
-Não. O acesso à área do dono é aberto **apenas para demonstração**; não existe autenticação, autorização, processamento de pagamentos ou comunicação com WhatsApp.
+## Apresentação sugerida (7 a 10 minutos)
 
-## Limitações conscientes
+1. Comece na vitrine, filtre por bairro, abra a **Estação 47 Barber** e mostre o cabeçalho personalizado.
+2. Alterne entre **claro e escuro**.
+3. Faça um agendamento de demonstração com o profissional **Lucas**.
+4. Volte ao painel e entre com `estacao47` / `demo123`.
+5. Mostre a agenda: o agendamento aparece, mas **ainda não entra** no faturamento.
+6. Clique em **Concluir**. Abra **Faturamento** e mostre o valor contabilizado para Lucas e para a barbearia.
+7. Na aba **Fotos e equipe**, envie uma capa, uma foto do espaço e uma foto do Lucas.
+8. Na aba **Informações e cores**, altere o nome ou a cor principal, salve e abra a vitrine para conferir.
+9. Volte ao painel para mostrar avaliações, pedidos e catálogo de produtos.
+10. Encerre explicando o limite intencional: **sem banco de dados, login real, API Google Maps ou processamento de pagamento**.
 
-- Não sincroniza dados entre computadores, navegadores ou dispositivos.
-- Não envia e-mails, mensagens ou notificações.
-- Não faz pagamentos, reservas operacionais ou vendas reais.
-- Não busca fotos nem avaliações automaticamente do Google.
-- O campo de horário de funcionamento é **informativo**; a demonstração de horários usa a regra fixa de segunda a sexta, 09h–19h; sábado, 09h–17h; domingo, fechado.
-- Não exige cadastro de usuário, nem garante a identidade de quem está acessando o painel.
+## Limitações esperadas no TCC
 
-**Futuras melhorias** (fora do escopo do TCC): login e permissões, banco de dados, disponibilidade de horários centralizada, integração oficial com o Google Places e pagamentos seguros.
+- O login simula uma sessão, mas **pode ser burlado por quem conhece JavaScript**; não serve para dados reais.
+- As imagens e informações **não são compartilhadas** entre dispositivos, contas de navegador ou usuários diferentes.
+- O `localStorage` tem limite pequeno; muitas fotos podem esgotar o espaço. Existe aviso de erro, mas não armazenamento remoto.
+- O texto de horário de funcionamento é editável, porém os horários ofertados no agendamento seguem a regra demonstrativa fixa: segunda a sexta, 9h–19h; sábado, 9h–17h; domingo fechado.
+- O cliente não recebe WhatsApp ou e-mail. Reservas, compras, avaliações e faturamento são somente simulações.
+- **Não existe API Google Maps.** A integração com mapas e avaliações reais pode ser apresentada como escopo do terceiro módulo.
 
----
-Feito para ser **simples de estudar, explicar e demonstrar**.
+**Objetivo:** comprovar o funcionamento e a experiência das interfaces de clientes e proprietários com código simples de explicar.
