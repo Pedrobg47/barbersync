@@ -430,10 +430,10 @@ function telaPainel() {
     '</div></div><div style="margin-top:28px"><button class="btn btn-outline btn-sm" data-reset>↺ Restaurar dados da demonstração</button></div></div>';
 }
 function tabelaAgenda(agenda) {
-  if (!agenda.length) return '<p class="muted">Nenhum agendamento encontrado. Faça uma reserva na vitrine para vê-la aqui.</p>';
+  if (!agenda.length) return '<div class="showcase-empty"><p>Nenhum agendamento ainda. Faça uma reserva na vitrine ou insira dados fictícios para o TCC.</p><button class="btn btn-primary btn-sm" data-exemplos>Inserir agendamentos de demonstração</button></div>';
   return '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Data / Hora</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
     [...agenda].sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).map(a=>
-      '<tr><td><strong>'+seguro(a.cliente)+'</strong><span class="muted small">'+seguro(a.telefone)+'</span></td><td>'+seguro(a.servico)+'</td><td>'+seguro(a.profissional)+'</td><td>'+dataBR(a.data)+' '+seguro(a.hora)+'</td><td><span class="order-label">'+seguro(a.status)+'</span></td>'+
+      '<tr><td><strong>'+seguro(a.cliente)+'</strong> '+(a.exemplo?'<span class="tag">EXEMPLO</span>':'')+'<span class="muted small">'+seguro(a.telefone)+'</span></td><td>'+seguro(a.servico)+'</td><td>'+seguro(a.profissional)+'</td><td>'+dataBR(a.data)+' '+seguro(a.hora)+'</td><td><span class="order-label">'+seguro(a.status)+'</span></td>'+
       '<td>'+(a.status==='Confirmado'?'<button class="btn btn-primary btn-sm" data-concluir="'+seguro(a.id)+'">Concluir</button>':'—')+'</td></tr>'
     ).join('')+'</tbody></table></div>';
 }
@@ -456,10 +456,10 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
     '<div class="stats"><div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong></div>'+
     '<div class="stat"><small>Produtos entregues</small><strong>'+dinheiro(financeiro.produtos)+'</strong></div>'+
     '<div class="stat"><small>Faturamento total da barbearia</small><strong>'+dinheiro(financeiro.total)+'</strong></div></div>'+
-    '<div class="panel"><h3>Faturamento de cada barbeiro</h3>'+
+    '<div class="panel"><h3>Faturamento de cada barbeiro</h3><p>Exemplo: Lucas conclui um corte de R$ 45 e o total é atualizado. Reservas pendentes não são faturamento.</p>'+
     tabelaFaturamento(financeiro.profissionais)+
     '<p class="revenue-info">O total individual considera apenas serviços concluídos. A barbearia soma os serviços concluídos e os produtos marcados como entregues. Todos os valores são fictícios.</p></div>';
-  if (abaPainel==='avaliacoes') return '<div class="panel"><h3>Avaliações de '+seguro(b.nome)+'</h3><p>Nota demonstrativa: <strong>'+estrelas(b)+'</strong></p>'+
+  if (abaPainel==='avaliacoes') return '<div class="panel"><h3>Visão geral das avaliações</h3>'+painelAvaliacoes(b)+'<h3>Comentários de '+seguro(b.nome)+'</h3>'+
     [...b.avaliacoes].reverse().map(a=>'<div class="review"><div class="review-head"><strong>'+seguro(a.nome)+'</strong><span class="stars">'+('★'.repeat(Number(a.estrelas)))+'</span></div><p>'+seguro(a.texto)+'</p></div>').join('')+'</div>';
   if (abaPainel==='pedidos') return '<div class="panel"><h3>Pedidos de produtos</h3><p>Marque um pedido como entregue para incluí-lo no faturamento fictício da barbearia. Não há pagamento real.</p>'+
     (vendas.length ? '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Produto</th><th>Valor</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
@@ -491,13 +491,30 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
       ((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')+
       '<div><strong>'+seguro(p)+'</strong><label>Escolher foto<input type="file" accept="image/*" data-upload-prof="'+seguro(p)+'"></label>'+
       ((b.fotosProfissionais||{})[p]?'<button class="btn btn-outline btn-sm" data-remover-foto-prof="'+seguro(p)+'">Remover foto</button>':'')+'</div></div>').join('')+'</div>';
-  if (abaPainel==='catalogo') return '<div class="panel"><h3>Gerenciar produtos</h3><p>Cadastre itens simples para aparecerem na página da barbearia.</p>'+
+  if (abaPainel==='catalogo') return '<div class="panel"><h3>Cadastrar produto</h3><p>Adicione pomadas, óleos ou outros itens para aparecerem na vitrine.</p>'+
     '<form id="form-produto" class="form-grid"><div class="field"><label for="novo-produto">Nome do produto</label><input id="novo-produto" maxlength="60" required></div>'+
     '<div class="field"><label for="novo-preco">Preço (R$)</label><input id="novo-preco" type="number" min="1" step="0.01" required></div>'+
     '<div class="full">'+botao('+ Adicionar produto')+'</div></form></div>'+
-    '<div class="panel"><h3>Produtos cadastrados</h3>'+
-      (b.produtos.length?b.produtos.map(p=>'<div class="list-row"><div><strong>'+seguro(p.nome)+'</strong><span>'+dinheiro(p.preco)+'</span></div><button class="btn btn-outline btn-sm" data-remover-produto="'+seguro(p.id)+'">Excluir</button></div>').join(''):'<p class="muted">Nenhum produto cadastrado.</p>')+'</div>';
+    '<div class="panel"><h3>Fotos e produtos cadastrados</h3><p>Use o campo de cada produto para adicionar uma foto JPG, PNG ou WebP. Ela aparecerá para os clientes.</p>'+
+      (b.produtos.length?b.produtos.map(p=>
+        '<div class="product-manager-row">'+
+        (p.imagem?'<img class="product-photo-small" src="'+seguro(p.imagem)+'" alt="Foto de '+seguro(p.nome)+'">':'<div class="product-thumb product-photo-small">'+seguro(p.emoji||'🧴')+'</div>')+
+        '<div><strong>'+seguro(p.nome)+'</strong><span class="small muted">'+dinheiro(p.preco)+'</span>'+
+        '<label>Adicionar ou trocar foto<input type="file" accept="image/jpeg,image/png,image/webp" data-upload-prod="'+seguro(p.id)+'"></label></div>'+
+        '<button class="btn btn-outline btn-sm" data-remover-produto="'+seguro(p.id)+'">Excluir</button></div>'
+      ).join(''):'<p class="muted">Nenhum produto cadastrado.</p>')+'</div>';
   return '';
+}
+function painelAvaliacoes(b) {
+  const lista=b.avaliacoes||[],total=lista.length;
+  const media=total?lista.reduce((s,a)=>s+Number(a.estrelas),0)/total:0;
+  const linhas=[5,4,3,2,1].map(n=>{
+    const q=lista.filter(a=>Number(a.estrelas)===n).length;
+    const largura=total?Math.round(q*100/total):0;
+    return '<div class="rating-line"><span>'+n+' ★</span><span class="rating-bar"><i style="width:'+largura+'%"></i></span><strong>'+q+'</strong></div>';
+  }).join('');
+  return '<div class="rating-overview"><div class="rating-big"><strong>'+media.toFixed(1)+'</strong><span class="stars">★★★★★</span><p class="small">Média de '+total+' comentário(s) cadastrados</p></div><div>'+linhas+'</div></div>'+
+    '<p class="help">Os números acima resumem os comentários disponíveis na demonstração. A nota histórica ilustrativa da vitrine é '+notaMedia(b).toFixed(1)+'. Não são dados reais do Google.</p>';
 }
 function tabelaFaturamento(profissionais) {
   return '<div class="table-wrap"><table class="revenue-table"><thead><tr><th>Barbeiro</th><th>Atendimentos concluídos</th><th>Faturamento demonstrativo</th></tr></thead><tbody>'+
@@ -573,7 +590,7 @@ async function receberFotos(input) {
   if (!donoLogado()) return;
   const b=loja(barbeariaPainel);
   if (!podeEditar(b)) return;
-  const antigos={capa:b.capa,fotos:[...b.fotos],fotosProfissionais:{...(b.fotosProfissionais||{})}};
+  const antigos={capa:b.capa,fotos:[...b.fotos],fotosProfissionais:{...(b.fotosProfissionais||{})},produtos:b.produtos.map(p=>({...p}))};
   try {
     const arquivos=[...input.files];
     if (!arquivos.length) return;
@@ -581,9 +598,13 @@ async function receberFotos(input) {
       throw new Error('A galeria permite no máximo 6 fotos. Exclua algumas antes.');
     }
     for (const arquivo of arquivos) {
-      const tamanho=input.hasAttribute('data-upload-prof')?380:1000;
+      const tamanho=input.hasAttribute('data-upload-prof')||input.hasAttribute('data-upload-prod')?500:1000;
       const foto=await comprimirFoto(arquivo,tamanho);
-      if (input.id==='upload-capa') b.capa=foto;
+      if (input.hasAttribute('data-upload-prod')) {
+        const produto=b.produtos.find(p=>p.id===input.dataset.uploadProd);
+        if (!produto) throw new Error('Produto não encontrado.');
+        produto.imagem=foto;
+      } else if (input.id==='upload-capa') b.capa=foto;
       else if (input.id==='upload-galeria') b.fotos.push(foto);
       else if (input.hasAttribute('data-upload-prof')) {
         b.fotosProfissionais ||= {};
@@ -626,6 +647,11 @@ document.addEventListener('click',e=>{
   const comprar=el.closest('[data-comprar]'); if (comprar) modalCompra(comprar.dataset.comprar,comprar.dataset.produto);
   const aba=el.closest('[data-aba]'); if (aba) { abaPainel=aba.dataset.aba; telaPainel(); }
   if (el.closest('[data-cadastrar]') && donoLogado()) modalCadastro();
+  if (el.closest('[data-exemplos]') && podeEditar(loja(barbeariaPainel))) {
+    const inseriu=inserirExemplosLoja(loja(barbeariaPainel));
+    if(inseriu) {salvar();telaPainel();aviso('Dados fictícios adicionados para a apresentação.');}
+    else aviso('Já existem agendamentos nesta barbearia.');
+  }
   if (el.closest('[data-logout]')) {sessionStorage.removeItem(CHAVE+'dono');location.hash='#login';atualizarCabecalho();aviso('Sessão de demonstração encerrada.');}
   const edit=el.closest('[data-editar-loja]');
   if (edit && podeEditar(loja(edit.dataset.editarLoja))) {
@@ -678,7 +704,7 @@ document.addEventListener('input',e=>{
   if (e.target.id==='busca') { filtro.busca=e.target.value; atualizarCards(); }
 });
 document.addEventListener('change',e=>{
-  if (e.target.matches('#upload-capa,#upload-galeria,[data-upload-prof]')) {
+  if (e.target.matches('#upload-capa,#upload-galeria,[data-upload-prof],[data-upload-prod]')) {
     receberFotos(e.target);return;
   }
   if (e.target.id==='bairro') { filtro.bairro=e.target.value; atualizarCards(); }
