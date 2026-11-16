@@ -108,17 +108,98 @@ function atualizarCabecalho() {
   cliente.textContent=clienteLogado()?'Minha conta ↗':'Entrar como cliente';
   cliente.href=clienteLogado()?'#conta-cliente':'#login-cliente';
 }
+function abasAcesso(tipo) {
+  return '<div class="auth-options">'+
+    '<a href="#login-cliente" class="'+(tipo==='cliente'?'active':'')+'">Sou cliente</a>'+
+    '<a href="#login" class="'+(tipo==='barbeiro'?'active':'')+'">Sou barbeiro</a></div>';
+}
 function telaLogin() {
-  if(donoLogado()){location.hash='#painel';return;}
+  if (donoLogado()) { location.hash='#painel';return; }
   document.documentElement.style.setProperty('--accent','#d8aa56');
-  app.innerHTML='<section class="page-intro"><div class="wrap"><div class="eyebrow">ÁREA DO PROPRIETÁRIO</div><h1>Acesse sua barbearia</h1><p>Entre para gerenciar horários, equipe, fotos e resultados.</p></div></section>'+
-    '<section class="page-content"><div class="wrap login-layout"><div class="panel"><div class="login-icon">✂</div><h2>Login do barbeiro</h2>'+
-    '<p class="muted small">Acesso demonstrativo para apresentação do TCC.</p>'+
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">ÁREA DO PROPRIETÁRIO</span><h1>Gerencie sua barbearia.</h1><p>Agenda, avaliações, equipe e faturamento em um só painel.</p></div></section>'+
+    '<section class="page-content"><div class="wrap login-layout"><div class="panel">'+abasAcesso('barbeiro')+
+    '<h2>Entrar como barbeiro</h2><p class="muted small">Acesso demonstrativo, sem servidor.</p>'+
     '<form id="form-login">'+campo('Usuário','login-usuario','')+campo('Senha','login-senha','','password')+
-    '<button type="submit" class="btn btn-primary btn-block">Entrar no meu painel →</button></form>'+
-    '<div class="login-example"><strong>Conta para testar</strong><p style="margin:6px 0">Usuário: <code>estacao47</code><br>Senha: <code>demo123</code></p>'+
-    '<span class="small">Outros usuários: nobre, distrito, vertice. Todos com a mesma senha de demonstração.</span></div>'+
-    '<p class="help">Login visual, sem servidor e sem proteção real. Não utilize uma senha pessoal.</p></div></div></section>';
+    '<button type="submit" class="btn btn-primary btn-block">Acessar meu painel →</button></form>'+
+    '<div class="auth-switch">Ainda não tem barbearia? <a href="#cadastro-barbeiro">Criar conta de barbeiro</a></div>'+
+    '<div class="login-example"><strong>Para testar agora:</strong><p style="margin:5px 0">Usuário: <code>estacao47</code> | Senha: <code>demo123</code></p></div>'+
+    '<p class="help">Este login é apenas uma simulação: não use senhas pessoais.</p></div></div></section>';
+}
+function telaLoginCliente() {
+  if (clienteLogado()) { location.hash='#conta-cliente';return; }
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">ÁREA DO CLIENTE</span><h1>Seu estilo começa aqui.</h1><p>Entre para consultar seus horários e agilizar novos agendamentos.</p></div></section>'+
+    '<section class="page-content"><div class="wrap login-layout"><div class="panel">'+abasAcesso('cliente')+
+    '<h2>Entrar como cliente</h2><p class="muted small">Acesso demonstrativo para o TCC.</p>'+
+    '<form id="form-login-cliente">'+campo('Usuário','cliente-usuario','')+campo('Senha','cliente-senha','','password')+
+    '<button type="submit" class="btn btn-primary btn-block">Entrar como cliente →</button></form>'+
+    '<div class="auth-switch">Primeira vez aqui? <a href="#cadastro-cliente">Criar conta de cliente</a></div>'+
+    '<p class="help">Cadastre dados fictícios. As informações ficam somente neste navegador.</p></div></div></section>';
+}
+function telaCadastroCliente() {
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">NOVO CLIENTE</span><h1>Crie sua conta.</h1><p>Um cadastro simples para testar seus agendamentos no TCC.</p></div></section>'+
+    '<section class="page-content"><div class="wrap login-layout"><div class="panel">'+abasAcesso('cliente')+
+    '<h2>Cadastrar cliente</h2><form id="form-cadastro-cliente">'+
+    campo('Nome para demonstração','cliente-nome','')+
+    campo('Usuário (mín. 4 caracteres)','novo-cliente-usuario','')+
+    campo('Senha demonstrativa (mín. 4 caracteres)','novo-cliente-senha','','password')+
+    campo('Telefone fictício (opcional)','novo-cliente-telefone','','tel').replace(' required>','>')+
+    '<button type="submit" class="btn btn-primary btn-block">Criar conta de cliente →</button></form>'+
+    '<div class="auth-switch">Já tem conta? <a href="#login-cliente">Fazer login</a></div>'+
+    '<p class="help">Não existe cadastro real, servidor ou criptografia. Não forneça dados pessoais verdadeiros.</p></div></div></section>';
+}
+function telaCadastroBarbeiro() {
+  const escolhido=(location.hash.split('/')[1]||'profissional').toLowerCase();
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEIROS</span><h1>Cadastre seu negócio.</h1><p>Crie sua vitrine em Barueri e experimente o painel completo.</p></div></section>'+
+    '<section class="page-content"><div class="wrap login-layout"><div class="panel">'+abasAcesso('barbeiro')+
+    '<h2>Novo proprietário</h2><form id="form-cadastro-barbeiro">'+
+    campo('Nome do responsável','dono-nome','')+
+    campo('Usuário (mín. 4 caracteres)','dono-usuario','')+
+    campo('Senha demonstrativa (mín. 4 caracteres)','dono-senha','','password')+
+    campo('Nome da barbearia','dono-barbearia','')+
+    '<div class="field"><label for="dono-bairro">Bairro em Barueri</label><select id="dono-bairro" required><option>Alphaville</option><option>Centro</option><option>Jardim Belval</option><option>Jardim Silveira</option><option>Parque Imperial</option></select></div>'+
+    '<div class="field"><label for="dono-plano">Plano mensal ilustrativo</label><select id="dono-plano">'+
+       PLANOS.map(p=>'<option value="'+p.id+'" '+(p.id===escolhido?'selected':'')+'>'+p.nome+' — '+dinheiro(p.preco)+'/mês</option>').join('')+
+    '</select></div>'+
+    '<p class="book-alert">Nenhum pagamento ou assinatura será efetuado. Os preços são apenas propostas para o TCC.</p>'+
+    '<button type="submit" class="btn btn-primary btn-block">Criar meu acesso e vitrine →</button></form>'+
+    '<div class="auth-switch">Já tem cadastro? <a href="#login">Fazer login</a></div>'+
+    '<p class="help">Senha demonstrativa armazenada localmente. Não use credenciais reais.</p></div></div></section>';
+}
+function telaContaCliente() {
+  if (!clienteLogado()) { location.hash='#login-cliente';return; }
+  const usuario=dadosCliente();
+  const seus=agendamentos.filter(a=>a.clienteUsuario===clienteLogado());
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">MINHA CONTA</span><h1>Olá, '+seguro(usuario?.nome||'cliente')+'!</h1><p>Acompanhe seus agendamentos demonstrativos.</p></div></section>'+
+    '<div class="wrap page-content"><div class="section-head"><div><h2>Meus horários</h2><p class="muted">Somente reservas vinculadas a esta conta local.</p></div><button class="btn btn-outline btn-sm" data-logout-cliente>Sair da conta</button></div>'+
+    cardsAgendamentos(seus)+
+    '<a href="#inicio" class="btn btn-primary">Agendar novo atendimento →</a></div>';
+}
+function telaPlanos() {
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEARIAS DE BARUERI</span><h1>Seu negócio merece destaque.</h1><p>Planos mensais ilustrativos para demonstrar o modelo de receita do BarberSync.</p></div></section>'+
+    '<section class="section"><div class="wrap"><div class="plans-grid">'+PLANOS.map((p,i)=>
+      '<article class="plan-card '+(i===1?'featured':'')+'"><span class="eyebrow">'+(i===1?'✦ MAIS POPULAR':'BARBERSYNC')+'</span>'+
+      '<h3>'+p.nome+'</h3><p class="muted">'+p.descricao+'</p>'+
+      '<div class="plan-price">'+dinheiro(p.preco)+' <small>/mês</small></div>'+
+      '<ul class="plan-features">'+p.recursos.map(t=>'<li>'+seguro(t)+'</li>').join('')+'</ul>'+
+      '<a class="btn '+(i===1?'btn-primary':'btn-dark')+' btn-block" href="#cadastro-barbeiro/'+p.id+'">Selecionar plano →</a></article>'
+    ).join('')+'</div>'+
+    '<p class="demo-note" style="margin-top:24px">* Valores e funcionalidades propostos para o TCC, sem cobrança real, renovação automática ou diferenciação técnica de acesso entre planos.</p>'+
+    '<p style="margin-top:12px"><a href="#politicas" class="btn btn-outline">Consultar políticas e termos ↗</a></p></div></section>';
+}
+function telaPoliticas() {
+  app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">TRANSPARÊNCIA</span><h1>Políticas e termos.</h1><p>Modelo de política para a apresentação acadêmica do BarberSync.</p></div></section>'+
+    '<section class="page-content"><div class="wrap policy-content">'+
+    '<div class="owner-note">Este texto é uma proposta demonstrativa para o TCC, não uma política jurídica definitiva. Antes de operar comercialmente, seria necessário revisar com profissionais responsáveis.</div>'+
+    '<div class="panel"><h2>1. Termos de uso</h2><p>O BarberSync é apresentado como uma plataforma de descoberta de barbearias em Barueri, com perfis de estabelecimentos, agendamentos, avaliações e produtos. Nesta versão, todas as ações são simuladas e não constituem reserva ou compra real.</p>'+
+    '<h3>2. Privacidade e dados</h3><p>Os cadastros, avaliações, horários, fotos e pedidos de demonstração são armazenados no navegador por meio de localStorage e sessionStorage. Não existe servidor, banco de dados nem transmissão automática desses dados ao BarberSync. Evite inserir nomes, telefones, e-mails ou senhas reais nesta versão.</p>'+
+    '<h3>3. Uso de fotos e avaliações</h3><p>O proprietário de um estabelecimento deverá ter permissão para publicar imagens do espaço, dos profissionais e dos produtos. Comentários devem respeitar as pessoas e não conter conteúdo ofensivo. As avaliações atualmente exibidas são ilustrativas ou adicionadas localmente.</p>'+
+    '<h3>4. Agendamentos e cancelamentos</h3><p>O cliente poderá solicitar e cancelar reservas de demonstração ainda confirmadas. Reservas marcadas como concluídas não poderão ser canceladas pelo cliente nesta simulação. As regras comerciais, reagendamentos e possíveis taxas de cancelamento de uma futura plataforma deverão ser definidas com clareza.</p>'+
+    '<h3>5. Produtos e pagamentos</h3><p>Pedidos de pomadas, óleos e outros produtos não geram cobrança nesta versão. A opção de marcar um pedido como entregue serve apenas para ilustrar um controle interno.</p>'+
+    '<h3>6. Planos de assinatura</h3><p>As mensalidades exibidas na página de planos são valores hipotéticos do projeto. Não há checkout, cobrança, renovação automática, faturamento de assinatura nem contrato comercial ativo. Regras de cancelamento, reajustes e serviços oferecidos ainda serão definidas em versões futuras.</p>'+
+    '<h3>7. Integrações futuras</h3><p>Integração com Google Maps, dados reais de estabelecimentos, autenticação segura e pagamentos ficam fora do escopo deste módulo do TCC.</p>'+
+    '<h3>8. Dados e suporte</h3><p>O usuário pode restaurar os dados da demonstração no painel. A limpeza dos dados do site no navegador também apaga os registros locais. Uma versão comercial deverá informar canais de suporte, direitos dos titulares de dados e regras de retenção e exclusão.</p>'+
+    '<p class="small">Documento ilustrativo • Versão acadêmica: novembro de 2026.</p></div>'+
+    '<a class="btn btn-primary" href="#inicio">Voltar à vitrine</a></div></section>';
 }
 
 const dinheiro = valor => Number(valor).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
