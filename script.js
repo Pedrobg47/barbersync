@@ -422,7 +422,7 @@ function telaPainel() {
   const abas=[['visao','▦ Visão geral'],['agenda','▤ Agenda'],['faturamento','▥ Faturamento'],['avaliacoes','☆ Avaliações'],['pedidos','▣ Pedidos'],['aparencia','◐ Informações e cores'],['fotos','▧ Fotos e equipe'],['catalogo','◈ Produtos']];
   app.innerHTML=
     '<section class="page-intro"><div class="wrap"><div class="eyebrow">GESTÃO DA BARBEARIA</div><h1>Painel do barbeiro</h1><p>Personalize sua vitrine, gerencie a agenda e acompanhe os resultados.</p></div></section>'+
-    '<div class="wrap page-content"><div class="owner-note">⚠ Login de demonstração, sem autenticação real ou banco de dados. Dados e imagens ficam neste navegador. Use somente informações fictícias.</div>'+
+    '<div class="wrap page-content"><div class="owner-note">⚠ Login de demonstração, sem autenticação real ou banco de dados. Dados e imagens ficam neste navegador. Use somente informações fictícias. Plano selecionado: <strong>'+seguro((PLANOS.find(p=>p.id===b.plano)||PLANOS[1]).nome)+'</strong> (sem cobrança).</div>'+
     '<div class="dashboard"><aside class="sidebar"><small>Minha barbearia</small>'+
       abas.map(a=>'<button class="side-btn '+(abaPainel===a[0]?'active':'')+'" data-aba="'+a[0]+'">'+a[1]+'</button>').join('')+
     '</aside><div class="owner-main"><div class="owner-top"><div><div class="eyebrow">PAINEL DO PARCEIRO</div><h2>'+seguro(b.nome)+'</h2></div>'+
@@ -449,6 +449,7 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
     '<div class="panel"><div class="section-head"><h3>Por profissional</h3><button class="btn btn-outline btn-sm" data-aba="faturamento">Ver detalhes</button></div>'+
     tabelaFaturamento(financeiro.profissionais)+
     '<p class="small muted">Somente atendimentos marcados como concluídos entram no total de cada barbeiro.</p></div>'+
+    '<div class="panel"><h3>Avaliações em resumo</h3>'+painelAvaliacoes(b)+'<button class="btn btn-outline btn-sm" data-aba="avaliacoes">Ver comentários</button></div>'+ 
     '<div class="panel"><h3>Minha vitrine</h3><p>Veja sua barbearia como o cliente vê ou edite as fotos e informações.</p>'+
     '<a class="btn btn-outline" href="#barbearia/'+seguro(b.id)+'">Abrir minha barbearia ↗</a> '+
     '<button class="btn btn-primary" data-aba="fotos">Gerenciar fotos</button></div>';
@@ -458,7 +459,7 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
     '<div class="stats"><div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong></div>'+
     '<div class="stat"><small>Produtos entregues</small><strong>'+dinheiro(financeiro.produtos)+'</strong></div>'+
     '<div class="stat"><small>Faturamento total da barbearia</small><strong>'+dinheiro(financeiro.total)+'</strong></div></div>'+
-    '<div class="panel"><h3>Faturamento de cada barbeiro</h3><p>Exemplo: Lucas conclui um corte de R$ 45 e o total é atualizado. Reservas pendentes não são faturamento.</p>'+
+    '<div class="panel"><h3>Faturamento de cada barbeiro</h3><p>Exemplo: Lucas conclui um corte de R$ 45 e o total é atualizado. Reservas pendentes não são faturamento.</p><button type="button" class="btn btn-outline btn-sm" data-aba="agenda">Abrir agenda para concluir atendimentos →</button>'+
     tabelaFaturamento(financeiro.profissionais)+
     '<p class="revenue-info">O total individual considera apenas serviços concluídos. A barbearia soma os serviços concluídos e os produtos marcados como entregues. Todos os valores são fictícios.</p></div>';
   if (abaPainel==='avaliacoes') return '<div class="panel"><h3>Visão geral das avaliações</h3>'+painelAvaliacoes(b)+'<h3>Comentários de '+seguro(b.nome)+'</h3>'+
