@@ -13,14 +13,18 @@
 <body>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="logo" href="#inicio" aria-label="BarberSync, início">
+      <a class="logo" id="logo-home" href="#inicio" aria-label="BarberSync, voltar ao início">
         <span class="logo-mark">B<span>✦</span></span><span>BARBER<span class="logo-gold">SYNC</span></span>
       </a>
-      <nav class="nav-links" aria-label="Menu principal">
+      <nav class="nav-links" id="nav-links" aria-label="Menu principal">
         <a href="#inicio">Explorar</a>
         <a href="#meus-agendamentos">Meus agendamentos</a>
       </nav>
-      <a class="nav-admin" href="#painel">Área do barbeiro <span aria-hidden="true">↗</span></a>
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Alternar tema">☾ <span id="theme-label">Escuro</span></button>
+        <a class="nav-admin" id="nav-admin" href="#login">Área do barbeiro ↗</a>
+        <div class="shop-header-name" id="shop-header-name" hidden></div>
+      </div>
     </div>
   </header>
 
@@ -29,7 +33,7 @@
   <footer class="footer">
     <div class="wrap footer-inner">
       <div><strong>BARBER<span class="logo-gold">SYNC</span></strong><p>Seu estilo, sua escolha. Feito para Barueri.</p></div>
-      <div class="footer-right"><span>Projeto acadêmico demonstrativo • TCC</span><span>Sem pagamento, login ou integração real com o Google</span></div>
+      <div class="footer-right"><span>Projeto acadêmico demonstrativo • TCC</span><span>Login simulado • Sem pagamento ou integração com Google Maps</span></div>
     </div>
   </footer>
 
