@@ -1,0 +1,212 @@
+<!-- COMPONENTES: CARDS, TABELAS E CAMPOS -->
+<!-- Modelos usados pelo JavaScript para montar as telas. -->
+<!-- Os marcadores __BS_VAL_0__, etc. recebem dados do sistema. -->
+
+<!-- componente abas acesso -->
+<script type="text/html" id="componente-abas-acesso" data-formatado="sim">
+  <div class="auth-options">
+    <a href="#login-cliente" class="__BS_VAL_0__">Sou cliente</a>
+    <a href="#login" class="__BS_VAL_1__">Sou barbeiro</a></div>
+</script>
+
+<!-- componente cabecalho modal -->
+<script type="text/html" id="componente-cabecalho-modal" data-formatado="sim">
+  <div class="modal-head">
+    <h2>__BS_VAL_0__</h2>
+    <button class="icon-btn" type="button" data-fechar aria-label="Fechar">×</button>
+  </div>
+</script>
+
+<!-- componente campo formulario -->
+<script type="text/html" id="componente-campo-formulario" data-formatado="sim">
+  <div class="field">
+    <label for="__BS_VAL_0__">__BS_VAL_1__</label><input id="__BS_VAL_2__" name="__BS_VAL_3__" type="__BS_VAL_4__" value="__BS_VAL_5__" required></div>
+</script>
+
+<!-- componente agenda vazia -->
+<script type="text/html" id="componente-agenda-vazia" data-formatado="sim">
+  <div class="showcase-empty">
+    <p>Nenhum agendamento ainda. Faça uma reserva na vitrine ou insira dados fictícios para o TCC.</p>
+    <button class="btn btn-primary btn-sm" data-exemplos>Inserir agendamentos de demonstração</button>
+  </div>
+</script>
+
+<!-- componente tabela agenda -->
+<script type="text/html" id="componente-tabela-agenda" data-formatado="sim">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Serviço</th>
+          <th>Profissional</th>
+          <th>Data / Hora</th>
+          <th>Status</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>__BS_VAL_0__</tbody>
+    </table>
+  </div>
+</script>
+
+<!-- componente linha avaliacao -->
+<script type="text/html" id="componente-linha-avaliacao" data-formatado="sim">
+  <div class="rating-line"><span>__BS_VAL_0__ ★</span><span class="rating-bar"><i style="width:__BS_VAL_1__%"></i></span><strong>__BS_VAL_2__</strong></div>
+</script>
+
+<!-- componente resumo avaliacoes -->
+<script type="text/html" id="componente-resumo-avaliacoes" data-formatado="sim">
+  <div class="rating-overview">
+    <div class="rating-big"><strong>__BS_VAL_0__</strong><span class="stars">★★★★★</span>
+      <p class="small">Média de __BS_VAL_1__ comentário(s) cadastrados</p>
+    </div>
+    <div>__BS_VAL_2__</div>
+  </div>
+  <p class="help">Os números acima resumem os comentários disponíveis na demonstração. A nota histórica ilustrativa da vitrine é __BS_VAL_3__. Não são dados reais do Google.</p>
+</script>
+
+<!-- componente tabela faturamento -->
+<script type="text/html" id="componente-tabela-faturamento" data-formatado="sim">
+  <div class="table-wrap">
+    <table class="revenue-table">
+      <thead>
+        <tr>
+          <th>Barbeiro</th>
+          <th>Atendimentos concluídos</th>
+          <th>Faturamento demonstrativo</th>
+        </tr>
+      </thead>
+      <tbody>__BS_VAL_0__</tbody>
+    </table>
+  </div>
+</script>
+
+<!-- componente agendamentos vazios -->
+<script type="text/html" id="componente-agendamentos-vazios" data-formatado="sim">
+  <div class="empty">
+    <h3>Nenhuma reserva registrada</h3>
+    <p>Escolha uma barbearia e faça seu primeiro agendamento de demonstração.</p>
+    <a class="btn btn-primary" href="#inicio">Explorar barbearias →</a>
+  </div>
+</script>
+
+<!-- componente card plano -->
+<script type="text/html" id="componente-card-plano" data-formatado="sim">
+  <article class="plan-card __BS_VAL_0__"><span class="eyebrow">__BS_VAL_1__</span>
+    <h3>__BS_VAL_2__</h3>
+    <p class="muted">__BS_VAL_3__</p>
+    <div class="plan-price">__BS_VAL_4__ <small>/mês</small></div>
+    <ul class="plan-features">__BS_VAL_5__</ul>
+    <a class="btn __BS_VAL_6__ btn-block" href="#cadastro-barbeiro/__BS_VAL_7__">Selecionar plano →</a>
+  </article>
+</script>
+
+<!-- componente card vitrine -->
+<script type="text/html" id="componente-card-vitrine" data-formatado="sim">
+  <article class="shop-card" data-loja="__BS_VAL_0__" tabindex="0" role="link" aria-label="Abrir __BS_VAL_1__">
+    <div class="card-image"><img src="__BS_VAL_2__" alt="Ambiente ilustrativo de barbearia" loading="lazy"><span class="image-label">__BS_VAL_3__</span></div>
+    <div class="card-body">
+      <div class="card-top">
+        <h3>__BS_VAL_4__</h3>
+        <div class="rating">__BS_VAL_5__</div>
+      </div>
+      <p class="card-desc">__BS_VAL_6__</p>
+      <div class="card-foot"><span>A partir de <strong>__BS_VAL_7__</strong></span><span class="strong">Ver barbearia ↗</span></div>
+    </div>
+  </article>
+</script>
+
+<!-- componente linha servico -->
+<script type="text/html" id="componente-linha-servico" data-formatado="sim">
+  <div class="service-row">
+    <div><strong>__BS_VAL_0__</strong><span>⏱ __BS_VAL_1__</span></div><strong>__BS_VAL_2__</strong>
+  </div>
+</script>
+
+<!-- componente card profissional -->
+<script type="text/html" id="componente-card-profissional" data-formatado="sim">
+  <div class="pro-card">__BS_VAL_0__<strong>__BS_VAL_1__</strong><span>Barbeiro profissional</span></div>
+</script>
+
+<!-- componente avaliacao barbearia -->
+<script type="text/html" id="componente-avaliacao-barbearia" data-formatado="sim">
+  <div class="review">
+    <div class="review-head"><strong>__BS_VAL_0__</strong><span class="stars">__BS_VAL_1__</span></div>
+    <p>__BS_VAL_2__</p>
+  </div>
+</script>
+
+<!-- componente produto barbearia -->
+<script type="text/html" id="componente-produto-barbearia" data-formatado="sim">
+  <div class="product">
+    <div class="product-thumb">__BS_VAL_0__</div><strong>__BS_VAL_1__</strong><small>Retirada na barbearia</small>
+    <div class="product-bottom"><b>__BS_VAL_2__</b>
+      <button class="btn btn-sm btn-dark" data-comprar="__BS_VAL_3__" data-produto="__BS_VAL_4__">Pedir ↗</button>
+    </div>
+  </div>
+</script>
+
+<!-- componente linha agendamento -->
+<script type="text/html" id="componente-linha-agendamento" data-formatado="sim">
+  <tr>
+    <td><strong>__BS_VAL_0__</strong> __BS_VAL_1__<span class="muted small">__BS_VAL_2__</span></td>
+    <td>__BS_VAL_3__</td>
+    <td>__BS_VAL_4__</td>
+    <td>__BS_VAL_5__ __BS_VAL_6__</td>
+    <td><span class="order-label">__BS_VAL_7__</span></td>
+    <td>__BS_VAL_8__</td>
+  </tr>
+</script>
+
+<!-- componente comentario painel -->
+<script type="text/html" id="componente-comentario-painel" data-formatado="sim">
+  <div class="review">
+    <div class="review-head"><strong>__BS_VAL_0__</strong><span class="stars">__BS_VAL_1__</span></div>
+    <p>__BS_VAL_2__</p>
+  </div>
+</script>
+
+<!-- componente linha pedido -->
+<script type="text/html" id="componente-linha-pedido" data-formatado="sim">
+  <tr>
+    <td>__BS_VAL_0__</td>
+    <td>__BS_VAL_1__</td>
+    <td>__BS_VAL_2__</td>
+    <td><span class="order-label">__BS_VAL_3__</span></td>
+    <td>__BS_VAL_4__</td>
+  </tr>
+</script>
+
+<!-- componente foto galeria -->
+<script type="text/html" id="componente-foto-galeria" data-formatado="sim">
+  <div class="image-tile"><img src="__BS_VAL_0__" alt="Foto __BS_VAL_1__">
+    <button class="btn btn-outline btn-sm" data-remover-galeria="__BS_VAL_2__" __BS_VAL_3__>Excluir</button>
+  </div>
+</script>
+
+<!-- componente foto profissional -->
+<script type="text/html" id="componente-foto-profissional" data-formatado="sim">
+  <div class="photo-profile">__BS_VAL_0__
+    <div><strong>__BS_VAL_1__</strong>
+      <label>Escolher foto<input type="file" accept="image/*" data-upload-prof="__BS_VAL_2__"></label>__BS_VAL_3__</div>
+  </div>
+</script>
+
+<!-- componente item produto painel -->
+<script type="text/html" id="componente-item-produto-painel" data-formatado="sim">
+  <div class="product-manager-row">__BS_VAL_0__
+    <div><strong>__BS_VAL_1__</strong><span class="small muted">__BS_VAL_2__</span>
+      <label>Adicionar ou trocar foto<input type="file" accept="image/jpeg,image/png,image/webp" data-upload-prod="__BS_VAL_3__"></label></div>
+    <button class="btn btn-outline btn-sm" data-remover-produto="__BS_VAL_4__">Excluir</button>
+  </div>
+</script>
+
+<!-- componente card agendamento -->
+<script type="text/html" id="componente-card-agendamento" data-formatado="sim">
+  <div class="account-card"><span class="eyebrow">__BS_VAL_0__</span>
+    <h3>__BS_VAL_1__</h3>
+    <p>__BS_VAL_2__ • __BS_VAL_3__ • __BS_VAL_4__ às __BS_VAL_5__</p>
+    <div class="list-row"><strong>__BS_VAL_6__</strong>__BS_VAL_7__</div>
+  </div>
+</script>

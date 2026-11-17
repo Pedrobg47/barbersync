@@ -22,3 +22,7 @@ O arquivo `index.html` utiliza blocos `<script type="text/html" id="pagina-inici
 É um protótipo: utiliza `localStorage` e `sessionStorage` para guardar dados de teste. Não há banco de dados, servidor, autenticação segura, cobrança real ou sincronização entre computadores. Use somente dados fictícios.
 
 Para estudar a divisão dos estilos, consulte `docs/ESTUDO-CSS.md`.
+
+### Arquivos HTML
+
+O `index.html` agora é o arquivo principal e os modelos de cada tela ficam em `templates/`. Para abrir no VS Code, use a extensão Live Server; também funciona pelo endereço publicado na Vercel. Veja `docs/GUIA-HTML-TCC.md`.

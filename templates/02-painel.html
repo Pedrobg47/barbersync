@@ -1,0 +1,143 @@
+<!-- PAINEL: TELAS DE GESTÃO DA BARBEARIA -->
+<!-- Modelos usados pelo JavaScript para montar as telas. -->
+<!-- Os marcadores __BS_VAL_0__, etc. recebem dados do sistema. -->
+
+<!-- painel visao geral -->
+<script type="text/html" id="painel-visao-geral" data-formatado="sim">
+  <div class="stats">
+    <div class="stat"><small>Agendamentos ativos</small><strong>__BS_VAL_0__</strong><span>Aguardando atendimento</span></div>
+    <div class="stat"><small>Serviços concluídos</small><strong>__BS_VAL_1__</strong><span>Valor simulado</span></div>
+    <div class="stat"><small>Produtos entregues</small><strong>__BS_VAL_2__</strong><span>Pedidos concluídos</span></div>
+    <div class="stat"><small>Faturamento total</small><strong>__BS_VAL_3__</strong><span>Demonstrativo, não real</span></div>
+  </div>
+  <div class="panel">
+    <div class="section-head">
+      <h3>Próximos agendamentos</h3>
+      <button class="btn btn-outline btn-sm" data-aba="agenda">Ver agenda</button>
+    </div>__BS_VAL_4__
+  </div>
+  <div class="panel">
+    <div class="section-head">
+      <h3>Por profissional</h3>
+      <button class="btn btn-outline btn-sm" data-aba="faturamento">Ver detalhes</button>
+    </div>__BS_VAL_5__
+    <p class="small muted">Somente atendimentos marcados como concluídos entram no total de cada barbeiro.</p>
+  </div>
+  <div class="panel">
+    <h3>Avaliações em resumo</h3>__BS_VAL_6__
+    <button class="btn btn-outline btn-sm" data-aba="avaliacoes">Ver comentários</button>
+  </div>
+  <div class="panel">
+    <h3>Minha vitrine</h3>
+    <p>Veja sua barbearia como o cliente vê ou edite as fotos e informações.</p>
+    <a class="btn btn-outline" href="#barbearia/__BS_VAL_7__">Abrir minha barbearia ↗</a> 
+    <button class="btn btn-primary" data-aba="fotos">Gerenciar fotos</button>
+  </div>
+</script>
+
+<!-- painel agenda -->
+<script type="text/html" id="painel-agenda" data-formatado="sim">
+  <div class="panel">
+    <h3>Agenda de clientes</h3>
+    <p>Ao concluir um atendimento, o valor entra no faturamento demonstrativo do profissional e da barbearia.</p>__BS_VAL_0__
+  </div>
+</script>
+
+<!-- painel faturamento -->
+<script type="text/html" id="painel-faturamento" data-formatado="sim">
+  <div class="stats">
+    <div class="stat"><small>Serviços concluídos</small><strong>__BS_VAL_0__</strong></div>
+    <div class="stat"><small>Produtos entregues</small><strong>__BS_VAL_1__</strong></div>
+    <div class="stat"><small>Faturamento total da barbearia</small><strong>__BS_VAL_2__</strong></div>
+  </div>
+  <div class="panel">
+    <h3>Faturamento de cada barbeiro</h3>
+    <p>Exemplo: Lucas conclui um corte de R$ 45 e o total é atualizado. Reservas pendentes não são faturamento.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-aba="agenda">Abrir agenda para concluir atendimentos →</button>__BS_VAL_3__
+    <p class="revenue-info">O total individual considera apenas serviços concluídos. A barbearia soma os serviços concluídos e os produtos marcados como entregues. Todos os valores são fictícios.</p>
+  </div>
+</script>
+
+<!-- painel avaliacoes -->
+<script type="text/html" id="painel-avaliacoes" data-formatado="sim">
+  <div class="panel">
+    <h3>Visão geral das avaliações</h3>__BS_VAL_0__
+    <h3>Comentários de __BS_VAL_1__</h3>__BS_VAL_2__
+  </div>
+</script>
+
+<!-- painel pedidos -->
+<script type="text/html" id="painel-pedidos" data-formatado="sim">
+  <div class="panel">
+    <h3>Pedidos de produtos</h3>
+    <p>Marque um pedido como entregue para incluí-lo no faturamento fictício da barbearia. Não há pagamento real.</p>__BS_VAL_0__
+  </div>
+</script>
+
+<!-- painel informacoes -->
+<script type="text/html" id="painel-informacoes" data-formatado="sim">
+  <div class="panel">
+    <h3>Informações e identidade visual</h3>
+    <p>Edite o nome, cor principal, descrição, funcionamento e integrantes da sua equipe.</p>
+    <form id="form-aparencia" class="form-grid">
+      <div class="full">__BS_VAL_0__</div>
+      <div class="field">
+        <label for="editar-bairro">Bairro</label><input id="editar-bairro" value="__BS_VAL_1__" required></div>
+      <div class="field">
+        <label for="editar-cor">Cor principal da página</label><input id="editar-cor" type="color" value="__BS_VAL_2__"></div>
+      <div class="field full">
+        <label for="editar-descricao">Descrição</label>
+        <textarea id="editar-descricao" required>__BS_VAL_3__</textarea>
+      </div>
+      <div class="field full">
+        <label for="editar-horario">Horário de funcionamento (texto para o cliente)</label><input id="editar-horario" value="__BS_VAL_4__" required></div>
+      <div class="field full">
+        <label for="editar-profissionais">Profissionais (separados por vírgula)</label><input id="editar-profissionais" value="__BS_VAL_5__" required></div>
+      <p class="help full">A agenda demonstrativa usa horários fixos. Para mudar fotos dos profissionais, abra a aba Fotos e equipe.</p>
+      <div class="full">
+        <div class="color-preview" style="border-left:9px solid __BS_VAL_6__"><strong>__BS_VAL_7__</strong><br><span class="small">Prévia simples da sua marca</span></div>
+      </div>
+      <div class="full">__BS_VAL_8__</div>
+    </form>
+  </div>
+</script>
+
+<!-- painel fotos equipe -->
+<script type="text/html" id="painel-fotos-equipe" data-formatado="sim">
+  <div class="panel">
+    <h3>Capa da barbearia</h3>
+    <p>Esta imagem aparece ao fundo quando o cliente abre sua barbearia.</p><img class="cover-preview" src="__BS_VAL_0__" alt="Imagem de capa atual">
+    <label class="upload-label" for="upload-capa">Alterar imagem de capa<input id="upload-capa" type="file" accept="image/*"></label>
+    <p class="upload-tip">Selecione uma foto JPG, PNG ou WebP, até 6 MB. O sistema reduz a foto para guardar no navegador.</p>
+  </div>
+  <div class="panel">
+    <h3>Fotos da galeria</h3>
+    <p>Essas imagens aparecem no perfil e na vitrine. Máximo de 6 fotos.</p>
+    <div class="image-manager">__BS_VAL_1__</div>
+    <label class="upload-label" for="upload-galeria">+ Adicionar fotos da barbearia<input id="upload-galeria" type="file" accept="image/*" multiple></label>
+    <p class="upload-tip">As fotos são armazenadas apenas neste dispositivo e podem ocupar o espaço local do navegador.</p>
+  </div>
+  <div class="panel">
+    <h3>Fotos dos profissionais</h3>
+    <p>Escolha uma foto para cada barbeiro da sua equipe.</p>__BS_VAL_2__
+  </div>
+</script>
+
+<!-- painel catalogo -->
+<script type="text/html" id="painel-catalogo" data-formatado="sim">
+  <div class="panel">
+    <h3>Cadastrar produto</h3>
+    <p>Adicione pomadas, óleos ou outros itens para aparecerem na vitrine.</p>
+    <form id="form-produto" class="form-grid">
+      <div class="field">
+        <label for="novo-produto">Nome do produto</label><input id="novo-produto" maxlength="60" required></div>
+      <div class="field">
+        <label for="novo-preco">Preço (R$)</label><input id="novo-preco" type="number" min="1" step="0.01" required></div>
+      <div class="full">__BS_VAL_0__</div>
+    </form>
+  </div>
+  <div class="panel">
+    <h3>Fotos e produtos cadastrados</h3>
+    <p>Use o campo de cada produto para adicionar uma foto JPG, PNG ou WebP. Ela aparecerá para os clientes.</p>__BS_VAL_1__
+  </div>
+</script>

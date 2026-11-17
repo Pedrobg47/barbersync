@@ -221,7 +221,32 @@ function comprimirFoto(arquivo, tamanhoMaximo) {
 
 // ======================= TELAS E COMPONENTES =======================
 
-// HTML das páginas e componentes fica no index.html.
+// Cada grupo de telas está em um arquivo HTML próprio.
+const arquivosDeTelas = [
+  'templates/01-paginas.html',
+  'templates/02-painel.html',
+  'templates/03-componentes.html',
+  'templates/04-janelas.html'
+];
+
+// Os modelos precisam estar disponíveis antes da primeira renderização.
+// Para abrir localmente, use Live Server no VS Code.
+async function carregarModelosHTML() {
+  const area = document.getElementById('modelos-html');
+
+  for (const arquivo of arquivosDeTelas) {
+    const resposta = await fetch(arquivo);
+
+    if (!resposta.ok) {
+      throw new Error('Não foi possível carregar: ' + arquivo);
+    }
+
+    const html = await resposta.text();
+    area.insertAdjacentHTML('beforeend', html);
+  }
+}
+
+// HTML das páginas e componentes fica na pasta templates/.
 // Aqui colocamos apenas os valores variáveis e as interações.
 function htmlTela(id, valores = []) {
   const elemento = document.getElementById(id);
@@ -700,7 +725,24 @@ document.addEventListener('submit',e=>{
   }
 });
 // hashchange atualiza a tela ao mudar #rota sem recarregar a página.
-window.addEventListener('hashchange',renderizar);
+// Ao mudar #inicio, #login, #painel, etc., atualiza a página.
+window.addEventListener('hashchange', () => {
+  if (modelosProntos) renderizar();
+});
+
+let modelosProntos = false;
 prepararExemplosIniciais();
 aplicarTema();
-renderizar();
+
+// Depois que o HTML de todas as telas foi carregado, o site inicia.
+carregarModelosHTML()
+  .then(() => {
+    modelosProntos = true;
+    renderizar();
+  })
+  .catch(erro => {
+    console.error(erro);
+    document.getElementById('app').innerHTML =
+      '<div class="wrap page-content"><h2>Não foi possível abrir o site</h2>' +
+      '<p>Abra pela Vercel ou use a extensão Live Server no VS Code.</p></div>';
+  });

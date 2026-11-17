@@ -57,3 +57,10 @@ Não existe backend ou banco de dados; os registros ficam somente no navegador. 
 ## Como estudar os estilos
 
 O arquivo `style.css` importa os estilos da pasta `css/`. Consulte `docs/ESTUDO-CSS.md` para entender o que cada arquivo faz e apresentar CSS para a banca.
+
+## Estrutura HTML atualizada
+
+O `index.html` tem apenas a estrutura principal. As telas estão em `templates/01-paginas.html`, `02-painel.html`, `03-componentes.html` e `04-janelas.html`.
+
+Abra o site com **Live Server** no VS Code (ou pela Vercel). A abertura direta com `file://` não é suportada nesta divisão, pois o JavaScript carrega os modelos por `fetch`.
+Veja `docs/GUIA-HTML-TCC.md`.

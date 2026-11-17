@@ -16,7 +16,8 @@
   <header class="site-header">
     <div class="wrap nav">
       <a class="logo" id="logo-home" href="#inicio" aria-label="BarberSync, voltar ao início">
-        <span class="logo-mark">B<span>✦</span></span><span>BARBER<span class="logo-gold">SYNC</span></span>
+        <span class="logo-mark">B<span>✦</span></span>
+        <span>BARBER<span class="logo-gold">SYNC</span></span>
       </a>
       <nav class="nav-links" id="nav-links" aria-label="Menu principal">
         <a href="#inicio">Explorar</a>
@@ -39,8 +40,19 @@
   <!-- Rodapé -->
   <footer class="footer">
     <div class="wrap footer-inner">
-      <div><strong>BARBER<span class="logo-gold">SYNC</span></strong><p>Seu estilo, sua escolha. Feito para Barueri.</p></div>
-      <div class="footer-right"><div class="footer-nav"><a href="#planos">Planos</a><a href="#politicas">Políticas e privacidade</a><a href="#login-cliente">Área do cliente</a></div><span>Projeto acadêmico demonstrativo • TCC</span><span>Cadastros e pagamentos simulados • Sem Google Maps</span></div>
+      <div>
+        <strong>BARBER<span class="logo-gold">SYNC</span></strong>
+        <p>Seu estilo, sua escolha. Feito para Barueri.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-nav">
+          <a href="#planos">Planos</a>
+          <a href="#politicas">Políticas e privacidade</a>
+          <a href="#login-cliente">Área do cliente</a>
+        </div>
+        <span>Projeto acadêmico demonstrativo • TCC</span>
+        <span>Cadastros e pagamentos simulados • Sem Google Maps</span>
+      </div>
     </div>
   </footer>
 
@@ -48,290 +60,7 @@
   <div id="modal-root"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- =================================================== -->
-  <!-- MODELOS HTML DAS TELAS: edite a estrutura visual aqui -->
-  <!-- O JavaScript injeta somente os valores variáveis.    -->
-  <!-- =================================================== -->
-  <!-- abasAcesso: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-abas-acesso" data-formatado="sim"><div class="auth-options"><a href="#login-cliente" class="__BS_VAL_0__">Sou cliente</a><a href="#login" class="__BS_VAL_1__">Sou barbeiro</a></div></script>
-
-  <!-- LOGIN BARBEIRO: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-login-barbeiro" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">ÁREA DO PROPRIETÁRIO</span><h1>Gerencie sua barbearia.</h1>
-<p>Agenda, avaliações, equipe e faturamento em um só painel.</p></div></section><section class="page-content">
-<div class="wrap login-layout"><div class="panel">__BS_VAL_0__<h2>Entrar como barbeiro</h2><p class="muted small">Acesso demonstrativo, sem servidor.</p><form id="form-login">__BS_VAL_1____BS_VAL_2__<button type="submit" class="btn btn-primary btn-block">Acessar meu painel →</button>
-</form><div class="auth-switch">Ainda não tem barbearia? <a href="#cadastro-barbeiro">Criar conta de barbeiro</a></div><div class="login-example">
-<strong>Para testar agora:</strong><p style="margin:5px 0">Usuário: <code>estacao47</code> | Senha: <code>demo123</code></p></div>
-<p class="help">Este login é apenas uma simulação: não use senhas pessoais.</p></div></div></section></script>
-
-  <!-- LOGIN CLIENTE: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-login-cliente" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">ÁREA DO CLIENTE</span><h1>Seu estilo começa aqui.</h1>
-<p>Entre para consultar seus horários e agilizar novos agendamentos.</p></div></section><section class="page-content">
-<div class="wrap login-layout"><div class="panel">__BS_VAL_0__<h2>Entrar como cliente</h2><p class="muted small">Acesso demonstrativo para o TCC.</p><form id="form-login-cliente">__BS_VAL_1____BS_VAL_2__<button type="submit" class="btn btn-primary btn-block">Entrar como cliente →</button>
-</form><div class="login-example"><strong>Teste rápido:</strong> cliente / demo123</div><div class="auth-switch">Primeira vez aqui? <a href="#cadastro-cliente">Criar conta de cliente</a>
-</div><p class="help">Cadastre dados fictícios. As informações ficam somente neste navegador.</p></div></div>
-</section></script>
-
-  <!-- CADASTRO CLIENTE: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-cadastro-cliente" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">NOVO CLIENTE</span><h1>Crie sua conta.</h1>
-<p>Um cadastro simples para testar seus agendamentos no TCC.</p></div></section><section class="page-content">
-<div class="wrap login-layout"><div class="panel">__BS_VAL_0__<h2>Cadastrar cliente</h2><form id="form-cadastro-cliente">__BS_VAL_1____BS_VAL_2____BS_VAL_3____BS_VAL_4__<label class="terms-consent"><input type="checkbox" required> Li e concordo com os <a href="#politicas">Termos e Políticas</a> do protótipo.</label>
-<button type="submit" class="btn btn-primary btn-block">Criar conta de cliente →</button></form><div class="auth-switch">Já tem conta? <a href="#login-cliente">Fazer login</a></div>
-<p class="help">Não existe cadastro real, servidor ou criptografia. Não forneça dados pessoais verdadeiros.</p></div></div></section></script>
-
-  <!-- CADASTRO BARBEIRO: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-cadastro-barbeiro" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEIROS</span><h1>Cadastre seu negócio.</h1>
-<p>Crie sua vitrine em Barueri e experimente o painel completo.</p></div></section><section class="page-content">
-<div class="wrap login-layout"><div class="panel">__BS_VAL_0__<h2>Novo proprietário</h2><form id="form-cadastro-barbeiro">__BS_VAL_1____BS_VAL_2____BS_VAL_3____BS_VAL_4__<div class="field"><label for="dono-bairro">Bairro em Barueri</label>
-<select id="dono-bairro" required><option>Alphaville</option><option>Centro</option><option>Jardim Belval</option>
-<option>Jardim Silveira</option><option>Parque Imperial</option></select></div>
-<div class="field"><label for="dono-plano">Plano mensal ilustrativo</label><select id="dono-plano">__BS_VAL_5__</select></div>
-<p class="book-alert">Nenhum pagamento ou assinatura será efetuado. Os preços são apenas propostas para o TCC.</p><label class="terms-consent"><input type="checkbox" required> Li e concordo com os <a href="#politicas">Termos e Políticas</a> do protótipo.</label><button type="submit" class="btn btn-primary btn-block">Criar meu acesso e vitrine →</button>
-</form><div class="auth-switch">Já tem cadastro? <a href="#login">Fazer login</a></div><p class="help">Senha demonstrativa armazenada localmente. Não use credenciais reais.</p>
-</div></div></section></script>
-
-  <!-- telaContaCliente: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-minha-conta" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">MINHA CONTA</span><h1>Olá, __BS_VAL_0__!</h1>
-<p>Acompanhe seus agendamentos demonstrativos.</p></div></section><div class="wrap page-content">
-<div class="section-head"><div><h2>Meus horários</h2><p class="muted">Somente reservas vinculadas a esta conta local.</p>
-</div><button class="btn btn-outline btn-sm" data-logout-cliente>Sair da conta</button></div>__BS_VAL_1__<a href="#inicio" class="btn btn-primary">Agendar novo atendimento →</a></div></script>
-
-  <!-- PLANOS: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-planos" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEARIAS DE BARUERI</span><h1>Seu negócio merece destaque.</h1>
-<p>Planos mensais ilustrativos para demonstrar o modelo de receita do BarberSync.</p></div></section><section class="section">
-<div class="wrap"><div class="plans-grid">__BS_VAL_0__</div><p class="demo-note" style="margin-top:24px">* Valores e funcionalidades propostos para o TCC, sem cobrança real, renovação automática ou diferenciação técnica de acesso entre planos.</p><p style="margin-top:12px">
-<a href="#politicas" class="btn btn-outline">Consultar políticas e termos ↗</a></p></div></section></script>
-
-  <!-- POLÍTICAS: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-politicas" data-formatado="sim"><section class="page-intro"><div class="wrap"><span class="eyebrow">TRANSPARÊNCIA</span><h1>Políticas e termos.</h1>
-<p>Modelo de política para a apresentação acadêmica do BarberSync.</p></div></section><section class="page-content">
-<div class="wrap policy-content"><div class="owner-note">Este texto é uma proposta demonstrativa para o TCC, não uma política jurídica definitiva. Antes de operar comercialmente, seria necessário revisar com profissionais responsáveis.</div><div class="panel"><h2>1. Termos de uso</h2>
-<p>O BarberSync é apresentado como uma plataforma de descoberta de barbearias em Barueri, com perfis de estabelecimentos, agendamentos, avaliações e produtos. Nesta versão, todas as ações são simuladas e não constituem reserva ou compra real.</p><h3>2. Privacidade e dados</h3><p>Os cadastros, avaliações, horários, fotos e pedidos de demonstração são armazenados no navegador por meio de localStorage e sessionStorage. Não existe servidor, banco de dados nem transmissão automática desses dados ao BarberSync. Evite inserir nomes, telefones, e-mails ou senhas reais nesta versão.</p><h3>3. Uso de fotos e avaliações</h3>
-<p>O proprietário de um estabelecimento deverá ter permissão para publicar imagens do espaço, dos profissionais e dos produtos. Comentários devem respeitar as pessoas e não conter conteúdo ofensivo. As avaliações atualmente exibidas são ilustrativas ou adicionadas localmente.</p><h3>4. Agendamentos e cancelamentos</h3><p>O cliente poderá solicitar e cancelar reservas de demonstração ainda confirmadas. Reservas marcadas como concluídas não poderão ser canceladas pelo cliente nesta simulação. As regras comerciais, reagendamentos e possíveis taxas de cancelamento de uma futura plataforma deverão ser definidas com clareza.</p><h3>5. Produtos e pagamentos</h3>
-<p>Pedidos de pomadas, óleos e outros produtos não geram cobrança nesta versão. A opção de marcar um pedido como entregue serve apenas para ilustrar um controle interno.</p><h3>6. Planos de assinatura</h3><p>As mensalidades exibidas na página de planos são valores hipotéticos do projeto. Não há checkout, cobrança, renovação automática, faturamento de assinatura nem contrato comercial ativo. Regras de cancelamento, reajustes e serviços oferecidos ainda serão definidas em versões futuras.</p><h3>7. Integrações futuras</h3>
-<p>Integração com Google Maps, dados reais de estabelecimentos, autenticação segura e pagamentos ficam fora do escopo deste módulo do TCC.</p><h3>8. Dados e suporte</h3><p>O usuário pode restaurar os dados da demonstração no painel. A limpeza dos dados do site no navegador também apaga os registros locais. Uma versão comercial deverá informar canais de suporte, direitos dos titulares de dados e regras de retenção e exclusão.</p><p class="small">Documento ilustrativo • Versão acadêmica: novembro de 2026.</p>
-</div><a class="btn btn-primary" href="#inicio">Voltar à vitrine</a></div></section></script>
-
-  <!-- cabecalhoModal: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-cabecalho-modal" data-formatado="sim"><div class="modal-head"><h2>__BS_VAL_0__</h2><button class="icon-btn" type="button" data-fechar aria-label="Fechar">×</button></div></script>
-
-  <!-- campo: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-campo-formulario" data-formatado="sim"><div class="field"><label for="__BS_VAL_0__">__BS_VAL_1__</label><input id="__BS_VAL_2__" name="__BS_VAL_3__" type="__BS_VAL_4__" value="__BS_VAL_5__" required></div></script>
-
-  <!-- PÁGINA INICIAL / VITRINE: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-inicio-vitrine" data-formatado="sim"><section class="hero"><div class="wrap hero-content"><div class="eyebrow">✦ O melhor do seu bairro, em um lugar</div><h1>O próximo corte <em>perfeito</em> está mais perto do que você imagina.</h1>
-<p class="subtitle">Descubra barbearias em Barueri, compare avaliações, conheça profissionais e agende seu horário em poucos cliques.</p><div class="hero-badges"><span><i class="dot">
-</i> Barbearias de Barueri</span><span><i class="dot"></i> Agendamento simples</span>
-<span><i class="dot"></i> Você escolhe onde ir</span></div>
-</div></section><div class="wrap search-wrap"><div class="search-panel">
-<div class="field"><label for="busca">O que você procura?</label><input id="busca" placeholder="Nome da barbearia ou bairro" value="__BS_VAL_0__"></div>
-<div class="field"><label for="bairro">Região</label><select id="bairro"><option>Todos</option>__BS_VAL_1__</select>
-</div><div class="field"><label for="ordenacao">Ordenar por</label><select id="ordenacao">
-<option value="nota">Mais bem avaliadas</option><option value="avaliacoes">Mais avaliações</option><option value="preco">Menor preço</option></select>
-</div><button class="btn btn-dark filter-btn" id="limpar-filtros">Limpar filtros</button></div><p class="demo-note">ⓘ Barbearias, notas, comentários e fotos ilustrativos para apresentação do TCC. Não são dados obtidos do Google.</p>
-</div><section class="section"><div class="wrap"><div class="section-head">
-<div><span class="eyebrow">ENCONTRE SEU ESTILO</span><h2>Explore as barbearias</h2><p class="muted">Uma vitrine para descobrir seu próximo lugar favorito.</p>
-</div><span id="quantidade" class="tag">0 resultados</span></div><div class="category-row" id="categorias">__BS_VAL_2__</div>
-<div id="cards" class="cards"></div></div></section>
-<section class="section benefit-strip"><div class="wrap benefits"><div class="benefit"><span class="benefit-icon">⌕</span>
-<div><strong>Descubra com facilidade</strong><span>Compare estabelecimentos em uma só vitrine.</span></div>
-</div><div class="benefit"><span class="benefit-icon">★</span><div>
-<strong>Escolha com confiança</strong><span>Confira avaliações e fotos demonstrativas.</span></div></div>
-<div class="benefit"><span class="benefit-icon">▣</span><div><strong>Reserve sem complicação</strong>
-<span>Selecione data, profissional e serviço.</span></div></div></div>
-</section></script>
-
-  <!-- PERFIL / ESTAÇÃO 47 E OUTRAS BARBEARIAS: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-perfil-barbearia" data-formatado="sim"><section class="detail-header cover-header"><img class="cover-background" src="__BS_VAL_0__" alt="" aria-hidden="true"><div class="wrap"><div class="breadcrumb">
-<a href="#inicio">Início</a> / Barbearias / __BS_VAL_1__</div><div class="detail-title-row"><div><span class="eyebrow">✦ BARUERI • __BS_VAL_2__</span>
-<h1>__BS_VAL_3__</h1><p>⌖ __BS_VAL_4__, Barueri – SP</p></div><div class="rating">__BS_VAL_5__ <span class="small">• Avaliações de demonstração</span>
-</div></div>__BS_VAL_6__</div></section><div class="wrap detail-main">
-<div class="gallery">__BS_VAL_7__</div><div class="detail-grid"><div><section class="panel">
-<span class="eyebrow">SOBRE NÓS</span><h3>Conheça nosso espaço</h3><p>__BS_VAL_8__</p><p class="small">📍 __BS_VAL_9__, Barueri – SP</p>
-<p class="small">🕒 __BS_VAL_10__</p></section><section class="panel"><span class="eyebrow">O QUE FAZEMOS</span>
-<h3>Serviços e valores</h3>__BS_VAL_11__</section><section class="panel"><span class="eyebrow">NOSSA EQUIPE</span><h3>Profissionais</h3>
-<div class="professional-grid">__BS_VAL_12__</div></section><section class="panel"><span class="eyebrow">O QUE OS CLIENTES DIZEM</span>
-<h3>Avaliações <span class="rating">__BS_VAL_13__</span></h3><p class="small">Comentários fictícios ou cadastrados localmente neste navegador.</p>__BS_VAL_14__<button class="btn btn-outline" data-avaliar="__BS_VAL_15__">☆ Escrever avaliação</button></section>__BS_VAL_16__</div>
-<aside class="panel booking"><span class="eyebrow">RESERVE SEU HORÁRIO</span><h3>Agende seu próximo corte</h3><p class="small">Escolha o serviço e encontre um horário disponível.</p>
-<form id="form-agendar"><div class="field"><label for="servico">Serviço</label><select id="servico" required>__BS_VAL_17__</select>
-</div><div class="field"><label for="profissional">Profissional</label><select id="profissional" required>__BS_VAL_18__</select>
-</div><div class="field"><label for="dia">Data</label><input id="dia" type="date" min="__BS_VAL_19__" value="__BS_VAL_20__" required>
-</div><div class="field"><label for="hora">Horário</label><select id="hora" required>
-</select></div><div class="field"><label for="nome-cliente">Seu nome</label>
-<input id="nome-cliente" maxlength="60" placeholder="Nome e sobrenome" value="__BS_VAL_21__" required></div><div class="field"><label for="telefone-cliente">WhatsApp</label>
-<input id="telefone-cliente" type="tel" maxlength="20" placeholder="(11) 99999-9999" value="__BS_VAL_22__" required></div><div class="price-preview" id="resumo-preco"></div>
-<div id="aviso-horarios" class="help" aria-live="polite"></div><button id="confirmar-agendamento" type="submit" class="btn btn-primary btn-block">Confirmar agendamento →</button><p class="help">Agendamento de demonstração. Não envia mensagens nem reserva horário em outros dispositivos.</p>
-</form></aside></div></div></script>
-
-  <!-- PAINEL DO BARBEIRO: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-painel-barbeiro" data-formatado="sim"><section class="page-intro"><div class="wrap"><div class="eyebrow">GESTÃO DA BARBEARIA</div><h1>Painel do barbeiro</h1>
-<p>Personalize sua vitrine, gerencie a agenda e acompanhe os resultados.</p></div></section><div class="wrap page-content">
-<div class="owner-note">⚠ Login de demonstração, sem autenticação real ou banco de dados. Dados e imagens ficam neste navegador. Use somente informações fictícias. Plano selecionado: <strong>__BS_VAL_0__</strong> (sem cobrança).</div><div class="dashboard"><aside class="sidebar"><small>Minha barbearia</small>__BS_VAL_1__</aside>
-<div class="owner-main"><div class="owner-top"><div><div class="eyebrow">PAINEL DO PARCEIRO</div>
-<h2>__BS_VAL_2__</h2></div><div class="owner-toolbar"><select id="selecionar-loja" aria-label="Selecionar minha barbearia">__BS_VAL_3__</select>
-<button class="btn btn-dark btn-sm" data-cadastrar>+ Nova barbearia</button><button class="btn btn-outline btn-sm" data-logout>Sair</button></div></div>__BS_VAL_4__</div>
-</div><div style="margin-top:28px"><button class="btn btn-outline btn-sm" data-reset>↺ Restaurar dados da demonstração</button></div>
-</div></script>
-
-  <!-- tabelaAgenda: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-agenda-vazia" data-formatado="sim"><div class="showcase-empty"><p>Nenhum agendamento ainda. Faça uma reserva na vitrine ou insira dados fictícios para o TCC.</p><button class="btn btn-primary btn-sm" data-exemplos>Inserir agendamentos de demonstração</button></div></script>
-
-  <!-- tabelaAgenda: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-tabela-agenda" data-formatado="sim"><div class="table-wrap"><table><thead><tr>
-<th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Data / Hora</th>
-<th>Status</th><th>Ação</th></tr></thead>
-<tbody>__BS_VAL_0__</tbody></table></div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-visao-geral" data-formatado="sim"><div class="stats"><div class="stat"><small>Agendamentos ativos</small><strong>__BS_VAL_0__</strong>
-<span>Aguardando atendimento</span></div><div class="stat"><small>Serviços concluídos</small>
-<strong>__BS_VAL_1__</strong><span>Valor simulado</span></div><div class="stat">
-<small>Produtos entregues</small><strong>__BS_VAL_2__</strong><span>Pedidos concluídos</span></div>
-<div class="stat"><small>Faturamento total</small><strong>__BS_VAL_3__</strong><span>Demonstrativo, não real</span>
-</div></div><div class="panel"><div class="section-head">
-<h3>Próximos agendamentos</h3><button class="btn btn-outline btn-sm" data-aba="agenda">Ver agenda</button></div>__BS_VAL_4__</div><div class="panel">
-<div class="section-head"><h3>Por profissional</h3><button class="btn btn-outline btn-sm" data-aba="faturamento">Ver detalhes</button></div>__BS_VAL_5__<p class="small muted">Somente atendimentos marcados como concluídos entram no total de cada barbeiro.</p>
-</div><div class="panel"><h3>Avaliações em resumo</h3>__BS_VAL_6__<button class="btn btn-outline btn-sm" data-aba="avaliacoes">Ver comentários</button></div>
-<div class="panel"><h3>Minha vitrine</h3><p>Veja sua barbearia como o cliente vê ou edite as fotos e informações.</p><a class="btn btn-outline" href="#barbearia/__BS_VAL_7__">Abrir minha barbearia ↗</a> <button class="btn btn-primary" data-aba="fotos">Gerenciar fotos</button>
-</div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-agenda" data-formatado="sim"><div class="panel"><h3>Agenda de clientes</h3><p>Ao concluir um atendimento, o valor entra no faturamento demonstrativo do profissional e da barbearia.</p>__BS_VAL_0__</div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-faturamento" data-formatado="sim"><div class="stats"><div class="stat"><small>Serviços concluídos</small><strong>__BS_VAL_0__</strong>
-</div><div class="stat"><small>Produtos entregues</small><strong>__BS_VAL_1__</strong>
-</div><div class="stat"><small>Faturamento total da barbearia</small><strong>__BS_VAL_2__</strong>
-</div></div><div class="panel"><h3>Faturamento de cada barbeiro</h3>
-<p>Exemplo: Lucas conclui um corte de R$ 45 e o total é atualizado. Reservas pendentes não são faturamento.</p><button type="button" class="btn btn-outline btn-sm" data-aba="agenda">Abrir agenda para concluir atendimentos →</button>__BS_VAL_3__<p class="revenue-info">O total individual considera apenas serviços concluídos. A barbearia soma os serviços concluídos e os produtos marcados como entregues. Todos os valores são fictícios.</p></div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-avaliacoes" data-formatado="sim"><div class="panel"><h3>Visão geral das avaliações</h3>__BS_VAL_0__<h3>Comentários de __BS_VAL_1__</h3>__BS_VAL_2__</div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-pedidos" data-formatado="sim"><div class="panel"><h3>Pedidos de produtos</h3><p>Marque um pedido como entregue para incluí-lo no faturamento fictício da barbearia. Não há pagamento real.</p>__BS_VAL_0__</div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-informacoes" data-formatado="sim"><div class="panel"><h3>Informações e identidade visual</h3><p>Edite o nome, cor principal, descrição, funcionamento e integrantes da sua equipe.</p><form id="form-aparencia" class="form-grid">
-<div class="full">__BS_VAL_0__</div><div class="field"><label for="editar-bairro">Bairro</label><input id="editar-bairro" value="__BS_VAL_1__" required>
-</div><div class="field"><label for="editar-cor">Cor principal da página</label><input id="editar-cor" type="color" value="__BS_VAL_2__">
-</div><div class="field full"><label for="editar-descricao">Descrição</label><textarea id="editar-descricao" required>__BS_VAL_3__</textarea>
-</div><div class="field full"><label for="editar-horario">Horário de funcionamento (texto para o cliente)</label><input id="editar-horario" value="__BS_VAL_4__" required>
-</div><div class="field full"><label for="editar-profissionais">Profissionais (separados por vírgula)</label><input id="editar-profissionais" value="__BS_VAL_5__" required>
-</div><p class="help full">A agenda demonstrativa usa horários fixos. Para mudar fotos dos profissionais, abra a aba Fotos e equipe.</p><div class="full"><div class="color-preview" style="border-left:9px solid __BS_VAL_6__">
-<strong>__BS_VAL_7__</strong><br><span class="small">Prévia simples da sua marca</span></div>
-</div><div class="full">__BS_VAL_8__</div></form></div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-fotos-equipe" data-formatado="sim"><div class="panel"><h3>Capa da barbearia</h3><p>Esta imagem aparece ao fundo quando o cliente abre sua barbearia.</p><img class="cover-preview" src="__BS_VAL_0__" alt="Imagem de capa atual">
-<label class="upload-label" for="upload-capa">Alterar imagem de capa<input id="upload-capa" type="file" accept="image/*"></label><p class="upload-tip">Selecione uma foto JPG, PNG ou WebP, até 6 MB. O sistema reduz a foto para guardar no navegador.</p></div>
-<div class="panel"><h3>Fotos da galeria</h3><p>Essas imagens aparecem no perfil e na vitrine. Máximo de 6 fotos.</p><div class="image-manager">__BS_VAL_1__</div>
-<label class="upload-label" for="upload-galeria">+ Adicionar fotos da barbearia<input id="upload-galeria" type="file" accept="image/*" multiple></label><p class="upload-tip">As fotos são armazenadas apenas neste dispositivo e podem ocupar o espaço local do navegador.</p></div>
-<div class="panel"><h3>Fotos dos profissionais</h3><p>Escolha uma foto para cada barbeiro da sua equipe.</p>__BS_VAL_2__</div></script>
-
-  <!-- ABAS DO PAINEL: HTML do pagina-retorno -->
-  <script type="text/html" id="painel-catalogo" data-formatado="sim"><div class="panel"><h3>Cadastrar produto</h3><p>Adicione pomadas, óleos ou outros itens para aparecerem na vitrine.</p><form id="form-produto" class="form-grid">
-<div class="field"><label for="novo-produto">Nome do produto</label><input id="novo-produto" maxlength="60" required></div>
-<div class="field"><label for="novo-preco">Preço (R$)</label><input id="novo-preco" type="number" min="1" step="0.01" required></div>
-<div class="full">__BS_VAL_0__</div></form></div><div class="panel">
-<h3>Fotos e produtos cadastrados</h3><p>Use o campo de cada produto para adicionar uma foto JPG, PNG ou WebP. Ela aparecerá para os clientes.</p>__BS_VAL_1__</div></script>
-
-  <!-- painelAvaliacoes: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-linha-avaliacao" data-formatado="sim"><div class="rating-line"><span>__BS_VAL_0__ ★</span><span class="rating-bar"><i style="width:__BS_VAL_1__%">
-</i></span><strong>__BS_VAL_2__</strong></div></script>
-
-  <!-- painelAvaliacoes: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-resumo-avaliacoes" data-formatado="sim"><div class="rating-overview"><div class="rating-big"><strong>__BS_VAL_0__</strong><span class="stars">★★★★★</span>
-<p class="small">Média de __BS_VAL_1__ comentário(s) cadastrados</p></div><div>__BS_VAL_2__</div></div>
-<p class="help">Os números acima resumem os comentários disponíveis na demonstração. A nota histórica ilustrativa da vitrine é __BS_VAL_3__. Não são dados reais do Google.</p></script>
-
-  <!-- tabelaFaturamento: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-tabela-faturamento" data-formatado="sim"><div class="table-wrap"><table class="revenue-table"><thead><tr>
-<th>Barbeiro</th><th>Atendimentos concluídos</th><th>Faturamento demonstrativo</th></tr>
-</thead><tbody>__BS_VAL_0__</tbody></table></div></script>
-
-  <!-- cardsAgendamentos: HTML do pagina-retorno -->
-  <script type="text/html" id="componente-agendamentos-vazios" data-formatado="sim"><div class="empty"><h3>Nenhuma reserva registrada</h3><p>Escolha uma barbearia e faça seu primeiro agendamento de demonstração.</p><a class="btn btn-primary" href="#inicio">Explorar barbearias →</a>
-</div></script>
-
-  <!-- telaMeusAgendamentos: HTML do pagina-retorno -->
-  <script type="text/html" id="pagina-meus-agendamentos" data-formatado="sim"><section class="page-intro"><div class="wrap"><div class="eyebrow">SEUS HORÁRIOS</div><h1>Meus agendamentos</h1>
-<p>Reservas criadas neste navegador para a apresentação do TCC.</p></div></section><div class="wrap page-content">
-<div class="book-alert">__BS_VAL_0__</div>__BS_VAL_1__</div></script>
-
-  <!-- PLANOS: HTML do item-dinamico -->
-  <script type="text/html" id="componente-card-plano" data-formatado="sim"><article class="plan-card __BS_VAL_0__"><span class="eyebrow">__BS_VAL_1__</span><h3>__BS_VAL_2__</h3><p class="muted">__BS_VAL_3__</p>
-<div class="plan-price">__BS_VAL_4__ <small>/mês</small></div><ul class="plan-features">__BS_VAL_5__</ul><a class="btn __BS_VAL_6__ btn-block" href="#cadastro-barbeiro/__BS_VAL_7__">Selecionar plano →</a>
-</article></script>
-
-  <!-- CARDS DA VITRINE: HTML do item-dinamico -->
-  <script type="text/html" id="componente-card-vitrine" data-formatado="sim"><article class="shop-card" data-loja="__BS_VAL_0__" tabindex="0" role="link" aria-label="Abrir __BS_VAL_1__"><div class="card-image"><img src="__BS_VAL_2__" alt="Ambiente ilustrativo de barbearia" loading="lazy"><span class="image-label">__BS_VAL_3__</span>
-</div><div class="card-body"><div class="card-top"><h3>__BS_VAL_4__</h3>
-<div class="rating">__BS_VAL_5__</div></div><p class="card-desc">__BS_VAL_6__</p><div class="card-foot">
-<span>A partir de <strong>__BS_VAL_7__</strong></span><span class="strong">Ver barbearia ↗</span></div>
-</div></article></script>
-
-  <!-- PERFIL / ESTAÇÃO 47 E OUTRAS BARBEARIAS: HTML do item-dinamico -->
-  <script type="text/html" id="componente-linha-servico" data-formatado="sim"><div class="service-row"><div><strong>__BS_VAL_0__</strong><span>⏱ __BS_VAL_1__</span>
-</div><strong>__BS_VAL_2__</strong></div></script>
-
-  <!-- PERFIL / ESTAÇÃO 47 E OUTRAS BARBEARIAS: HTML do item-dinamico -->
-  <script type="text/html" id="componente-card-profissional" data-formatado="sim"><div class="pro-card">__BS_VAL_0__<strong>__BS_VAL_1__</strong><span>Barbeiro profissional</span></div></script>
-
-  <!-- PERFIL / ESTAÇÃO 47 E OUTRAS BARBEARIAS: HTML do item-dinamico -->
-  <script type="text/html" id="componente-avaliacao-barbearia" data-formatado="sim"><div class="review"><div class="review-head"><strong>__BS_VAL_0__</strong><span class="stars">__BS_VAL_1__</span>
-</div><p>__BS_VAL_2__</p></div></script>
-
-  <!-- PERFIL / ESTAÇÃO 47 E OUTRAS BARBEARIAS: HTML do item-dinamico -->
-  <script type="text/html" id="componente-produto-barbearia" data-formatado="sim"><div class="product"><div class="product-thumb">__BS_VAL_0__</div><strong>__BS_VAL_1__</strong><small>Retirada na barbearia</small>
-<div class="product-bottom"><b>__BS_VAL_2__</b><button class="btn btn-sm btn-dark" data-comprar="__BS_VAL_3__" data-produto="__BS_VAL_4__">Pedir ↗</button></div>
-</div></script>
-
-  <!-- tabelaAgenda: HTML do item-dinamico -->
-  <script type="text/html" id="componente-linha-agendamento" data-formatado="sim"><tr><td><strong>__BS_VAL_0__</strong> __BS_VAL_1__<span class="muted small">__BS_VAL_2__</span></td>
-<td>__BS_VAL_3__</td><td>__BS_VAL_4__</td><td>__BS_VAL_5__ __BS_VAL_6__</td><td>
-<span class="order-label">__BS_VAL_7__</span></td><td>__BS_VAL_8__</td></tr></script>
-
-  <!-- ABAS DO PAINEL: HTML do item-dinamico -->
-  <script type="text/html" id="componente-comentario-painel" data-formatado="sim"><div class="review"><div class="review-head"><strong>__BS_VAL_0__</strong><span class="stars">__BS_VAL_1__</span>
-</div><p>__BS_VAL_2__</p></div></script>
-
-  <!-- ABAS DO PAINEL: HTML do item-dinamico -->
-  <script type="text/html" id="componente-linha-pedido" data-formatado="sim"><tr><td>__BS_VAL_0__</td><td>__BS_VAL_1__</td><td>__BS_VAL_2__</td>
-<td><span class="order-label">__BS_VAL_3__</span></td><td>__BS_VAL_4__</td>
-</tr></script>
-
-  <!-- ABAS DO PAINEL: HTML do item-dinamico -->
-  <script type="text/html" id="componente-foto-galeria" data-formatado="sim"><div class="image-tile"><img src="__BS_VAL_0__" alt="Foto __BS_VAL_1__"><button class="btn btn-outline btn-sm" data-remover-galeria="__BS_VAL_2__" __BS_VAL_3__>Excluir</button></div></script>
-
-  <!-- ABAS DO PAINEL: HTML do item-dinamico -->
-  <script type="text/html" id="componente-foto-profissional" data-formatado="sim"><div class="photo-profile">__BS_VAL_0__<div><strong>__BS_VAL_1__</strong><label>Escolher foto<input type="file" accept="image/*" data-upload-prof="__BS_VAL_2__"></label>__BS_VAL_3__</div>
-</div></script>
-
-  <!-- ABAS DO PAINEL: HTML do item-dinamico -->
-  <script type="text/html" id="componente-item-produto-painel" data-formatado="sim"><div class="product-manager-row">__BS_VAL_0__<div><strong>__BS_VAL_1__</strong><span class="small muted">__BS_VAL_2__</span><label>Adicionar ou trocar foto<input type="file" accept="image/jpeg,image/png,image/webp" data-upload-prod="__BS_VAL_3__">
-</label></div><button class="btn btn-outline btn-sm" data-remover-produto="__BS_VAL_4__">Excluir</button></div></script>
-
-  <!-- cardsAgendamentos: HTML do item-dinamico -->
-  <script type="text/html" id="componente-card-agendamento" data-formatado="sim"><div class="account-card"><span class="eyebrow">__BS_VAL_0__</span><h3>__BS_VAL_1__</h3><p>__BS_VAL_2__ • __BS_VAL_3__ • __BS_VAL_4__ às __BS_VAL_5__</p>
-<div class="list-row"><strong>__BS_VAL_6__</strong>__BS_VAL_7__</div></div></script>
-
-  <!-- modalAvaliacao: HTML do janela -->
-  <script type="text/html" id="modal-avaliacao" data-formatado="sim">__BS_VAL_0__<p class="muted small">Avaliação de demonstração, sem publicação no Google.</p><form id="form-avaliacao" data-id="__BS_VAL_1__">__BS_VAL_2__<div class="field"><label for="estrelas">Sua nota</label><select id="estrelas">
-<option value="5">★★★★★ — Excelente</option><option value="4">★★★★ — Muito bom</option><option value="3">★★★ — Bom</option><option value="2">★★ — Regular</option>
-<option value="1">★ — Ruim</option></select></div><div class="field">
-<label for="comentario">Conte sua experiência</label><textarea id="comentario" maxlength="350" required></textarea></div>__BS_VAL_3__</form></script>
-
-  <!-- modalCompra: HTML do janela -->
-  <script type="text/html" id="modal-compra" data-formatado="sim">__BS_VAL_0__<p><strong>__BS_VAL_1__</strong> • __BS_VAL_2__</p><p class="muted small">Pedido fictício para retirada na barbearia. Não existe pagamento on-line.</p><form id="form-compra" data-id="__BS_VAL_3__" data-produto="__BS_VAL_4__">__BS_VAL_5____BS_VAL_6__<div class="price-preview">Total: __BS_VAL_7__</div>__BS_VAL_8__</form></script>
-
-  <!-- modalCadastro: HTML do janela -->
-  <script type="text/html" id="modal-cadastro-barbearia" data-formatado="sim">__BS_VAL_0__<p class="muted small">A nova barbearia ficará vinculada a este usuário de demonstração e aparecerá na vitrine.</p><form id="form-cadastro">__BS_VAL_1__<div class="field"><label for="cad-bairro">Bairro em Barueri</label><select id="cad-bairro">
-<option>Alphaville</option><option>Centro</option><option>Jardim Belval</option><option>Jardim Silveira</option>
-<option>Parque Imperial</option><option>Outro bairro</option></select></div>
-<div class="field"><label for="cad-descricao">Descrição</label><textarea id="cad-descricao" maxlength="250" required></textarea>
-</div>__BS_VAL_2__</form></script>
-
-  <!-- renderizar: HTML do janela -->
-  <script type="text/html" id="modal-agendamento-confirmado" data-formatado="sim">__BS_VAL_0__<p>Seu horário de demonstração foi registrado em <strong>__BS_VAL_1__</strong>, dia <strong>__BS_VAL_2__</strong> às <strong>__BS_VAL_3__</strong>.</p><a class="btn btn-primary btn-block" href="#meus-agendamentos">Ver meus agendamentos →</a></script>
+  <!-- Modelos de HTML são carregados pelo JavaScript nesta área. -->
+  <div id="modelos-html" hidden></div>
 </body>
 </html>
