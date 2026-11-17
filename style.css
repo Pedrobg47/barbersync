@@ -906,3 +906,26 @@ th {
 .tema-escuro .site-header {
   background: #070d1a;
 }
+
+/* Prévia do agendamento, visível dentro de cada barbearia. */
+.agendamento-previa {
+  border-top: 1px solid var(--line);
+  margin-top: 22px;
+  padding-top: 22px;
+}
+
+.agendamento-previa h3 {
+  margin: 8px 0 18px;
+}
+
+.agendamento-previa .field {
+  margin: 14px 0;
+}
+
+.agendamento-previa .help {
+  margin: 16px 0;
+}
+
+.agendamento-previa .btn {
+  margin-top: 8px;
+}

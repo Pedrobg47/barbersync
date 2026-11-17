@@ -87,7 +87,46 @@
             <p><strong>Endereço:</strong> Alphaville, Barueri — SP</p>
             <p><strong>Horários de exemplo:</strong> segunda a sexta, 9h–19h; sábado, 9h–17h.</p>
             <p class="demo-note" role="note">ⓘ A agenda de demonstração fica salva apenas neste navegador, sem reservas reais no estabelecimento.</p>
-            <a href="agendar.html?barbearia=estacao47" class="btn btn-primary btn-block">Simular agendamento →</a>
+            <!-- Prévia do agendamento: os campos são HTML puro. -->
+            <section class="agendamento-previa" aria-label="Simulador de agendamento">
+              <span class="eyebrow">AGENDE SEU CORTE</span>
+              <h3>Escolha seu horário</h3>
+              <div class="field">
+                <label for="previa-servico">Serviço</label>
+                <select id="previa-servico">
+                  <option>Corte masculino — R$ 45,00</option>
+                  <option>Barba completa — R$ 30,00</option>
+                  <option>Corte + barba — R$ 65,00</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="previa-profissional">Profissional</label>
+                <select id="previa-profissional">
+                  <option>Lucas</option>
+                  <option>André</option>
+                  <option>Bruno</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="previa-data">Data desejada</label>
+                <input id="previa-data" type="date">
+              </div>
+              <div class="field">
+                <label for="previa-hora">Horário</label>
+                <select id="previa-hora">
+                  <option>09:00</option>
+                  <option>10:00</option>
+                  <option>11:00</option>
+                  <option>13:00</option>
+                  <option>14:00</option>
+                  <option>15:00</option>
+                  <option>16:00</option>
+                  <option>17:00</option>
+                </select>
+              </div>
+              <p class="help">Prévia visual. Para salvar o horário, faça a escolha na próxima tela.</p>
+              <a href="agendar.html?barbearia=estacao47" class="btn btn-primary btn-block">Continuar agendamento →</a>
+            </section>
           </div>
         </aside>
       </div>

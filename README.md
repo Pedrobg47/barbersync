@@ -38,3 +38,9 @@ Abra `index.html` pelo Live Server do VS Code ou pelo site publicado na Vercel.
 - **JavaScript:** cadastro local, login demonstrativo, horários, cancelamento e botão de tema.
 
 `app.js` está dividido com comentários numerados para facilitar sua apresentação. É uma simulação local, não uma aplicação comercial.
+
+## Simulador em cada barbearia
+
+As quatro páginas de perfil (`estacao47.html`, `nobre.html`, `distrito.html` e `vertice.html`) têm uma **prévia visual em HTML** com serviço, profissional, data e horário. Essa prévia não necessita de JavaScript. O botão **Continuar agendamento** abre `agendar.html` com a barbearia correta selecionada; a escolha de data e horário é refeita na tela seguinte, onde o `app.js` registra a reserva local.
+
+Na banca: abra qualquer perfil, mostre os quatro campos e clique em **Continuar agendamento**. Explique que a prévia é uma interface HTML e que o salvamento ocorre na página separada.
