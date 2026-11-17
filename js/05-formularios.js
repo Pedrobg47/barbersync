@@ -26,7 +26,10 @@ document.addEventListener('submit',e=>{
     const usuario=document.querySelector('#cliente-usuario').value.trim().toLowerCase();
     const senha=document.querySelector('#cliente-senha').value;
     const conta=[...CONTAS_CLIENTE_DEMO,...contasClientes].find(c=>c.usuario===usuario && c.senha===senha);
-    if(!conta) {aviso('Usuário ou senha de demonstração incorretos.');return;}
+    if (!conta) {
+      aviso('Usuário ou senha de demonstração incorretos.');
+      return;
+    }
     sessionStorage.setItem(CHAVE+'cliente',conta.usuario);
     location.hash='#conta-cliente';renderizar();aviso('Login de cliente realizado!');
     return;
@@ -44,7 +47,10 @@ document.addEventListener('submit',e=>{
       aviso('Este usuário de cliente já existe.');return;
     }
     contasClientes.push({nome,usuario,senha,telefone});
-    if(!salvar()) {contasClientes.pop();return;}
+    if (!salvar()) {
+      contasClientes.pop();
+      return;
+    }
     sessionStorage.setItem(CHAVE+'cliente',usuario);
     location.hash='#conta-cliente';renderizar();aviso('Conta de cliente de demonstração criada!');
     return;
@@ -59,13 +65,23 @@ document.addEventListener('submit',e=>{
     if(!nome||!nomeLoja||!/^[a-z0-9_]{4,24}$/.test(usuario)||senha.length<4) {
       aviso('Preencha nome, usuário (4 a 24 caracteres, sem espaços) e senha com 4 caracteres.');return;
     }
-    if(contaBarbeiro(usuario)) {aviso('Este usuário de barbeiro já existe.');return;}
-    if(!PLANOS.some(p=>p.id===plano)) {aviso('Selecione um plano da demonstração.');return;}
+    if (contaBarbeiro(usuario)) {
+      aviso('Este usuário de barbeiro já existe.');
+      return;
+    }
+    if (!PLANOS.some(p=>p.id===plano)) {
+      aviso('Selecione um plano da demonstração.');
+      return;
+    }
     const nova=criarExemplo('loja'+Date.now(),nomeLoja,bairro,4,0,0,'Bem-vindo à nossa barbearia!', '#d8aa56',['Barbeiro 1'],false);
     nova.avaliacoes=[];nova.dono=usuario;nova.plano=plano;
     contasBarbeiros.push({nome,usuario,senha,plano});
     barbearias.push(nova);
-    if(!salvar()) {contasBarbeiros.pop();barbearias.pop();return;}
+    if (!salvar()) {
+      contasBarbeiros.pop();
+      barbearias.pop();
+      return;
+    }
     sessionStorage.setItem(CHAVE+'dono',usuario);
     barbeariaPainel=nova.id;abaPainel='visao';
     location.hash='#painel';renderizar();aviso('Barbearia criada! Personalize sua vitrine.');
@@ -81,7 +97,11 @@ document.addEventListener('submit',e=>{
     const profissional=document.querySelector('#profissional').value;
     const data=document.querySelector('#dia').value;
     const hora=document.querySelector('#hora').value;
-    if (!horariosLivres(b.id,data,profissional).includes(hora)) { aviso('Este horário não está mais disponível.'); atualizarHorarios(); return; }
+    if (!horariosLivres(b.id,data,profissional).includes(hora)) {
+      aviso('Este horário não está mais disponível.');
+      atualizarHorarios();
+      return;
+    }
     const cliente=document.querySelector('#nome-cliente').value.trim(), telefone=document.querySelector('#telefone-cliente').value.trim();
     if (!cliente||!telefone) return;
     const novoAgendamento = {
@@ -141,7 +161,10 @@ document.addEventListener('submit',e=>{
   if (form.id==='form-aparencia') {
     const b=loja(barbeariaPainel);
     const pessoas=document.querySelector('#editar-profissionais').value.split(',').map(x=>x.trim()).filter(Boolean);
-    if (!pessoas.length) { aviso('Informe pelo menos um profissional.'); return; }
+    if (!pessoas.length) {
+      aviso('Informe pelo menos um profissional.');
+      return;
+    }
     Object.assign(b,{nome:document.querySelector('#editar-nome').value.trim(),bairro:document.querySelector('#editar-bairro').value.trim(),
         cor:document.querySelector('#editar-cor').value,descricao:document.querySelector('#editar-descricao').value.trim(),
         horario:document.querySelector('#editar-horario').value.trim(),profissionais:pessoas});

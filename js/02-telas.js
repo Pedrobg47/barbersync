@@ -68,12 +68,18 @@ function abasAcesso(tipo) {
 }
 // Estas funções montam os formulários; o envio fica em 05-formularios.js.
 function telaLogin() {
-  if (donoLogado()) { location.hash='#painel';return; }
+  if (donoLogado()) {
+    location.hash='#painel';
+    return;
+  }
   document.documentElement.style.setProperty('--accent','#d8aa56');
   app.innerHTML=htmlTela("pagina-login-barbeiro", [(abasAcesso('barbeiro')), (campo('Usuário','login-usuario','')), (campo('Senha','login-senha','','password'))]);
 }
 function telaLoginCliente() {
-  if (clienteLogado()) { location.hash='#conta-cliente';return; }
+  if (clienteLogado()) {
+    location.hash='#conta-cliente';
+    return;
+  }
   app.innerHTML=htmlTela("pagina-login-cliente", [(abasAcesso('cliente')), (campo('Usuário','cliente-usuario','')), (campo('Senha','cliente-senha','','password'))]);
 }
 function telaCadastroCliente() {
@@ -89,7 +95,10 @@ function telaCadastroBarbeiro() {
       'dono-senha','','password')), (campo('Nome da barbearia','dono-barbearia','')), (PLANOS.map(p=>'<option value="'+p.id+'" '+(p.id===escolhido?'selected':'')+'>'+p.nome+' — '+dinheiro(p.preco)+'/mês</option>').join(''))]);
 }
 function telaContaCliente() {
-  if (!clienteLogado()) { location.hash='#login-cliente';return; }
+  if (!clienteLogado()) {
+    location.hash='#login-cliente';
+    return;
+  }
   const usuario=dadosCliente();
   const seus=agendamentos.filter(a=>a.clienteUsuario===clienteLogado());
   app.innerHTML=htmlTela("pagina-minha-conta", [(seguro(usuario?.nome||'cliente')), (cardsAgendamentos(seus))]);
@@ -157,7 +166,10 @@ function atualizarCards() {
 // Monta capa, galeria, fotos da equipe, produtos e o formulário de reserva.
 function telaBarbearia(id) {
   const b=loja(id);
-  if (!b) { location.hash='#inicio'; return; }
+  if (!b) {
+    location.hash='#inicio';
+    return;
+  }
   document.documentElement.style.setProperty('--accent',/^#[0-9a-f]{6}$/i.test(b.cor)?b.cor:'#d8aa56');
   app.innerHTML=
     htmlTela("pagina-perfil-barbearia", [(seguro(b.capa||b.fotos[0])), (seguro(b.nome)),
@@ -193,9 +205,16 @@ function atualizarHorarios() {
 
 // Recebe os dados já armazenados, escolhe a barbearia e monta o painel.
 function telaPainel() {
-  if (!donoLogado()) { telaLogin(); return; }
+  if (!donoLogado()) {
+    telaLogin();
+    return;
+  }
   const disponiveis=minhasLojas();
-  if (!disponiveis.length) { sessionStorage.removeItem(CHAVE+'dono'); telaLogin();return; }
+  if (!disponiveis.length) {
+    sessionStorage.removeItem(CHAVE+'dono');
+    telaLogin();
+    return;
+  }
   const b=disponiveis.find(x=>x.id===barbeariaPainel)||disponiveis[0];
   barbeariaPainel=b.id;
   const agenda=agendamentos.filter(a=>a.idLoja===b.id);
