@@ -63,37 +63,42 @@ function atualizarCabecalho() {
   cliente.textContent=clienteLogado()?'Minha conta ↗':'Entrar como cliente';
   cliente.href=clienteLogado()?'#conta-cliente':'#login-cliente';
 }
-function abasAcesso(tipo) {
-  return htmlTela("componente-abas-acesso", [((tipo==='cliente'?'active':'')), ((tipo==='barbeiro'?'active':''))]);
-}
-// Estas funções montam os formulários; o envio fica em 05-formularios.js.
+// Os campos de login e cadastro estão escritos diretamente no HTML.
+// Aqui só mostramos a página; o envio fica no arquivo 05-formularios.js.
 function telaLogin() {
   if (donoLogado()) {
-    location.hash='#painel';
+    location.hash = '#painel';
     return;
   }
-  document.documentElement.style.setProperty('--accent','#d8aa56');
-  app.innerHTML=htmlTela("pagina-login-barbeiro", [(abasAcesso('barbeiro')), (campo('Usuário','login-usuario','')), (campo('Senha','login-senha','','password'))]);
+  document.documentElement.style.setProperty('--accent', '#d8aa56');
+  app.innerHTML = htmlTela('pagina-login-barbeiro');
 }
+
 function telaLoginCliente() {
   if (clienteLogado()) {
-    location.hash='#conta-cliente';
+    location.hash = '#conta-cliente';
     return;
   }
-  app.innerHTML=htmlTela("pagina-login-cliente", [(abasAcesso('cliente')), (campo('Usuário','cliente-usuario','')), (campo('Senha','cliente-senha','','password'))]);
+  app.innerHTML = htmlTela('pagina-login-cliente');
 }
+
 function telaCadastroCliente() {
-  app.innerHTML=htmlTela("pagina-cadastro-cliente", [(abasAcesso('cliente')), (campo('Nome para demonstração',
-      'cliente-nome','')), (campo('Usuário (mín. 4 caracteres)','novo-cliente-usuario','')),
-       (campo('Senha demonstrativa (mín. 4 caracteres)','novo-cliente-senha','','password')),
-       (campo('Telefone fictício (opcional)','novo-cliente-telefone','','tel', false))]);
+  app.innerHTML = htmlTela('pagina-cadastro-cliente');
 }
+
 function telaCadastroBarbeiro() {
-  const escolhido=(location.hash.split('/')[1]||'profissional').toLowerCase();
-  app.innerHTML=htmlTela("pagina-cadastro-barbeiro", [(abasAcesso('barbeiro')), (campo('Nome do responsável',
-      'dono-nome','')), (campo('Usuário (mín. 4 caracteres)','dono-usuario','')), (campo('Senha demonstrativa (mín. 4 caracteres)',
-      'dono-senha','','password')), (campo('Nome da barbearia','dono-barbearia','')), (PLANOS.map(p=>'<option value="'+p.id+'" '+(p.id===escolhido?'selected':'')+'>'+p.nome+' — '+dinheiro(p.preco)+'/mês</option>').join(''))]);
+  const escolhido = (location.hash.split('/')[1] || 'profissional').toLowerCase();
+  const opcoes = PLANOS.map(plano => {
+    const selecionado = plano.id === escolhido ? ' selected' : '';
+    return '<option value="' + plano.id + '"' + selecionado + '>' +
+      plano.nome + ' — ' + dinheiro(plano.preco) + '/mês</option>';
+  }).join('');
+
+  app.innerHTML = htmlTela('pagina-cadastro-barbeiro', [
+    '', '', '', '', '', opcoes
+  ]);
 }
+
 function telaContaCliente() {
   if (!clienteLogado()) {
     location.hash='#login-cliente';

@@ -12,10 +12,21 @@
   </section>
   <section class="page-content">
     <div class="wrap login-layout">
-      <div class="panel">__BS_VAL_0__
+      <div class="panel">          <div class="auth-options">
+            <a href="#login-cliente" class="">Sou cliente</a>
+            <a href="#login" class="active">Sou barbeiro</a>
+          </div>
         <h2>Entrar como barbeiro</h2>
         <p class="muted small">Acesso demonstrativo, sem servidor.</p>
-        <form id="form-login">__BS_VAL_1____BS_VAL_2__
+        <form id="form-login">
+          <div class="field">
+            <label for="login-usuario">Usuário</label>
+            <input id="login-usuario" name="login-usuario" type="text" required>
+          </div>
+          <div class="field">
+            <label for="login-senha">Senha</label>
+            <input id="login-senha" name="login-senha" type="password" required>
+          </div>
           <button type="submit" class="btn btn-primary btn-block">Acessar meu painel →</button>
         </form>
         <div class="auth-switch">Ainda não tem barbearia? 
@@ -39,10 +50,21 @@
   </section>
   <section class="page-content">
     <div class="wrap login-layout">
-      <div class="panel">__BS_VAL_0__
+      <div class="panel">          <div class="auth-options">
+            <a href="#login-cliente" class="active">Sou cliente</a>
+            <a href="#login" class="">Sou barbeiro</a>
+          </div>
         <h2>Entrar como cliente</h2>
         <p class="muted small">Acesso demonstrativo para o TCC.</p>
-        <form id="form-login-cliente">__BS_VAL_1____BS_VAL_2__
+        <form id="form-login-cliente">
+          <div class="field">
+            <label for="cliente-usuario">Usuário</label>
+            <input id="cliente-usuario" name="cliente-usuario" type="text" required>
+          </div>
+          <div class="field">
+            <label for="cliente-senha">Senha</label>
+            <input id="cliente-senha" name="cliente-senha" type="password" required>
+          </div>
           <button type="submit" class="btn btn-primary btn-block">Entrar como cliente →</button>
         </form>
         <div class="login-example"><strong>Teste rápido:</strong> cliente / demo123</div>
@@ -64,9 +86,28 @@
   </section>
   <section class="page-content">
     <div class="wrap login-layout">
-      <div class="panel">__BS_VAL_0__
+      <div class="panel">          <div class="auth-options">
+            <a href="#login-cliente" class="active">Sou cliente</a>
+            <a href="#login" class="">Sou barbeiro</a>
+          </div>
         <h2>Cadastrar cliente</h2>
-        <form id="form-cadastro-cliente">__BS_VAL_1____BS_VAL_2____BS_VAL_3____BS_VAL_4__
+        <form id="form-cadastro-cliente">
+          <div class="field">
+            <label for="cliente-nome">Nome para demonstração</label>
+            <input id="cliente-nome" name="cliente-nome" type="text" required>
+          </div>
+          <div class="field">
+            <label for="novo-cliente-usuario">Usuário (mín. 4 caracteres)</label>
+            <input id="novo-cliente-usuario" name="novo-cliente-usuario" type="text" required>
+          </div>
+          <div class="field">
+            <label for="novo-cliente-senha">Senha demonstrativa (mín. 4 caracteres)</label>
+            <input id="novo-cliente-senha" name="novo-cliente-senha" type="password" required>
+          </div>
+          <div class="field">
+            <label for="novo-cliente-telefone">Telefone fictício (opcional)</label>
+            <input id="novo-cliente-telefone" name="novo-cliente-telefone" type="tel">
+          </div>
           <label class="terms-consent"><input type="checkbox" required> Li e concordo com os 
           <a href="#politicas">Termos e Políticas</a> do protótipo.</label>
           <button type="submit" class="btn btn-primary btn-block">Criar conta de cliente →</button>
@@ -89,9 +130,28 @@
   </section>
   <section class="page-content">
     <div class="wrap login-layout">
-      <div class="panel">__BS_VAL_0__
+      <div class="panel">          <div class="auth-options">
+            <a href="#login-cliente" class="">Sou cliente</a>
+            <a href="#login" class="active">Sou barbeiro</a>
+          </div>
         <h2>Novo proprietário</h2>
-        <form id="form-cadastro-barbeiro">__BS_VAL_1____BS_VAL_2____BS_VAL_3____BS_VAL_4__
+        <form id="form-cadastro-barbeiro">
+          <div class="field">
+            <label for="dono-nome">Nome do responsável</label>
+            <input id="dono-nome" name="dono-nome" type="text" required>
+          </div>
+          <div class="field">
+            <label for="dono-usuario">Usuário (mín. 4 caracteres)</label>
+            <input id="dono-usuario" name="dono-usuario" type="text" required>
+          </div>
+          <div class="field">
+            <label for="dono-senha">Senha demonstrativa (mín. 4 caracteres)</label>
+            <input id="dono-senha" name="dono-senha" type="password" required>
+          </div>
+          <div class="field">
+            <label for="dono-barbearia">Nome da barbearia</label>
+            <input id="dono-barbearia" name="dono-barbearia" type="text" required>
+          </div>
           <div class="field">
             <label for="dono-bairro">Bairro em Barueri</label>
             <select id="dono-bairro" required>
