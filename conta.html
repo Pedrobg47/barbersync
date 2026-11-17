@@ -26,24 +26,22 @@
     </div>
   </header>
   <main>
-  <section class="page-intro">
-    <div class="wrap">
-      <span class="eyebrow">MINHA CONTA</span>
-      <h1>Olá, visitante!</h1>
-      <p>Exemplo visual de como seria a área do cliente.</p>
-    </div>
-  </section>
+    <section class="page-intro">
+      <div class="wrap">
+        <span class="eyebrow">ÁREA DO CLIENTE</span>
+        <h1 id="saudacao">Minha conta</h1>
+        <p>Consulte seus horários e cancele reservas demonstrativas.</p>
+      </div>
+    </section>
     <section class="section">
       <div class="wrap">
-        <p class="demo-note" role="note">ⓘ Não existe login ativo, histórico pessoal ou salvamento de agendamentos. Todos os dados abaixo são fictícios.</p>
-        <div class="section-head"><h2>Meus horários (exemplo)</h2><a href="agendar.html" class="btn btn-primary">Simular novo horário</a></div>
-        <div class="panel">
-          <div class="appointment">
-            <div><b>Estação 47 Barber</b><p>Corte masculino · Lucas</p><small>Quinta-feira, 15h • Exemplo fictício</small></div>
-            <span class="status">Exemplo</span>
-          </div>
-          <p class="help">Não é possível cancelar ou alterar esse registro, pois ele não está armazenado.</p>
+        <p class="demo-note">ⓘ O histórico fica somente neste navegador, sem sincronização com outras pessoas.</p>
+        <div class="section-head">
+          <h2>Meus agendamentos</h2>
+          <a href="agendar.html" class="btn btn-primary">Novo agendamento ↗</a>
         </div>
+        <div class="panel" id="lista-cliente"></div>
+        <button class="btn btn-outline" id="sair-cliente" type="button">Sair da conta</button>
       </div>
     </section>
   </main>

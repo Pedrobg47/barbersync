@@ -35,10 +35,10 @@
   </section>
     <section class="section">
       <div class="wrap">
-        <p class="demo-note" role="note">ⓘ Painel estático, sem autenticação, banco de dados ou mudanças permanentes. Valores e registros fictícios.</p>
+        <p class="demo-note" role="note">ⓘ A agenda mostra registros deste navegador. Faturamento, produtos e avaliações ainda são ilustrativos.</p>
         <div class="dashboard">
           <aside class="sidebar">
-            <strong>ESTAÇÃO 47 BARBER</strong>
+            <strong id="nome-painel">Minha barbearia</strong>
             <a href="#visao">Visão geral</a>
             <a href="#agenda">Agenda</a>
             <a href="#faturamento">Faturamento</a>
@@ -47,13 +47,14 @@
             <a href="#equipe">Equipe</a>
             <a href="#avaliacoes">Avaliações</a>
             <a href="index.html">← Voltar à vitrine</a>
+            <button type="button" class="btn btn-outline" id="sair-dono">Sair</button>
           </aside>
           <div class="dashboard-main">
             <section class="panel" id="visao">
               <span class="eyebrow">VISÃO GERAL</span>
               <h2>Resumo da demonstração</h2>
               <div class="stats">
-                <div><small>Agendamentos</small><strong>3</strong></div>
+                <div><small>Agendamentos confirmados</small><strong id="total-agenda">0</strong></div>
                 <div><small>Serviços concluídos</small><strong>R$ 110,00</strong></div>
                 <div><small>Produtos ilustrativos</small><strong>R$ 35,00</strong></div>
               </div>
@@ -64,11 +65,7 @@
               <div class="table-wrap">
                 <table>
                   <thead><tr><th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Horário</th><th>Status</th></tr></thead>
-                  <tbody>
-                    <tr><td>Cliente Exemplo A</td><td>Corte masculino</td><td>Lucas</td><td>10h</td><td><span class="status">Concluído</span></td></tr>
-                    <tr><td>Cliente Exemplo B</td><td>Corte + barba</td><td>André</td><td>14h</td><td><span class="status">Concluído</span></td></tr>
-                    <tr><td>Cliente Exemplo C</td><td>Barba completa</td><td>Lucas</td><td>16h</td><td><span class="status">Confirmado</span></td></tr>
-                  </tbody>
+                  <tbody id="linhas-agenda"></tbody>
                 </table>
               </div>
             </section>
@@ -91,12 +88,13 @@
             </section>
             <section class="panel" id="informacoes">
               <span class="eyebrow">APARÊNCIA</span><h2>Informações da barbearia</h2>
-              <p><strong>Nome:</strong> Estação 47 Barber</p><p><strong>Região:</strong> Alphaville</p>
+              <p><strong>Nome:</strong> <span id="nome-barbearia-painel"></span></p><p><strong>Região:</strong> <span id="bairro-painel"></span></p>
               <p><strong>Funcionamento:</strong> segunda a sexta, 9h–19h; sábado, 9h–17h.</p>
-              <p class="help">A edição de dados exige JavaScript ou um servidor e não está disponível nesta versão.</p>
+              <p class="help">A personalização de fotos e produtos fica como proposta futura nesta versão simples.</p>
             </section>
             <section class="panel" id="equipe">
               <span class="eyebrow">PROFISSIONAIS E FOTOS</span><h2>Equipe</h2>
+              <p>Profissionais da barbearia: <strong id="equipe-painel"></strong></p>
               <div class="team-grid">
                 <div class="team-card"><span class="avatar">L</span><strong>Lucas</strong><small>Barbeiro</small></div>
                 <div class="team-card"><span class="avatar">A</span><strong>André</strong><small>Barbeiro</small></div>
