@@ -191,19 +191,38 @@ body {
 
 
 
-body.theme-dark .shop-card,body.theme-dark .search-panel,body.theme-dark .panel, body.theme-dark .sidebar,body.theme-dark .stat,body.theme-dark .account-card, body.theme-dark .modal,body.theme-dark .product,body.theme-dark .empty, body.theme-dark .pro-card,body.theme-dark .image-tile, body.theme-dark .booking,body.theme-dark .card-body {
+body.theme-dark .shop-card,
+body.theme-dark .search-panel,
+body.theme-dark .panel,
+body.theme-dark .sidebar,
+body.theme-dark .stat,
+body.theme-dark .account-card,
+body.theme-dark .modal,
+body.theme-dark .product,
+body.theme-dark .empty,
+body.theme-dark .pro-card,
+body.theme-dark .image-tile,
+body.theme-dark .booking,
+body.theme-dark .card-body {
   background: #111b32;
   color: #f0f3fb;
   border-color: #2a3958;
 }
 
-body.theme-dark .field input,body.theme-dark .field textarea,body.theme-dark .field select, body.theme-dark .owner-toolbar select {
+body.theme-dark .field input,
+body.theme-dark .field textarea,
+body.theme-dark .field select,
+body.theme-dark .owner-toolbar select {
   background: #0a152c;
   color: #f1f3fb;
   border-color: #40527a;
 }
 
-body.theme-dark .field label,body.theme-dark .list-row span,body.theme-dark .card-desc, body.theme-dark .panel p,body.theme-dark .review p {
+body.theme-dark .field label,
+body.theme-dark .list-row span,
+body.theme-dark .card-desc,
+body.theme-dark .panel p,
+body.theme-dark .review p {
   color: #bdc9e0;
 }
 
@@ -211,13 +230,17 @@ body.theme-dark .benefit-strip {
   background: #101c34;
 }
 
-body.theme-dark .benefit-icon,body.theme-dark .pro,body.theme-dark .pill, body.theme-dark .login-example {
+body.theme-dark .benefit-icon,
+body.theme-dark .pro,
+body.theme-dark .pill,
+body.theme-dark .login-example {
   background: #1c2c4b;
   color: #e9effb;
   border-color: #32486e;
 }
 
-body.theme-dark .pill.active,body.theme-dark .pill:hover {
+body.theme-dark .pill.active,
+body.theme-dark .pill:hover {
   background: #d8aa56;
   color: #0a0f1f;
 }
@@ -231,7 +254,9 @@ body.theme-dark .btn-outline:hover {
   background: #253a5e;
 }
 
-body.theme-dark .price-preview,body.theme-dark .revenue-info, body.theme-dark .color-preview {
+body.theme-dark .price-preview,
+body.theme-dark .revenue-info,
+body.theme-dark .color-preview {
   background: #1d2f51;
   color: #e8eefa;
 }
@@ -242,11 +267,17 @@ body.theme-dark .owner-note {
   border-color: #6c5431;
 }
 
-body.theme-dark .card-foot,body.theme-dark .service-row,body.theme-dark .review, body.theme-dark .list-row,body.theme-dark td,body.theme-dark th {
+body.theme-dark .card-foot,
+body.theme-dark .service-row,
+body.theme-dark .review,
+body.theme-dark .list-row,
+body.theme-dark td,
+body.theme-dark th {
   border-color: #304263;
 }
 
-body.theme-dark .card-foot strong,body.theme-dark .card-body h3 {
+body.theme-dark .card-foot strong,
+body.theme-dark .card-body h3 {
   color: #f0f3fb;
 }
 
@@ -254,7 +285,8 @@ body.theme-dark .side-btn {
   color: #aabbd8;
 }
 
-body.theme-dark .side-btn:hover,body.theme-dark .side-btn.active {
+body.theme-dark .side-btn:hover,
+body.theme-dark .side-btn.active {
   background: #24395e;
   color: #f8f6ec;
 }

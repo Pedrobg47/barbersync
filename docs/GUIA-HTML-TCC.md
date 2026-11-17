@@ -13,10 +13,10 @@ As telas ficam separadas em quatro arquivos HTML:
 
 ## Como as telas aparecem?
 
-1. O navegador abre `index.html` e carrega `js/app.js`.
-2. A função `carregarModelosHTML()` busca os quatro arquivos da pasta `templates/`.
+1. O navegador abre `index.html` e carrega os cinco arquivos da pasta `js/`, na ordem indicada no HTML.
+2. A função `carregarModelosHTML()` em `js/02-telas.js` busca os quatro arquivos da pasta `templates/`.
 3. A função `htmlTela(id, valores)` encontra um modelo e substitui os marcadores `__BS_VAL_0__`, `__BS_VAL_1__` etc. pelos dados.
-4. A função `renderizar()` identifica a rota, como `#inicio` ou `#painel`, e apresenta a tela no `<main id="app">`.
+4. A função `renderizar()` em `js/03-navegacao.js` identifica a rota, como `#inicio` ou `#painel`, e apresenta a tela no `<main id="app">`.
 
 ## O que apresentar no VS Code
 
@@ -32,3 +32,5 @@ Os arquivos contêm modelos HTML com marcadores, e não quatro páginas independ
 **Para abrir no notebook:** use o site publicado na Vercel ou, no VS Code, instale a extensão **Live Server**, clique com o botão direito no `index.html` e selecione **Open with Live Server**. Abrir diretamente como `file://` não carrega os arquivos de modelos porque os navegadores normalmente bloqueiam `fetch` em arquivos locais.
 
 Para testar o login de barbeiro: usuário `estacao47`, senha `demo123` (somente demonstração).
+
+O agendamento é processado em `js/05-formularios.js`; os horários livres são calculados em `js/01-dados.js`.

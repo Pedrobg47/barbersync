@@ -2,7 +2,7 @@
 
 ## Antes da apresentação
 
-Abra `index.html` no navegador e a pasta do projeto no VS Code. Deixe `index.html`, `style.css` e `js/app.js` prontos para pesquisa. Verifique se os cadastros de demonstração que serão usados estão no navegador da apresentação.
+Abra o projeto com **Live Server** (ou Vercel) e a pasta no VS Code. Deixe `templates/01-paginas.html`, `js/01-dados.js`, `js/02-telas.js` e `js/05-formularios.js` prontos para pesquisa. Verifique se os cadastros de demonstração que serão usados estão no navegador da apresentação.
 
 ## Sequência sugerida
 
@@ -13,7 +13,7 @@ Abra `index.html` no navegador e a pasta do projeto no VS Code. Deixe `index.htm
 5. **Barbeiro:** entre como proprietário da barbearia de exemplo e abra o painel. Mostre a agenda e, se apropriado, conclua um atendimento.
 6. **Gestão:** mostre edição de informações, equipe, imagens e produtos. Explique o faturamento demonstrativo.
 7. **Planos:** apresente a proposta dos planos e ressalte que não existe cobrança real.
-8. **Código:** no VS Code, pesquise `telaInicio()`, `telaBarbearia()`, `form-agendar`, `telaPainel()` e o comentário **VITRINE** no CSS.
+8. **Código:** no VS Code, pesquise `telaInicio()` e `telaBarbearia()` em `js/02-telas.js`, `form-agendar` em `js/05-formularios.js` e `.shop-card` em `css/02-inicio-e-vitrine.css`.
 9. **Conclusão:** explique que o site demonstra a experiência de uso, mas precisaria de backend, autenticação e banco de dados para operação real.
 
 ## Exemplos de pesquisa rápida

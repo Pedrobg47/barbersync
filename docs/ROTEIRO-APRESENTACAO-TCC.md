@@ -8,7 +8,7 @@ Objetivo: cada integrante explica uma parte verdadeira do projeto e demonstra um
 
 **Mostrar:** página inicial, vitrine e filtros.
 
-**No VS Code:** `index.html`, `telaInicio()`, `EXEMPLOS` e o bloco **VITRINE** em `style.css`.
+**No VS Code:** `templates/01-paginas.html`, `telaInicio()` em `js/02-telas.js`, `EXEMPLOS` em `js/01-dados.js` e `css/02-inicio-e-vitrine.css`.
 
 **Perguntas para estudar:** Como os cards são criados? Como os filtros alteram o que aparece?
 
@@ -18,7 +18,7 @@ Objetivo: cada integrante explica uma parte verdadeira do projeto e demonstra um
 
 **Mostrar:** entrar como cliente, cadastro de cliente e cadastro de barbeiro.
 
-**No VS Code:** `telaLoginCliente()`, `telaLogin()`, `telaCadastroCliente()` e `telaCadastroBarbeiro()`.
+**No VS Code:** `telaLoginCliente()` e `telaCadastroBarbeiro()` em `js/02-telas.js`; formulários em `js/05-formularios.js`.
 
 **Perguntas para estudar:** Onde os cadastros ficam salvos? Por que o login não é adequado para produção?
 
@@ -28,7 +28,7 @@ Objetivo: cada integrante explica uma parte verdadeira do projeto e demonstra um
 
 **Mostrar:** Estação 47, escolha de serviço, profissional e horário.
 
-**No VS Code:** `telaBarbearia()`, `horariosLivres()` e `form-agendar`.
+**No VS Code:** `telaBarbearia()` em `js/02-telas.js`, `horariosLivres()` em `js/01-dados.js` e `form-agendar` em `js/05-formularios.js`.
 
 **Perguntas para estudar:** Como os horários disponíveis são calculados? O que acontece ao confirmar a reserva?
 
@@ -38,7 +38,7 @@ Objetivo: cada integrante explica uma parte verdadeira do projeto e demonstra um
 
 **Mostrar:** acesso do proprietário, painel, agenda, produtos e personalização.
 
-**No VS Code:** `telaPainel()`, `tabelaAgenda()`, `resumoReceita()`.
+**No VS Code:** `telaPainel()` e `tabelaAgenda()` em `js/02-telas.js`; `resumoReceita()` em `js/01-dados.js`.
 
 **Perguntas para estudar:** Como concluir um agendamento? Como o painel calcula o faturamento demonstrativo?
 
@@ -48,7 +48,7 @@ Objetivo: cada integrante explica uma parte verdadeira do projeto e demonstra um
 
 **Mostrar:** conta de cliente, meus agendamentos, planos e políticas.
 
-**No VS Code:** `telaContaCliente()`, `telaMeusAgendamentos()`, `telaPlanos()`, `renderizar()`.
+**No VS Code:** `telaContaCliente()`, `telaMeusAgendamentos()` e `telaPlanos()` em `js/02-telas.js`; `renderizar()` em `js/03-navegacao.js`.
 
 **Perguntas para estudar:** Como funciona a navegação? O que falta para permitir uso por pessoas em computadores diferentes?
 
