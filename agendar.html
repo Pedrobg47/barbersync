@@ -7,6 +7,7 @@
   <meta name="description" content="Encontre barbearias em Barueri, conheça profissionais e veja o protótipo acadêmico do BarberSync.">
   <title>Agendamento demonstrativo | BarberSync</title>
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -20,6 +21,7 @@
         <a href="planos.html">Planos</a>
         <a href="cliente.html">Área do cliente</a>
         <a href="barbeiro.html">Área do barbeiro</a>
+        <button type="button" id="tema" class="theme-button">☾ Modo escuro</button>
       </nav>
     </div>
   </header>
@@ -34,8 +36,8 @@
     <section class="section">
       <div class="wrap form-layout">
         <div class="panel">
-          <p class="demo-note" role="note">ⓘ Nenhum horário é verificado ou reservado nesta versão feita apenas com HTML e CSS.</p>
-          <form action="confirmacao.html" method="get">
+          <p class="demo-note" role="note">ⓘ Os horários ocupados são bloqueados neste navegador. Faça login como cliente para registrar a reserva de demonstração.</p>
+          <form id="form-agendar" action="#">
             <div class="field">
               <label for="barbearia">Barbearia</label>
               <select id="barbearia" required>
@@ -89,7 +91,7 @@
           </div>
             <button class="btn btn-primary btn-block" type="submit">Continuar simulação →</button>
           </form>
-          <p class="help">O botão abre apenas uma página explicativa. Não confirma reservas.</p>
+          <p class="help">O registro fica salvo somente neste dispositivo; não envia dados à barbearia.</p>
         </div>
       </div>
     </section>
@@ -104,7 +106,7 @@
         <a href="index.html">Início</a>
         <a href="planos.html">Planos</a>
         <a href="politicas.html">Políticas</a>
-        <span>Protótipo acadêmico • HTML e CSS</span>
+        <span>Protótipo acadêmico • HTML, CSS e JavaScript básico</span>
       </div>
     </div>
   </footer>

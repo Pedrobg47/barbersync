@@ -7,6 +7,7 @@
   <meta name="description" content="Encontre barbearias em Barueri, conheça profissionais e veja o protótipo acadêmico do BarberSync.">
   <title>Cadastro de barbearia | BarberSync</title>
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -20,6 +21,7 @@
         <a href="planos.html">Planos</a>
         <a href="cliente.html">Área do cliente</a>
         <a href="barbeiro.html">Área do barbeiro</a>
+        <button type="button" id="tema" class="theme-button">☾ Modo escuro</button>
       </nav>
     </div>
   </header>
@@ -34,8 +36,8 @@
     <section class="section">
       <div class="wrap form-layout">
         <div class="panel">
-          <p class="demo-note" role="note">ⓘ Cadastro apenas demonstrativo: os dados digitados não são gravados e não criam contas.</p>
-          <form action="painel.html" method="get">
+          <p class="demo-note" role="note">ⓘ Cadastro de demonstração salvo somente neste navegador. Use dados e senhas fictícios.</p>
+          <form id="form-cadastro-barbearia" action="#">
             <div class="field">
             <label for="nome">Nome do responsável</label>
             <input id="nome" type="text" required maxlength="60">
@@ -70,7 +72,7 @@
               </select>
             </div>
             <label class="terms"><input type="checkbox" required> Li os <a href="politicas.html">termos demonstrativos</a>.</label>
-            <button class="btn btn-primary btn-block" type="submit">Ver página de exemplo →</button>
+            <button class="btn btn-primary btn-block" type="submit">Criar cadastro →</button>
           </form>
           <p class="form-link"><a href="barbeiro.html">← Voltar ao login</a></p>
         </div>
@@ -87,7 +89,7 @@
         <a href="index.html">Início</a>
         <a href="planos.html">Planos</a>
         <a href="politicas.html">Políticas</a>
-        <span>Protótipo acadêmico • HTML e CSS</span>
+        <span>Protótipo acadêmico • HTML, CSS e JavaScript básico</span>
       </div>
     </div>
   </footer>

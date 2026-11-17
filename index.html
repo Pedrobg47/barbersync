@@ -7,6 +7,7 @@
   <meta name="description" content="Encontre barbearias em Barueri, conheça profissionais e veja o protótipo acadêmico do BarberSync.">
   <title>Seu próximo corte começa aqui | BarberSync</title>
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -20,6 +21,7 @@
         <a href="planos.html">Planos</a>
         <a href="cliente.html">Área do cliente</a>
         <a href="barbeiro.html">Área do barbeiro</a>
+        <button type="button" id="tema" class="theme-button">☾ Modo escuro</button>
       </nav>
     </div>
   </header>
@@ -46,9 +48,9 @@
             <h2>Explore as barbearias</h2>
             <p>Escolha uma região para ver os estabelecimentos.</p>
           </div>
-          <span class="tag">4 barbearias de exemplo</span>
+          <span class="tag" id="total-lojas">4 barbearias</span>
         </div>
-        <p class="demo-note" role="note">ⓘ O filtro por bairro usa apenas HTML e CSS. A busca por texto e a ordenação dinâmica não fazem parte desta versão estática.</p>
+        <p class="demo-note" role="note">ⓘ O filtro usa HTML e CSS. Cadastros e agendamentos demonstrativos são salvos neste navegador.</p>
         <div class="filter-demo">
         <input class="filter-radio" type="radio" name="filtro-bairro" id="f-todas" checked>
         <input class="filter-radio" type="radio" name="filtro-bairro" id="f-alphaville">
@@ -62,7 +64,7 @@
           <label for="f-belval" class="pill">Jardim Belval</label>
           <label for="f-silveira" class="pill">Jardim Silveira</label>
           </div>
-          <div class="cards">
+          <div class="cards" id="cards-lojas">
           <a class="shop-card alphaville" href="estacao47.html" aria-label="Conhecer Estação 47 Barber">
             <div class="card-image">
               <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1100&q=85" alt="Ambiente ilustrativo de barbearia" loading="lazy">
@@ -131,6 +133,20 @@
         <div class="benefit"><span>▣</span><h3>Conheça</h3><p>Consulte serviços, equipe e horários sugeridos.</p></div>
       </div>
     </section>
+    <!-- Este modelo HTML é usado para mostrar novas barbearias na vitrine. -->
+    <template id="modelo-loja">
+      <a class="shop-card" href="agendar.html">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1100&q=85" alt="Foto ilustrativa" loading="lazy">
+          <span class="image-label bairro-loja">Bairro</span>
+        </div>
+        <div class="card-body">
+          <div class="card-top"><h3 class="nome-loja">Nova barbearia</h3><span class="rating">Nova</span></div>
+          <p class="card-desc descricao-loja">Barbearia cadastrada</p>
+          <div class="card-foot"><span>Cadastro demonstrativo</span><b>Agendar ↗</b></div>
+        </div>
+      </a>
+    </template>
   </main>
   <footer class="footer">
     <div class="wrap footer-inner">
@@ -142,7 +158,7 @@
         <a href="index.html">Início</a>
         <a href="planos.html">Planos</a>
         <a href="politicas.html">Políticas</a>
-        <span>Protótipo acadêmico • HTML e CSS</span>
+        <span>Protótipo acadêmico • HTML, CSS e JavaScript básico</span>
       </div>
     </div>
   </footer>

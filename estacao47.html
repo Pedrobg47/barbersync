@@ -7,6 +7,7 @@
   <meta name="description" content="Encontre barbearias em Barueri, conheça profissionais e veja o protótipo acadêmico do BarberSync.">
   <title>Estação 47 Barber | BarberSync</title>
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -20,6 +21,7 @@
         <a href="planos.html">Planos</a>
         <a href="cliente.html">Área do cliente</a>
         <a href="barbeiro.html">Área do barbeiro</a>
+        <button type="button" id="tema" class="theme-button">☾ Modo escuro</button>
       </nav>
     </div>
   </header>
@@ -31,7 +33,7 @@
         <h1>Estação 47 Barber</h1>
         <div class="shop-rating">★ 4,9 <span>(128 avaliações demonstrativas)</span></div>
         <p>Um espaço moderno para cuidar do seu visual, com atendimento personalizado e clima descontraído.</p>
-        <a href="agendar.html" class="btn btn-primary">Ver demonstração de agendamento ↗</a>
+        <a href="agendar.html?barbearia=estacao47" class="btn btn-primary">Ver demonstração de agendamento ↗</a>
       </div>
     </section>
 
@@ -84,8 +86,8 @@
             <h3>Estação 47 Barber</h3>
             <p><strong>Endereço:</strong> Alphaville, Barueri — SP</p>
             <p><strong>Horários de exemplo:</strong> segunda a sexta, 9h–19h; sábado, 9h–17h.</p>
-            <p class="demo-note" role="note">ⓘ Não existe agenda conectada. Nenhuma reserva real será criada.</p>
-            <a href="agendar.html" class="btn btn-primary btn-block">Simular agendamento →</a>
+            <p class="demo-note" role="note">ⓘ A agenda de demonstração fica salva apenas neste navegador, sem reservas reais no estabelecimento.</p>
+            <a href="agendar.html?barbearia=estacao47" class="btn btn-primary btn-block">Simular agendamento →</a>
           </div>
         </aside>
       </div>
@@ -101,7 +103,7 @@
         <a href="index.html">Início</a>
         <a href="planos.html">Planos</a>
         <a href="politicas.html">Políticas</a>
-        <span>Protótipo acadêmico • HTML e CSS</span>
+        <span>Protótipo acadêmico • HTML, CSS e JavaScript básico</span>
       </div>
     </div>
   </footer>

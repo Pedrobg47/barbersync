@@ -7,6 +7,7 @@
   <meta name="description" content="Encontre barbearias em Barueri, conheça profissionais e veja o protótipo acadêmico do BarberSync.">
   <title>Área do cliente | BarberSync</title>
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -20,6 +21,7 @@
         <a href="planos.html">Planos</a>
         <a href="cliente.html">Área do cliente</a>
         <a href="barbeiro.html">Área do barbeiro</a>
+        <button type="button" id="tema" class="theme-button">☾ Modo escuro</button>
       </nav>
     </div>
   </header>
@@ -35,8 +37,8 @@
       <div class="wrap form-layout">
         <div class="panel">
           <h2>Entrar como cliente</h2>
-          <p class="demo-note" role="note">ⓘ Login visual: não há autenticação. Dados informados não são verificados nem salvos.</p>
-          <form action="conta.html" method="get">
+          <p class="demo-note" role="note">ⓘ Login de demonstração com dados locais. Não use senhas verdadeiras.</p>
+          <form id="form-login-cliente" action="#">
             <div class="field">
             <label for="cliente-usuario">Usuário</label>
             <input id="cliente-usuario" name="cliente-usuario" type="text" required minlength="4" autocomplete="off">
@@ -45,8 +47,9 @@
             <label for="cliente-senha">Senha demonstrativa</label>
             <input id="cliente-senha" name="cliente-senha" type="password" required minlength="4" autocomplete="off">
           </div>
-            <button type="submit" class="btn btn-primary btn-block">Ver área do cliente →</button>
+            <button type="submit" class="btn btn-primary btn-block">Entrar como cliente →</button>
           </form>
+          <p class="help">Conta para testes: <strong>cliente</strong> / <strong>demo123</strong></p>
           <p class="form-link">Ainda não tem conta?
             <a href="cadastro-cliente.html">Abrir cadastro demonstrativo</a>
           </p>
@@ -64,7 +67,7 @@
         <a href="index.html">Início</a>
         <a href="planos.html">Planos</a>
         <a href="politicas.html">Políticas</a>
-        <span>Protótipo acadêmico • HTML e CSS</span>
+        <span>Protótipo acadêmico • HTML, CSS e JavaScript básico</span>
       </div>
     </div>
   </footer>
