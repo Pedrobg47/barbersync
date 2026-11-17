@@ -1,17 +1,231 @@
-/* MVC — VIEW (Visão): funções que mostram HTML e atualizam a tela.
-   Exemplo: telaBarbearia() usa dados do Model para montar o perfil. */
+/* BARBERSYNC | Código do site
+   Arquivo de dados, telas, formulários e eventos.
+   Dados demonstrativos são mantidos no armazenamento do navegador.
+*/
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║ [TCC-V01] IDENTIDADE VISUAL — claro/escuro e cabeçalho        ║
-// ╚══════════════════════════════════════════════════════════════╝
-// A View muda o que é mostrado; o CSS define as cores finais.
+// ======================= DADOS E REGRAS =======================
+// 1. Dados fictícios usados para demonstrar as telas.
+// Estas listas são objetos JavaScript; NÃO existe banco de dados nesta versão.
+const FOTOS = [
+  'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1100&q=85',
+  'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1100&q=85',
+  'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=1100&q=85',
+  'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1100&q=85',
+  'https://images.unsplash.com/photo-1512690459411-b9245aed614b?w=1100&q=85',
+  'https://images.unsplash.com/photo-1598524374912-6b0b0badb41d?w=1100&q=85'
+];
+const SERVICOS = [
+  { id:'corte', nome:'Corte masculino', preco:45, duracao:'40 min' },
+  { id:'barba', nome:'Barba completa', preco:30, duracao:'30 min' },
+  { id:'combo', nome:'Corte + barba', preco:65, duracao:'60 min' }
+];
+const PRODUTOS = [
+  { id:'pomada', nome:'Pomada modeladora', preco:35, emoji:'🧴', imagem:'' },
+  { id:'oleo', nome:'Óleo para barba', preco:29, emoji:'🪒', imagem:'' }
+];
+// É uma fábrica de objetos: vários estabelecimentos usam o mesmo formato.
+function criarExemplo(id, nome, bairro, foto, nota, quantidade, descricao, cor, profissionais, temProdutos) {
+  return {
+    id:id, dono:id, nome:nome, bairro:bairro, foto:foto, capa:FOTOS[(foto+3)%6], fotos:[FOTOS[foto],FOTOS[(foto+1)%6],FOTOS[(foto+2)%6]], fotosProfissionais:{},
+    nota:nota, quantidade:quantidade, descricao:descricao, cor:cor,
+    horario:'Segunda a sexta: 09h às 19h | Sábado: 09h às 17h | Domingo: fechado',
+    profissionais:profissionais, servicos:SERVICOS.map(s=>({...s})),
+    produtos:temProdutos ? PRODUTOS.map(p=>({...p})) : [],
+    avaliacoes:[
+      {nome:'Gabriel M.', estrelas:5, texto:'Atendimento excelente e ambiente muito agradável.'},
+      {nome:'Rafael S.', estrelas:5, texto:'Ótimo serviço, equipe atenciosa. Recomendo!'}
+    ]
+  };
+}
+const EXEMPLOS = [
+  criarExemplo('estacao47','Estação 47 Barber','Alphaville',0,4.9,128,'Um espaço moderno para cuidar do seu visual, com atendimento personalizado e clima descontraído.','#d8aa56',['Lucas','André','Bruno'],true),
+  criarExemplo('nobre','Nobre Barbearia','Centro',1,4.8,94,'Cortes clássicos, tendências atuais e atenção a cada detalhe.','#c39651',['Gustavo','Matheus'],true),
+  criarExemplo('distrito','Distrito do Corte','Jardim Belval',2,4.7,76,'Tradição de barbearia combinada com técnicas e estilos atuais.','#c6a160',['Pedro','Diego'],false),
+  criarExemplo('vertice','Vértice Barber','Jardim Silveira',3,4.9,61,'Ambiente acolhedor, cortes precisos e uma experiência feita para você.','#e3b864',['Caio','Renato'],true)
+];
+
+// 2. LocalStorage guarda dados APENAS neste navegador.
+// localStorage mantém os dados no navegador mesmo após atualizar a página.
+// Importante: não sincroniza com outros dispositivos e não é seguro para dados reais.
+const CHAVE = 'barbersync_tcc_';
+function carregar(nome, padrao) {
+  try { return JSON.parse(localStorage.getItem(CHAVE+nome)) || padrao; }
+  catch (erro) { return padrao; }
+}
+let barbearias = carregar('barbearias', JSON.parse(JSON.stringify(EXEMPLOS)));
+let agendamentos = carregar('agendamentos', []);
+let pedidos = carregar('pedidos', []);
+let contasBarbeiros = carregar('contasBarbeiros', []);
+let contasClientes = carregar('contasClientes', []);
+// Se o armazenamento ficar cheio (fotos), mostra uma mensagem de aviso.
+function salvar() {
+  try {
+    localStorage.setItem(CHAVE+'barbearias', JSON.stringify(barbearias));
+    localStorage.setItem(CHAVE+'agendamentos', JSON.stringify(agendamentos));
+    localStorage.setItem(CHAVE+'pedidos', JSON.stringify(pedidos));
+    localStorage.setItem(CHAVE+'contasBarbeiros', JSON.stringify(contasBarbeiros));
+    localStorage.setItem(CHAVE+'contasClientes', JSON.stringify(contasClientes));
+    return true;
+  } catch (erro) {
+    aviso('Espaço do navegador cheio. Remova algumas imagens e tente novamente.');
+    return false;
+  }
+}
+
+// Login fictício do TCC. As senhas são públicas no JavaScript: NÃO é autenticação real.
+// Cada usuário visualiza somente sua barbearia na interface de demonstração.
+// As senhas abaixo NÃO são protegidas. No produto real precisaria de servidor.
+const CONTAS_DEMO = [
+  {usuario:'estacao47', senha:'demo123', nome:'Estação 47 Barber'},
+  {usuario:'nobre', senha:'demo123', nome:'Nobre Barbearia'},
+  {usuario:'distrito', senha:'demo123', nome:'Distrito do Corte'},
+  {usuario:'vertice', senha:'demo123', nome:'Vértice Barber'}
+];
+const donoLogado = () => sessionStorage.getItem(CHAVE+'dono') || '';
+const clienteLogado = () => sessionStorage.getItem(CHAVE+'cliente') || '';
+const CONTAS_CLIENTE_DEMO = [{usuario:'cliente',senha:'demo123',nome:'Cliente TCC',telefone:'(11) 90000-0000'}];
+const dadosCliente = () => [...CONTAS_CLIENTE_DEMO,...contasClientes].find(c=>c.usuario===clienteLogado());
+const contaBarbeiro = usuario => [...CONTAS_DEMO,...contasBarbeiros].find(c=>c.usuario===usuario);
+const nomeCliente = () => (dadosCliente()||{}).nome || '';
+const telefoneCliente = () => (dadosCliente()||{}).telefone || '';
+const PLANOS = [
+  {id:'essencial',nome:'Essencial',preco:39.90,descricao:'Para começar sua presença digital.',recursos:['Vitrine com fotos e avaliações','Agendamento demonstrativo','Cadastro de serviços e equipe']},
+  {id:'profissional',nome:'Profissional',preco:79.90,descricao:'Para organizar a rotina da barbearia.',recursos:['Tudo do plano Essencial','Painel de agenda e faturamento','Fotos de profissionais e produtos','Visão geral das avaliações']},
+  {id:'premium',nome:'Premium',preco:129.90,descricao:'Uma experiência completa para seu negócio.',recursos:['Tudo do plano Profissional','Destaque visual na vitrine','Personalização ampliada','Suporte prioritário (proposta futura)']}
+];
+const minhasLojas = () => barbearias.filter(b=>(b.dono || b.id)===donoLogado());
+const podeEditar = b => !!b && !!donoLogado() && (b.dono || b.id)===donoLogado();
+
+// seguro() evita que textos digitados sejam interpretados como HTML.
+const dinheiro = valor => Number(valor).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const seguro = texto => String(texto == null ? '' : texto).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const loja = id => barbearias.find(b=>b.id===id);
+const hoje = () => {
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+};
+const dataBR = d => d ? d.split('-').reverse().join('/') : '—';
+const notaMedia = b => {
+  const novas = b.avaliacoes.length-2;
+  if (!b.quantidade) return b.avaliacoes.length ? b.avaliacoes.reduce((s,a)=>s+a.estrelas,0)/b.avaliacoes.length : 0;
+  const extras = b.avaliacoes.slice(Math.max(0,b.avaliacoes.length-novas));
+  return (b.nota*b.quantidade+extras.reduce((s,a)=>s+a.estrelas,0))/(b.quantidade+extras.length);
+};
+const totalAvaliacoes = b => b.quantidade ? b.quantidade+Math.max(0,b.avaliacoes.length-2) : b.avaliacoes.length;
+const estrelas = b => totalAvaliacoes(b) ? '<span class="stars">★</span> '+notaMedia(b).toFixed(1)+' <span class="muted">('+totalAvaliacoes(b)+')</span>' : '<span class="muted">Novo</span>';
+const menorPreco = b => b.servicos.length ? Math.min(...b.servicos.map(s=>s.preco)) : 0;
+const app = document.querySelector('#app');
+let filtro = {busca:'',bairro:'Todos',ordenacao:'nota',tipo:'Todos'};
+let barbeariaPainel = barbearias[0].id;
+let abaPainel = 'visao';
+let avisoTimer;
+
+// Procura os próximos dias até encontrar um que tenha horário livre.
+function proximaDataDisponivel(id,profissional) {
+  for(let i=0;i<15;i++) {
+    const d=new Date();d.setDate(d.getDate()+i);
+    const data=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if (horariosLivres(id,data,profissional).length) return data;
+  }
+  return hoje();
+}
+// Dois clientes NÃO podem reservar a mesma hora com o mesmo barbeiro
+// neste navegador. É uma simulação local, não uma agenda sincronizada.
+function horariosLivres(id,data,profissional) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data||'') || data<hoje()) return [];
+  const dia=new Date(data+'T12:00:00').getDay();
+  if (dia===0) return [];
+  const fim=dia===6?17:19;
+  const horarios=[];
+  for (let hora=9;hora<fim;hora++) {
+    const h=String(hora).padStart(2,'0')+':00';
+    if (data===hoje() && h<=new Date().toTimeString().slice(0,5)) continue;
+    if (!agendamentos.some(a=>a.idLoja===id && a.data===data && a.hora===h && a.profissional===profissional && a.status!=='Cancelado')) horarios.push(h);
+  }
+  return horarios;
+}
+
+function dataRelativa(dias) {
+  const d=new Date();d.setDate(d.getDate()+dias);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+// para a agenda e o financeiro não começarem vazios na apresentação.
+function inserirExemplosLoja(b) {
+  if (agendamentos.some(a=>a.idLoja===b.id)) return false;
+  const pro1=b.profissionais[0]||'Profissional 1';
+  const pro2=b.profissionais[1]||pro1;
+  const corte=b.servicos[0]||SERVICOS[0],combo=b.servicos[2]||corte;
+  const dataAgendada=proximaDataDisponivel(b.id,pro1);
+  const horarios=horariosLivres(b.id,dataAgendada,pro1);
+  const codigo=Date.now()+Math.floor(Math.random()*10000);
+  agendamentos.push(
+    {id:codigo,idLoja:b.id,cliente:'Cliente Exemplo A',telefone:'(11) 90000-0000',servico:corte.nome,profissional:pro1,data:dataRelativa(-2),hora:'10:00',preco:corte.preco,status:'Concluído',exemplo:true},
+    {id:codigo+1,idLoja:b.id,cliente:'Cliente Exemplo B',telefone:'(11) 90000-0000',servico:combo.nome,profissional:pro2,data:dataRelativa(-1),hora:'14:00',preco:combo.preco,status:'Concluído',exemplo:true},
+    {id:codigo+2,idLoja:b.id,cliente:'Cliente Exemplo C',telefone:'(11) 90000-0000',servico:corte.nome,profissional:pro1,data:dataAgendada,hora:horarios[0]||'10:00',preco:corte.preco,status:'Confirmado',exemplo:true}
+  );
+  if(b.produtos.length) pedidos.push({id:codigo+3,idLoja:b.id,cliente:'Cliente Exemplo D',produto:b.produtos[0].nome,preco:b.produtos[0].preco,status:'Entregue',exemplo:true});
+  return true;
+}
+// preservando os dados que o aluno cadastrou depois.
+function prepararExemplosIniciais() {
+  if(localStorage.getItem(CHAVE+'dadosDemonstracaoV3')) return;
+  if(!agendamentos.length && !pedidos.length) {
+    barbearias.filter(b=>['estacao47','nobre','distrito','vertice'].includes(b.id)).forEach(inserirExemplosLoja);
+    salvar();
+  }
+  localStorage.setItem(CHAVE+'dadosDemonstracaoV3','1');
+}
+
+// 5. Área do dono: agenda, avaliações, pedidos e personalização.
+// Só conta serviços com status "Concluído" e produtos "Entregue".
+// Retorna os valores para o painel; NÃO significa dinheiro recebido de verdade.
+function resumoReceita(b, agenda, vendas) {
+  // Faturamento demonstrativo: apenas serviços concluídos e pedidos entregues.
+  const concluidos=agenda.filter(a=>a.status==='Concluído');
+  const entregues=vendas.filter(p=>p.status==='Entregue');
+  const servicos=concluidos.reduce((s,a)=>s+Number(a.preco||0),0);
+  const produtos=entregues.reduce((s,p)=>s+Number(p.preco||0),0);
+  const nomes=[...new Set([...b.profissionais,...concluidos.map(a=>a.profissional)])];
+  const profissionais=nomes.map(nome=>{
+    const feitos=concluidos.filter(a=>a.profissional===nome);
+    return {nome:nome,atendimentos:feitos.length,total:feitos.reduce((s,a)=>s+Number(a.preco||0),0)};
+  });
+  return {servicos:servicos,produtos:produtos,total:servicos+produtos,profissionais:profissionais};
+}
+
+// Não envia arquivos para servidor ou API.
+function comprimirFoto(arquivo, tamanhoMaximo) {
+  return new Promise((resolve,reject)=>{
+    if (!arquivo || !['image/jpeg','image/png','image/webp'].includes(arquivo.type)) {
+      reject(new Error('Use uma foto JPG, PNG ou WebP.'));return;
+    }
+    if (arquivo.size>6*1024*1024) {
+      reject(new Error('A foto precisa ter no máximo 6 MB.'));return;
+    }
+    const url=URL.createObjectURL(arquivo);
+    const imagem=new Image();
+    imagem.onload=()=>{
+      const proporcao=Math.min(1,tamanhoMaximo/Math.max(imagem.width,imagem.height));
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.max(1,Math.round(imagem.width*proporcao));
+      canvas.height=Math.max(1,Math.round(imagem.height*proporcao));
+      const contexto=canvas.getContext('2d');
+      contexto.drawImage(imagem,0,0,canvas.width,canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/jpeg',0.70));
+    };
+    imagem.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Não foi possível ler esta foto.'));};
+    imagem.src=url;
+  });
+}
+
+// ======================= TELAS E COMPONENTES =======================
 function aplicarTema() {
   const escuro = localStorage.getItem(CHAVE+'tema')!=='claro';
   document.body.classList.toggle('theme-dark',escuro);
   document.querySelector('#theme-label').textContent=escuro?'Claro':'Escuro';
   document.querySelector('#theme-toggle').setAttribute('aria-label',escuro?'Ativar modo claro':'Ativar modo escuro');
 }
-// [TCC-V02] Ao abrir uma barbearia, mostra o nome dela e o logo B.
 // O logo leva de volta à página inicial da plataforma.
 function atualizarCabecalho() {
   const rota=decodeURIComponent(location.hash||'#inicio');
@@ -35,11 +249,7 @@ function abasAcesso(tipo) {
     '<a href="#login-cliente" class="'+(tipo==='cliente'?'active':'')+'">Sou cliente</a>'+
     '<a href="#login" class="'+(tipo==='barbeiro'?'active':'')+'">Sou barbeiro</a></div>';
 }
-// ╔══════════════════════════════════════════════════════════════╗
-// ║ [TCC-V03] TELAS DE LOGIN E CADASTRO (interface HTML)          ║
-// ╚══════════════════════════════════════════════════════════════╝
 // Atenção: aqui apenas DESENHAMOS os formulários.
-// A ação de entrar/criar conta está no Controller.
 function telaLogin() {
   if (donoLogado()) { location.hash='#painel';return; }
   document.documentElement.style.setProperty('--accent','#d8aa56');
@@ -76,7 +286,6 @@ function telaCadastroCliente() {
     '<div class="auth-switch">Já tem conta? <a href="#login-cliente">Fazer login</a></div>'+
     '<p class="help">Não existe cadastro real, servidor ou criptografia. Não forneça dados pessoais verdadeiros.</p></div></div></section>';
 }
-// [TCC-V04] Formulário onde o proprietário escolhe nome, loja e plano mensal.
 function telaCadastroBarbeiro() {
   const escolhido=(location.hash.split('/')[1]||'profissional').toLowerCase();
   app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEIROS</span><h1>Cadastre seu negócio.</h1><p>Crie sua vitrine em Barueri e experimente o painel completo.</p></div></section>'+
@@ -96,7 +305,6 @@ function telaCadastroBarbeiro() {
     '<div class="auth-switch">Já tem cadastro? <a href="#login">Fazer login</a></div>'+
     '<p class="help">Senha demonstrativa armazenada localmente. Não use credenciais reais.</p></div></div></section>';
 }
-// [TCC-V05] Área do cliente com os agendamentos vinculados à conta local.
 function telaContaCliente() {
   if (!clienteLogado()) { location.hash='#login-cliente';return; }
   const usuario=dadosCliente();
@@ -106,7 +314,6 @@ function telaContaCliente() {
     cardsAgendamentos(seus)+
     '<a href="#inicio" class="btn btn-primary">Agendar novo atendimento →</a></div>';
 }
-// [TCC-V06] Página dos planos mensais. Preços ilustrativos, sem pagamento.
 function telaPlanos() {
   app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEARIAS DE BARUERI</span><h1>Seu negócio merece destaque.</h1><p>Planos mensais ilustrativos para demonstrar o modelo de receita do BarberSync.</p></div></section>'+
     '<section class="section"><div class="wrap"><div class="plans-grid">'+PLANOS.map((p,i)=>
@@ -119,7 +326,6 @@ function telaPlanos() {
     '<p class="demo-note" style="margin-top:24px">* Valores e funcionalidades propostos para o TCC, sem cobrança real, renovação automática ou diferenciação técnica de acesso entre planos.</p>'+
     '<p style="margin-top:12px"><a href="#politicas" class="btn btn-outline">Consultar políticas e termos ↗</a></p></div></section>';
 }
-// [TCC-V07] Página de termos e políticas proposta para a apresentação.
 function telaPoliticas() {
   app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">TRANSPARÊNCIA</span><h1>Políticas e termos.</h1><p>Modelo de política para a apresentação acadêmica do BarberSync.</p></div></section>'+
     '<section class="page-content"><div class="wrap policy-content">'+
@@ -136,9 +342,6 @@ function telaPoliticas() {
     '<a class="btn btn-primary" href="#inicio">Voltar à vitrine</a></div></section>';
 }
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║ [TCC-V08] COMPONENTES REUTILIZÁVEIS — alertas e formulários   ║
-// ╚══════════════════════════════════════════════════════════════╝
 function aviso(mensagem) {
   const el = document.querySelector('#toast');
   el.textContent=mensagem;
@@ -161,9 +364,6 @@ function botao(texto,classe) {
 }
 
 // 3. Página inicial: busca, filtros e vitrine de barbearias.
-// ╔══════════════════════════════════════════════════════════════╗
-// ║ [TCC-V09] VITRINE — PÁGINA INICIAL COM AS BARBEARIAS           ║
-// ╚══════════════════════════════════════════════════════════════╝
 // Cria a página HTML da vitrine. A busca/ordenacão atualiza os cards.
 function telaInicio() {
   document.documentElement.style.setProperty('--accent','#d8aa56');
@@ -191,7 +391,6 @@ function telaInicio() {
   document.querySelector('#ordenacao').value=filtro.ordenacao;
   atualizarCards();
 }
-// [TCC-V10] Usa filter() e sort() para filtrar/ordenar as barbearias.
 function atualizarCards() {
   const busca=filtro.busca.trim().toLowerCase();
   const resultados=barbearias.filter(b=>
@@ -211,11 +410,7 @@ function atualizarCards() {
 }
 
 // 4. Perfil individual, horários, serviços, produtos e avaliações.
-// ╔══════════════════════════════════════════════════════════════╗
-// ║ [TCC-V11] PERFIL DA BARBEARIA + FORMULÁRIO DE AGENDAMENTO     ║
-// ╚══════════════════════════════════════════════════════════════╝
 // Monta capa, galeria, fotos da equipe, produtos e o formulário de reserva.
-// Confirmar o agendamento é responsabilidade do Controller.
 function telaBarbearia(id) {
   const b=loja(id);
   if (!b) { location.hash='#inicio'; return; }
@@ -256,8 +451,6 @@ function telaBarbearia(id) {
   atualizarHorarios();
 }
 
-// [TCC-V12] Atualiza a lista de horários na tela usando horariosLivres()
-// definido no Model. Desabilita Confirmar quando não houver horário.
 function atualizarHorarios() {
   const b=loja(location.hash.split('/')[1]);
   if (!b || !document.querySelector('#form-agendar')) return;
@@ -271,9 +464,6 @@ function atualizarHorarios() {
 
 // Exemplos fictícios evitam painel vazio na apresentação do TCC.
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║ [TCC-V13] PAINEL DO PROPRIETÁRIO — MENU E VISÃO GERAL          ║
-// ╚══════════════════════════════════════════════════════════════╝
 // Recebe os dados já armazenados, escolhe a barbearia e monta o painel.
 function telaPainel() {
   if (!donoLogado()) { telaLogin(); return; }
@@ -297,7 +487,6 @@ function telaPainel() {
     conteudoPainel(b,agenda,vendas,financeiro)+
     '</div></div><div style="margin-top:28px"><button class="btn btn-outline btn-sm" data-reset>↺ Restaurar dados da demonstração</button></div></div>';
 }
-// [TCC-V14] Exibe os agendamentos como tabela, com botão Concluir.
 function tabelaAgenda(agenda) {
   if (!agenda.length) return '<div class="showcase-empty"><p>Nenhum agendamento ainda. Faça uma reserva na vitrine ou insira dados fictícios para o TCC.</p><button class="btn btn-primary btn-sm" data-exemplos>Inserir agendamentos de demonstração</button></div>';
   return '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Data / Hora</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
@@ -306,8 +495,6 @@ function tabelaAgenda(agenda) {
       '<td>'+(a.status==='Confirmado'?'<button class="btn btn-primary btn-sm" data-concluir="'+seguro(a.id)+'">Concluir</button>':'—')+'</td></tr>'
     ).join('')+'</tbody></table></div>';
 }
-// [TCC-V15] Alterna as abas Agenda, Faturamento, Avaliações, Fotos e Produtos.
-// Cada aba apresenta os dados do Model em HTML.
 function conteudoPainel(b,agenda,vendas,financeiro) {
   if (abaPainel==='visao') return     '<div class="stats"><div class="stat"><small>Agendamentos ativos</small><strong>'+agenda.filter(a=>a.status==='Confirmado').length+'</strong><span>Aguardando atendimento</span></div>'+
     '<div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong><span>Valor simulado</span></div>'+
@@ -373,7 +560,6 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
       ).join(''):'<p class="muted">Nenhum produto cadastrado.</p>')+'</div>';
   return '';
 }
-// [TCC-V16] Resumo gráfico das avaliações: média, quantidade e notas por estrela.
 function painelAvaliacoes(b) {
   const lista=b.avaliacoes||[],total=lista.length;
   const media=total?lista.reduce((s,a)=>s+Number(a.estrelas),0)/total:0;
@@ -385,7 +571,6 @@ function painelAvaliacoes(b) {
   return '<div class="rating-overview"><div class="rating-big"><strong>'+media.toFixed(1)+'</strong><span class="stars">★★★★★</span><p class="small">Média de '+total+' comentário(s) cadastrados</p></div><div>'+linhas+'</div></div>'+
     '<p class="help">Os números acima resumem os comentários disponíveis na demonstração. A nota histórica ilustrativa da vitrine é '+notaMedia(b).toFixed(1)+'. Não são dados reais do Google.</p>';
 }
-// [TCC-V17] Exibe os resultados por profissional já calculados pelo Model.
 function tabelaFaturamento(profissionais) {
   return '<div class="table-wrap"><table class="revenue-table"><thead><tr><th>Barbeiro</th><th>Atendimentos concluídos</th><th>Faturamento demonstrativo</th></tr></thead><tbody>'+
     profissionais.map(p=>'<tr><td>'+seguro(p.nome)+'</td><td>'+p.atendimentos+'</td><td>'+dinheiro(p.total)+'</td></tr>').join('')+
@@ -393,7 +578,6 @@ function tabelaFaturamento(profissionais) {
 }
 
 // 6. Histórico local, cadastro, avaliações e checkout fictício.
-// [TCC-V18] Lista as reservas na página Minha Conta do cliente.
 function cardsAgendamentos(lista) {
   if (!lista.length) return '<div class="empty"><h3>Nenhuma reserva registrada</h3><p>Escolha uma barbearia e faça seu primeiro agendamento de demonstração.</p><a class="btn btn-primary" href="#inicio">Explorar barbearias →</a></div>';
   return [...lista].reverse().map(a=>
@@ -411,7 +595,6 @@ function telaMeusAgendamentos() {
     '<div class="wrap page-content"><div class="book-alert">'+(logado?'Mostrando reservas vinculadas à sua conta de demonstração.':'Você está como visitante. <a href="#login-cliente">Entre como cliente</a> para vincular novos agendamentos à sua conta.')+'</div>'+
     cardsAgendamentos(seus)+'</div>';
 }
-// [TCC-V19] Formulários em janelas de diálogo para avaliações e pedidos.
 function modalAvaliacao(id) {
   abrirModal(cabecalhoModal('Avaliar barbearia')+
     '<p class="muted small">Avaliação de demonstração, sem publicação no Google.</p>'+
@@ -441,3 +624,271 @@ function modalCadastro() {
 }
 // Reduz as fotos no próprio navegador (sem upload, servidor ou API).
 
+// ======================= NAVEGAÇÃO E INTERAÇÕES =======================
+async function receberFotos(input) {
+  if (!donoLogado()) return;
+  const b=loja(barbeariaPainel);
+  if (!podeEditar(b)) return;
+  const antigos={capa:b.capa,fotos:[...b.fotos],fotosProfissionais:{...(b.fotosProfissionais||{})},produtos:b.produtos.map(p=>({...p}))};
+  try {
+    const arquivos=[...input.files];
+    if (!arquivos.length) return;
+    if (input.id==='upload-galeria' && b.fotos.length+arquivos.length>6) {
+      throw new Error('A galeria permite no máximo 6 fotos. Exclua algumas antes.');
+    }
+    for (const arquivo of arquivos) {
+      const tamanho=input.hasAttribute('data-upload-prof')||input.hasAttribute('data-upload-prod')?500:1000;
+      const foto=await comprimirFoto(arquivo,tamanho);
+      if (input.hasAttribute('data-upload-prod')) {
+        const produto=b.produtos.find(p=>p.id===input.dataset.uploadProd);
+        if (!produto) throw new Error('Produto não encontrado.');
+        produto.imagem=foto;
+      } else if (input.id==='upload-capa') b.capa=foto;
+      else if (input.id==='upload-galeria') b.fotos.push(foto);
+      else if (input.hasAttribute('data-upload-prof')) {
+        b.fotosProfissionais ||= {};
+        b.fotosProfissionais[input.dataset.uploadProf]=foto;
+      }
+    }
+    if (!salvar()) throw new Error('Sem espaço suficiente. Tente fotos menores.');
+    telaPainel();
+    aviso('Fotos atualizadas na sua vitrine!');
+  } catch (erro) {
+    Object.assign(b,antigos);
+    salvar();
+    aviso(erro.message || 'Não foi possível adicionar a imagem.');
+  }
+}
+
+function renderizar() {
+  fecharModal();
+  const rota=decodeURIComponent(location.hash||'#inicio');
+  atualizarCabecalho();
+  if (rota.startsWith('#barbearia/')) telaBarbearia(rota.split('/')[1]);
+  else if (rota==='#painel') telaPainel();
+  else if (rota==='#login') telaLogin();
+  else if (rota==='#login-cliente') telaLoginCliente();
+  else if (rota==='#cadastro-cliente') telaCadastroCliente();
+  else if (rota.startsWith('#cadastro-barbeiro')) telaCadastroBarbeiro();
+  else if (rota==='#conta-cliente') telaContaCliente();
+  else if (rota==='#planos') telaPlanos();
+  else if (rota==='#politicas') telaPoliticas();
+  else if (rota==='#meus-agendamentos') telaMeusAgendamentos();
+  else telaInicio();
+  window.scrollTo(0,0);
+}
+
+// 7. Eventos: todos os cliques e formulários passam por estes ouvintes.
+document.addEventListener('click',e=>{
+  const el=e.target;
+  const card=el.closest('[data-loja]');
+  if (card) location.hash='#barbearia/'+card.dataset.loja;
+  if (el.closest('#theme-toggle')) { const novo=document.body.classList.contains('theme-dark')?'claro':'escuro'; localStorage.setItem(CHAVE+'tema',novo); aplicarTema(); }
+  if (el.closest('[data-fechar]')||el.classList.contains('modal-backdrop')) fecharModal();
+  const tipo=el.closest('[data-tipo]');
+  if (tipo) { filtro.tipo=tipo.dataset.tipo; document.querySelectorAll('[data-tipo]').forEach(b=>b.classList.toggle('active',b===tipo)); atualizarCards(); }
+  if (el.id==='limpar-filtros') { filtro={busca:'',bairro:'Todos',ordenacao:'nota',tipo:'Todos'}; telaInicio(); }
+  const aval=el.closest('[data-avaliar]'); if (aval) modalAvaliacao(aval.dataset.avaliar);
+  const comprar=el.closest('[data-comprar]'); if (comprar) modalCompra(comprar.dataset.comprar,comprar.dataset.produto);
+  const aba=el.closest('[data-aba]'); if (aba) { abaPainel=aba.dataset.aba; telaPainel(); }
+  if (el.closest('[data-cadastrar]') && donoLogado()) modalCadastro();
+  if (el.closest('[data-exemplos]') && podeEditar(loja(barbeariaPainel))) {
+    const inseriu=inserirExemplosLoja(loja(barbeariaPainel));
+    if(inseriu) {salvar();telaPainel();aviso('Dados fictícios adicionados para a apresentação.');}
+    else aviso('Já existem agendamentos nesta barbearia.');
+  }
+  if (el.closest('[data-logout]')) {sessionStorage.removeItem(CHAVE+'dono');location.hash='#login';renderizar();aviso('Sessão do barbeiro encerrada.');}
+  if (el.closest('[data-logout-cliente]')) {sessionStorage.removeItem(CHAVE+'cliente');location.hash='#login-cliente';renderizar();aviso('Sessão do cliente encerrada.');}
+  const edit=el.closest('[data-editar-loja]');
+  if (edit && podeEditar(loja(edit.dataset.editarLoja))) {
+    barbeariaPainel=edit.dataset.editarLoja;abaPainel='aparencia';location.hash='#painel';
+  }
+  const concluir=el.closest('[data-concluir]');
+  if (concluir && donoLogado()) {
+    const ag=agendamentos.find(a=>String(a.id)===concluir.dataset.concluir);
+    if (ag && ag.status==='Confirmado' && podeEditar(loja(ag.idLoja))) {
+      ag.status='Concluído';salvar();telaPainel();aviso('Atendimento concluído e faturamento atualizado.');
+    }
+  }
+  const entregar=el.closest('[data-entregar]');
+  if (entregar && donoLogado()) {
+    const pedido=pedidos.find(p=>String(p.id)===entregar.dataset.entregar);
+    if (pedido && pedido.status!=='Entregue' && podeEditar(loja(pedido.idLoja))) {
+      pedido.status='Entregue';salvar();telaPainel();aviso('Pedido entregue e faturamento atualizado.');
+    }
+  }
+  const removerGaleria=el.closest('[data-remover-galeria]');
+  if (removerGaleria && podeEditar(loja(barbeariaPainel))) {
+    const b=loja(barbeariaPainel),i=Number(removerGaleria.dataset.removerGaleria);
+    if (b.fotos.length>1 && i>=0 && i<b.fotos.length) {
+      b.fotos.splice(i,1);salvar();telaPainel();aviso('Foto removida.');
+    }
+  }
+  const removerProf=el.closest('[data-remover-foto-prof]');
+  if (removerProf && podeEditar(loja(barbeariaPainel))) {
+    const b=loja(barbeariaPainel);
+    if (b.fotosProfissionais) delete b.fotosProfissionais[removerProf.dataset.removerFotoProf];
+    salvar();telaPainel();aviso('Foto do profissional removida.');
+  }
+// e devolve o horário à lista de horários disponíveis.
+  const cancel=el.closest('[data-cancelar]');
+  if (cancel && confirm('Cancelar este agendamento de demonstração?')) {
+    const a=agendamentos.find(x=>String(x.id)===cancel.dataset.cancelar);
+    const permitido=!!a && (clienteLogado()?a.clienteUsuario===clienteLogado():!a.clienteUsuario&&!a.exemplo);
+    if (permitido && a.status==='Confirmado') {
+      a.status='Cancelado'; salvar();
+      if(location.hash==='#conta-cliente') telaContaCliente(); else telaMeusAgendamentos();
+      aviso('Agendamento cancelado.');
+    }
+  }
+  const remover=el.closest('[data-remover-produto]');
+  if (remover && podeEditar(loja(barbeariaPainel))) { const b=loja(barbeariaPainel); b.produtos=b.produtos.filter(p=>p.id!==remover.dataset.removerProduto); salvar(); telaPainel(); aviso('Produto excluído.'); }
+  if (el.closest('[data-reset]') && podeEditar(loja(barbeariaPainel)) && confirm('Restaurar os dados de teste desta barbearia?')) {
+    const b=loja(barbeariaPainel);
+    agendamentos=agendamentos.filter(a=>a.idLoja!==b.id);
+    pedidos=pedidos.filter(p=>p.idLoja!==b.id);
+    const original=EXEMPLOS.find(x=>x.id===b.id);
+    if(original) Object.assign(b,JSON.parse(JSON.stringify(original)));
+    inserirExemplosLoja(b);
+    salvar();abaPainel='visao';telaPainel();aviso('Demonstração restaurada nesta barbearia.');
+  }
+});
+document.addEventListener('keydown',e=>{
+  if (e.key==='Escape') fecharModal();
+  if ((e.key==='Enter'||e.key===' ') && e.target.matches('[data-loja]')) { e.preventDefault(); location.hash='#barbearia/'+e.target.dataset.loja; }
+});
+document.addEventListener('input',e=>{
+  if (e.target.id==='busca') { filtro.busca=e.target.value; atualizarCards(); }
+});
+document.addEventListener('change',e=>{
+  if (e.target.matches('#upload-capa,#upload-galeria,[data-upload-prof],[data-upload-prod]')) {
+    receberFotos(e.target);return;
+  }
+  if (e.target.id==='bairro') { filtro.bairro=e.target.value; atualizarCards(); }
+  if (e.target.id==='ordenacao') { filtro.ordenacao=e.target.value; atualizarCards(); }
+  if (['servico','profissional','dia'].includes(e.target.id)) atualizarHorarios();
+  if (e.target.id==='selecionar-loja' && minhasLojas().some(b=>b.id===e.target.value)) { barbeariaPainel=e.target.value; telaPainel(); }
+});
+// submit é o envio de um formulário. e.preventDefault() evita recarregar.
+document.addEventListener('submit',e=>{
+  const form=e.target;
+  if (!['form-login','form-login-cliente','form-cadastro-cliente','form-cadastro-barbeiro','form-agendar','form-avaliacao','form-compra','form-cadastro','form-aparencia','form-produto'].includes(form.id)) return;
+  e.preventDefault();
+  // guarda a sessão temporária com sessionStorage. NÃO é autenticação real.
+  if (form.id==='form-login') {
+    const usuario=document.querySelector('#login-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#login-senha').value;
+    const conta=contaBarbeiro(usuario);
+    if(conta && conta.senha!==senha) {aviso('Usuário ou senha de demonstração incorretos.');return;}
+    if (!conta) {aviso('Usuário ou senha de demonstração incorretos.');return;}
+    sessionStorage.setItem(CHAVE+'dono',conta.usuario);
+    barbeariaPainel=(barbearias.find(b=>(b.dono||b.id)===conta.usuario)||{}).id||conta.usuario;
+    abaPainel='visao';
+    location.hash='#painel';
+    renderizar();
+    aviso('Bem-vindo ao painel de '+conta.nome+'!');
+    return;
+  }
+  if (form.id==='form-login-cliente') {
+    const usuario=document.querySelector('#cliente-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#cliente-senha').value;
+    const conta=[...CONTAS_CLIENTE_DEMO,...contasClientes].find(c=>c.usuario===usuario && c.senha===senha);
+    if(!conta) {aviso('Usuário ou senha de demonstração incorretos.');return;}
+    sessionStorage.setItem(CHAVE+'cliente',conta.usuario);
+    location.hash='#conta-cliente';renderizar();aviso('Login de cliente realizado!');
+    return;
+  }
+  // (por salvar()) e abre a tela Minha Conta.
+  if(form.id==='form-cadastro-cliente') {
+    const nome=document.querySelector('#cliente-nome').value.trim();
+    const usuario=document.querySelector('#novo-cliente-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#novo-cliente-senha').value;
+    const telefone=document.querySelector('#novo-cliente-telefone').value.trim();
+    if(!nome || !/^[a-z0-9_]{4,24}$/.test(usuario) || senha.length<4) {
+      aviso('Preencha nome, usuário (4 a 24 caracteres, sem espaços) e senha com 4 caracteres.');return;
+    }
+    if([...CONTAS_CLIENTE_DEMO,...contasClientes].some(c=>c.usuario===usuario)) {
+      aviso('Este usuário de cliente já existe.');return;
+    }
+    contasClientes.push({nome,usuario,senha,telefone});
+    if(!salvar()) {contasClientes.pop();return;}
+    sessionStorage.setItem(CHAVE+'cliente',usuario);
+    location.hash='#conta-cliente';renderizar();aviso('Conta de cliente de demonstração criada!');
+    return;
+  }
+  if(form.id==='form-cadastro-barbeiro') {
+    const nome=document.querySelector('#dono-nome').value.trim();
+    const usuario=document.querySelector('#dono-usuario').value.trim().toLowerCase();
+    const senha=document.querySelector('#dono-senha').value;
+    const nomeLoja=document.querySelector('#dono-barbearia').value.trim();
+    const bairro=document.querySelector('#dono-bairro').value;
+    const plano=document.querySelector('#dono-plano').value;
+    if(!nome||!nomeLoja||!/^[a-z0-9_]{4,24}$/.test(usuario)||senha.length<4) {
+      aviso('Preencha nome, usuário (4 a 24 caracteres, sem espaços) e senha com 4 caracteres.');return;
+    }
+    if(contaBarbeiro(usuario)) {aviso('Este usuário de barbeiro já existe.');return;}
+    if(!PLANOS.some(p=>p.id===plano)) {aviso('Selecione um plano da demonstração.');return;}
+    const nova=criarExemplo('loja'+Date.now(),nomeLoja,bairro,4,0,0,'Bem-vindo à nossa barbearia!', '#d8aa56',['Barbeiro 1'],false);
+    nova.avaliacoes=[];nova.dono=usuario;nova.plano=plano;
+    contasBarbeiros.push({nome,usuario,senha,plano});
+    barbearias.push(nova);
+    if(!salvar()) {contasBarbeiros.pop();barbearias.pop();return;}
+    sessionStorage.setItem(CHAVE+'dono',usuario);
+    barbeariaPainel=nova.id;abaPainel='visao';
+    location.hash='#painel';renderizar();aviso('Barbearia criada! Personalize sua vitrine.');
+    return;
+  }
+  if (['form-cadastro','form-aparencia','form-produto'].includes(form.id) && !podeEditar(loja(barbeariaPainel))) {
+    aviso('Faça login como proprietário para editar.');return;
+  }
+  // DICA: aponte as linhas abaixo e descreva cada um desses passos.
+  if (form.id==='form-agendar') {
+    const b=loja(location.hash.split('/')[1]);
+    const servico=b.servicos[Number(document.querySelector('#servico').value)];
+    const profissional=document.querySelector('#profissional').value;
+    const data=document.querySelector('#dia').value;
+    const hora=document.querySelector('#hora').value;
+    if (!horariosLivres(b.id,data,profissional).includes(hora)) { aviso('Este horário não está mais disponível.'); atualizarHorarios(); return; }
+    const cliente=document.querySelector('#nome-cliente').value.trim(), telefone=document.querySelector('#telefone-cliente').value.trim();
+    if (!cliente||!telefone) return;
+    agendamentos.push({id:Date.now(),idLoja:b.id,cliente:cliente,clienteUsuario:clienteLogado()||'',telefone:telefone,servico:servico.nome,profissional:profissional,data:data,hora:hora,preco:servico.preco,status:'Confirmado'});
+    salvar(); telaBarbearia(b.id);
+    abrirModal(cabecalhoModal('Agendamento registrado!')+'<p>Seu horário de demonstração foi registrado em <strong>'+seguro(b.nome)+'</strong>, dia <strong>'+dataBR(data)+'</strong> às <strong>'+seguro(hora)+'</strong>.</p><a class="btn btn-primary btn-block" href="#meus-agendamentos">Ver meus agendamentos →</a>');
+    aviso('Horário registrado com sucesso!');
+  }
+  if (form.id==='form-avaliacao') {
+    const b=loja(form.dataset.id);
+    b.avaliacoes.push({nome:document.querySelector('#avaliador').value.trim(),estrelas:Number(document.querySelector('#estrelas').value),texto:document.querySelector('#comentario').value.trim()});
+    salvar(); fecharModal(); telaBarbearia(b.id); aviso('Avaliação publicada nesta demonstração.');
+  }
+  if (form.id==='form-compra') {
+    const b=loja(form.dataset.id),p=b.produtos.find(x=>x.id===form.dataset.produto);
+    pedidos.push({id:Date.now(),idLoja:b.id,produto:p.nome,preco:p.preco,cliente:document.querySelector('#comprador').value.trim(),telefone:document.querySelector('#tel-comprador').value.trim()});
+    salvar(); fecharModal(); aviso('Pedido simulado registrado! Confira no painel.');
+  }
+  if (form.id==='form-cadastro') {
+    const novo=criarExemplo('loja'+Date.now(),document.querySelector('#cad-nome').value.trim(),document.querySelector('#cad-bairro').value,4,0,0,document.querySelector('#cad-descricao').value.trim(),'#c99457',['Profissional 1'],false);
+    novo.avaliacoes=[];novo.dono=donoLogado();
+    barbearias.push(novo); barbeariaPainel=novo.id; abaPainel='aparencia';
+    salvar(); fecharModal(); telaPainel(); aviso('Barbearia adicionada à vitrine!');
+  }
+  if (form.id==='form-aparencia') {
+    const b=loja(barbeariaPainel);
+    const pessoas=document.querySelector('#editar-profissionais').value.split(',').map(x=>x.trim()).filter(Boolean);
+    if (!pessoas.length) { aviso('Informe pelo menos um profissional.'); return; }
+    Object.assign(b,{nome:document.querySelector('#editar-nome').value.trim(),bairro:document.querySelector('#editar-bairro').value.trim(),cor:document.querySelector('#editar-cor').value,descricao:document.querySelector('#editar-descricao').value.trim(),horario:document.querySelector('#editar-horario').value.trim(),profissionais:pessoas});
+    b.fotosProfissionais=Object.fromEntries(Object.entries(b.fotosProfissionais||{}).filter(([nome])=>pessoas.includes(nome)));
+    salvar(); telaPainel(); aviso('Personalização salva!');
+  }
+  if (form.id==='form-produto') {
+    const b=loja(barbeariaPainel),preco=Number(document.querySelector('#novo-preco').value);
+    if (preco<=0||!Number.isFinite(preco)) return;
+    b.produtos.push({id:'p'+Date.now(),nome:document.querySelector('#novo-produto').value.trim(),preco:preco,emoji:'🧴'});
+    salvar(); telaPainel(); aviso('Produto adicionado ao catálogo!');
+  }
+});
+// hashchange atualiza a tela ao mudar #rota sem recarregar a página.
+window.addEventListener('hashchange',renderizar);
+prepararExemplosIniciais();
+aplicarTema();
+renderizar();

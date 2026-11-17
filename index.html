@@ -8,14 +8,11 @@
   <title>BarberSync | Seu próximo corte começa aqui</title>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="style.css">
-  <!-- [TCC-HTML01] MVC: carregamos Model, View e Controller nesta ORDEM.
-       Model define as regras, View monta as telas, Controller controla os cliques. -->
-  <script src="js/model.js" defer></script>
-  <script src="js/view.js" defer></script>
-  <script src="js/controller.js" defer></script>
+  <!-- Código principal do site -->
+  <script src="js/app.js" defer></script>
 </head>
 <body>
-  <!-- [TCC-HTML02] CABEÇALHO: logo, navegação e botões de acesso. -->
+  <!-- Cabeçalho e menu -->
   <header class="site-header">
     <div class="wrap nav">
       <a class="logo" id="logo-home" href="#inicio" aria-label="BarberSync, voltar ao início">
@@ -36,11 +33,10 @@
     </div>
   </header>
 
-  <!-- [TCC-HTML03] ÁREA PRINCIPAL: a View escreve o HTML aqui pelo JavaScript.
-       As páginas são dinâmicas, por isso quase não há conteúdo nesta tag. -->
+  <!-- As páginas são montadas neste elemento pelo JavaScript -->
   <main id="app"></main>
 
-  <!-- [TCC-HTML04] RODAPÉ: links de planos, políticas e aviso de demonstração. -->
+  <!-- Rodapé -->
   <footer class="footer">
     <div class="wrap footer-inner">
       <div><strong>BARBER<span class="logo-gold">SYNC</span></strong><p>Seu estilo, sua escolha. Feito para Barueri.</p></div>
@@ -48,7 +44,7 @@
     </div>
   </footer>
 
-  <!-- [TCC-HTML05] JANELAS E AVISOS: a View usa estes elementos para confirmação e alertas. -->
+  <!-- Avisos e janelas de confirmação -->
   <div id="modal-root"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
