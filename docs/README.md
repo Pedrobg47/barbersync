@@ -50,3 +50,11 @@ A estrutura das páginas fica em HTML. A função `htmlTela()` preenche marcador
 Para testar a estrutura dos arquivos, rode `node tests/estrutura.mjs` na pasta do projeto (opcional; requer Node.js).
 
 Para preparar a apresentação, veja `docs/GUIA-VSCODE-TCC.md` e `docs/ROTEIRO-APRESENTACAO-TCC.md`.
+
+## Atualização: HTML e CSS primeiro
+
+Os formulários de login e cadastro (cliente e proprietário), incluindo os campos e a seleção de planos, são escritos diretamente em `templates/01-paginas.html`. O JavaScript não precisa mais montar esses campos.
+
+**Por que ainda há JavaScript?** A vitrine é alimentada por dados demonstrativos; agendamentos, bloqueio de horários, filtros, cadastro de produtos e armazenamento no navegador precisam de lógica. Reduzir a quantidade de JavaScript a uma porcentagem fixa sem alterar a arquitetura e o comportamento seria artificial. A próxima simplificação possível é transformar outras telas com conteúdo estático em seções HTML independentes, avaliando cada fluxo antes de remover código.
+
+Testes executados em Chromium: vitrine, login com campos HTML, cadastro de cliente, reserva e cadastro de proprietário com planos estáticos. Todos passaram, sem erros JavaScript capturados nesses fluxos.
