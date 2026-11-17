@@ -10,12 +10,51 @@ Somente **HTML, CSS e JavaScript puro**. Sem React, Node, banco de dados, backen
 |---|---|
 | `index.html` | Estrutura do cabeçalho, navegação, conteúdo e rodapé. |
 | `style.css` | Visual azul-marinho, preto e dourado, temas escuro/claro e responsividade. |
-| `script.js` | Regras simples para telas, cadastros demonstrativos, agendamentos e cálculo de faturamento. |
+| `js/model.js` | **Model:** dados, armazenamento local e regras de negócio (horários, faturamento). |
+| `js/view.js` | **View:** exibe as telas, vitrine, formulários, agenda e painel. |
+| `js/controller.js` | **Controller:** recebe cliques e formulários, chama as regras e atualiza a interface. |
 | `README.md` | Este guia para o TCC. |
 
 ## Como abrir
 
-Abra `index.html` no navegador. Para publicar, importe o repositório na Vercel como projeto estático (**Other**, sem build) e faça o deploy. Caso já tenha um deploy da Vercel integrado ao GitHub, consulte a implantação da branch `main`.
+Abra `index.html` no navegador. Mantenha a pasta `js/` junto do HTML; ela contém os arquivos do MVC. Para publicar, importe o repositório na Vercel como projeto estático (**Other**, sem build) e faça o deploy. Caso já tenha um deploy da Vercel integrado ao GitHub, consulte a implantação da branch `main`.
+
+## Arquitetura MVC (pergunta frequente do professor)
+
+**MVC** é a sigla de **Model–View–Controller (Modelo–Visão–Controlador)**, um padrão para separar responsabilidades.
+
+Neste projeto aplicamos uma **organização inspirada no MVC apenas no front-end**, sem afirmar que existe um sistema MVC completo com servidor:
+
+| Parte | Arquivo | Responsabilidade | Exemplo do BarberSync |
+| --- | --- | --- | --- |
+| Model (Modelo) | `js/model.js` | Dados e regras de negócio | `horariosLivres()`, `resumoReceita()`, listas de agendamentos e `localStorage` |
+| View (Visão) | `js/view.js` | Montar e atualizar a interface HTML | `telaBarbearia()`, `telaPainel()`, `tabelaAgenda()` |
+| Controller (Controlador) | `js/controller.js` | Receber eventos e coordenar Model + View | `submit` do formulário `form-agendar` e a função `renderizar()` |
+
+### Exemplo na prática — cliente agenda corte
+
+1. **View**: `telaBarbearia()` desenha o formulário de agendamento.
+2. **Controller**: o listener de `submit` lê serviço, profissional, dia e horário.
+3. **Model**: `horariosLivres()` verifica se o horário está livre, e o Controller adiciona o agendamento ao array e chama `salvar()` do Model.
+4. **View**: `telaBarbearia()` mostra os horários atualizados e o Controller exibe a confirmação.
+
+**Resposta pronta ao professor:** "Sim. Para o escopo atual, aplicamos MVC adaptado ao front-end. Separamos os dados e as regras no Model, a apresentação das telas na View e os eventos dos usuários no Controller. Ainda não temos o MVC de uma aplicação completa com backend e banco de dados."
+
+### Por que não usamos frameworks?
+
+Porque o objetivo do módulo é demonstrar as interfaces e conseguir explicar o código. Usamos **arquivos JavaScript comuns**, carregados no `index.html` nesta ordem:
+
+```html
+<script src="js/model.js" defer></script>
+<script src="js/view.js" defer></script>
+<script src="js/controller.js" defer></script>
+```
+
+A ordem importa porque o Controller usa funções declaradas nos arquivos anteriores. Não usamos `import` ou bibliotecas.
+
+**Limitação:** os dados ficam somente no navegador; por isso o login de demonstração **não é autenticação segura**. O padrão MVC ajuda a organizar o código, mas não substitui segurança, servidor ou banco de dados.
+
+---
 
 ## Contas de demonstração
 
@@ -76,7 +115,7 @@ A página **Políticas e termos** contém um modelo acadêmico com termos de uso
 - `painelAvaliacoes()` calcula distribuição por estrelas com base nos comentários locais. A nota ilustrativa histórica da vitrine é mostrada separadamente.
 - `localStorage` salva contas fictícias, agendamentos, barbearias, fotos, pedidos e tema. `sessionStorage` simula qual usuário está logado durante a sessão.
 - `comprimirFoto()` utiliza `canvas` no navegador, sem enviar imagens para qualquer servidor.
-- O site usa `location.hash` para mudar de tela (`#inicio`, `#planos`, `#politicas`, `#login`, `#login-cliente`, `#cadastro-cliente`, `#cadastro-barbeiro`, `#painel`, `#conta-cliente`).
+- O Controller usa `location.hash` para mudar de tela (`#inicio`, `#planos`, `#politicas`, `#login`, `#login-cliente`, `#cadastro-cliente`, `#cadastro-barbeiro`, `#painel`, `#conta-cliente`).
 
 ## Roteiro rápido de apresentação
 
