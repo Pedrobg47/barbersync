@@ -1,6 +1,10 @@
 /* MVC — CONTROLLER (Controlador): clique, formulários e navegação.
    Exemplo: ao confirmar agendamento, valida dados, salva no Model e redesenha a View. */
 
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-C01] FOTOS — ação que recebe arquivos do proprietário    ║
+// ╚══════════════════════════════════════════════════════════════╝
+// Recebe foto, pede ao Model para compactar, salva e atualiza o painel.
 async function receberFotos(input) {
   if (!donoLogado()) return;
   const b=loja(barbeariaPainel);
@@ -36,6 +40,10 @@ async function receberFotos(input) {
   }
 }
 
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-C02] ROTAS — qual tela abrir ao navegar no site           ║
+// ╚══════════════════════════════════════════════════════════════╝
+// A URL #inicio, #painel, #barbearia/id etc. determina qual View usar.
 function renderizar() {
   fecharModal();
   const rota=decodeURIComponent(location.hash||'#inicio');
@@ -55,6 +63,10 @@ function renderizar() {
 }
 
 // 7. Eventos: todos os cliques e formulários passam por estes ouvintes.
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-C03] CLIQUES — botões, cards, ações do painel             ║
+// ╚══════════════════════════════════════════════════════════════╝
+// O Controller escuta um clique e decide qual regra executar.
 document.addEventListener('click',e=>{
   const el=e.target;
   const card=el.closest('[data-loja]');
@@ -79,6 +91,8 @@ document.addEventListener('click',e=>{
   if (edit && podeEditar(loja(edit.dataset.editarLoja))) {
     barbeariaPainel=edit.dataset.editarLoja;abaPainel='aparencia';location.hash='#painel';
   }
+  // [TCC-C04] Ao clicar Concluir, altera status do agendamento.
+// O Model resumoReceita() contará esse atendimento no faturamento.
   const concluir=el.closest('[data-concluir]');
   if (concluir && donoLogado()) {
     const ag=agendamentos.find(a=>String(a.id)===concluir.dataset.concluir);
@@ -86,6 +100,7 @@ document.addEventListener('click',e=>{
       ag.status='Concluído';salvar();telaPainel();aviso('Atendimento concluído e faturamento atualizado.');
     }
   }
+  // [TCC-C05] Um produto só entra no faturamento quando for Entregue.
   const entregar=el.closest('[data-entregar]');
   if (entregar && donoLogado()) {
     const pedido=pedidos.find(p=>String(p.id)===entregar.dataset.entregar);
@@ -106,6 +121,8 @@ document.addEventListener('click',e=>{
     if (b.fotosProfissionais) delete b.fotosProfissionais[removerProf.dataset.removerFotoProf];
     salvar();telaPainel();aviso('Foto do profissional removida.');
   }
+  // [TCC-C06] Cancelamento por cliente: confirma identidade da conta local
+// e devolve o horário à lista de horários disponíveis.
   const cancel=el.closest('[data-cancelar]');
   if (cancel && confirm('Cancelar este agendamento de demonstração?')) {
     const a=agendamentos.find(x=>String(x.id)===cancel.dataset.cancelar);
@@ -132,9 +149,12 @@ document.addEventListener('keydown',e=>{
   if (e.key==='Escape') fecharModal();
   if ((e.key==='Enter'||e.key===' ') && e.target.matches('[data-loja]')) { e.preventDefault(); location.hash='#barbearia/'+e.target.dataset.loja; }
 });
+// [TCC-C07] Busca instantânea enquanto o usuário digita no campo.
 document.addEventListener('input',e=>{
   if (e.target.id==='busca') { filtro.busca=e.target.value; atualizarCards(); }
 });
+// [TCC-C08] Mudanças de filtros, data, profissional ou arquivos enviados.
+// Aqui o Controller pode pedir à View para atualizar a lista de horários.
 document.addEventListener('change',e=>{
   if (e.target.matches('#upload-capa,#upload-galeria,[data-upload-prof],[data-upload-prod]')) {
     receberFotos(e.target);return;
@@ -144,10 +164,17 @@ document.addEventListener('change',e=>{
   if (['servico','profissional','dia'].includes(e.target.id)) atualizarHorarios();
   if (e.target.id==='selecionar-loja' && minhasLojas().some(b=>b.id===e.target.value)) { barbeariaPainel=e.target.value; telaPainel(); }
 });
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-C09] FORMULÁRIOS — PRINCIPAL PARTE PARA EXPLICAR NA BANCA║
+// ╚══════════════════════════════════════════════════════════════╝
+// submit é o envio de um formulário. e.preventDefault() evita recarregar.
+// Depois o Controller identifica QUAL formulário foi enviado.
 document.addEventListener('submit',e=>{
   const form=e.target;
   if (!['form-login','form-login-cliente','form-cadastro-cliente','form-cadastro-barbeiro','form-agendar','form-avaliacao','form-compra','form-cadastro','form-aparencia','form-produto'].includes(form.id)) return;
   e.preventDefault();
+  // [TCC-C10] Login do barbeiro: confere usuário/senha de exemplo e
+  // guarda a sessão temporária com sessionStorage. NÃO é autenticação real.
   if (form.id==='form-login') {
     const usuario=document.querySelector('#login-usuario').value.trim().toLowerCase();
     const senha=document.querySelector('#login-senha').value;
@@ -162,6 +189,7 @@ document.addEventListener('submit',e=>{
     aviso('Bem-vindo ao painel de '+conta.nome+'!');
     return;
   }
+  // [TCC-C11] Login do cliente: registra a conta fictícia na sessão.
   if (form.id==='form-login-cliente') {
     const usuario=document.querySelector('#cliente-usuario').value.trim().toLowerCase();
     const senha=document.querySelector('#cliente-senha').value;
@@ -171,6 +199,8 @@ document.addEventListener('submit',e=>{
     location.hash='#conta-cliente';renderizar();aviso('Login de cliente realizado!');
     return;
   }
+  // [TCC-C12] Cadastro do cliente: valida campos, grava em localStorage
+  // (por salvar()) e abre a tela Minha Conta.
   if(form.id==='form-cadastro-cliente') {
     const nome=document.querySelector('#cliente-nome').value.trim();
     const usuario=document.querySelector('#novo-cliente-usuario').value.trim().toLowerCase();
@@ -188,6 +218,8 @@ document.addEventListener('submit',e=>{
     location.hash='#conta-cliente';renderizar();aviso('Conta de cliente de demonstração criada!');
     return;
   }
+  // [TCC-C13] Cadastro do barbeiro: cria conta e nova vitrine na lista
+  // de barbearias do Model; plano mensal não tem cobrança real.
   if(form.id==='form-cadastro-barbeiro') {
     const nome=document.querySelector('#dono-nome').value.trim();
     const usuario=document.querySelector('#dono-usuario').value.trim().toLowerCase();
@@ -213,6 +245,16 @@ document.addEventListener('submit',e=>{
   if (['form-cadastro','form-aparencia','form-produto'].includes(form.id) && !podeEditar(loja(barbeariaPainel))) {
     aviso('Faça login como proprietário para editar.');return;
   }
+  // ╔════════════════════════════════════════════════════════════╗
+  // ║ [TCC-C14] AGENDAMENTO — FLUXO MVC COMPLETO                  ║
+  // ╚════════════════════════════════════════════════════════════╝
+  // 1) View desenhou o formulário em telaBarbearia().
+  // 2) Controller lê serviço, profissional, data e hora abaixo.
+  // 3) Model horariosLivres() verifica se essa vaga ainda existe.
+  // 4) Controller adiciona o objeto ao array agendamentos.
+  // 5) Model salvar() persiste no navegador.
+  // 6) View telaBarbearia() e modal mostram o resultado.
+  // DICA: aponte as linhas abaixo e descreva cada um desses passos.
   if (form.id==='form-agendar') {
     const b=loja(location.hash.split('/')[1]);
     const servico=b.servicos[Number(document.querySelector('#servico').value)];
@@ -227,11 +269,14 @@ document.addEventListener('submit',e=>{
     abrirModal(cabecalhoModal('Agendamento registrado!')+'<p>Seu horário de demonstração foi registrado em <strong>'+seguro(b.nome)+'</strong>, dia <strong>'+dataBR(data)+'</strong> às <strong>'+seguro(hora)+'</strong>.</p><a class="btn btn-primary btn-block" href="#meus-agendamentos">Ver meus agendamentos →</a>');
     aviso('Horário registrado com sucesso!');
   }
+  // [TCC-C15] Avaliação: adiciona comentário e nota na barbearia,
+  // salva localmente e pede à View que atualize a tela.
   if (form.id==='form-avaliacao') {
     const b=loja(form.dataset.id);
     b.avaliacoes.push({nome:document.querySelector('#avaliador').value.trim(),estrelas:Number(document.querySelector('#estrelas').value),texto:document.querySelector('#comentario').value.trim()});
     salvar(); fecharModal(); telaBarbearia(b.id); aviso('Avaliação publicada nesta demonstração.');
   }
+  // [TCC-C16] Pedido fictício de produto (sem pagamento real).
   if (form.id==='form-compra') {
     const b=loja(form.dataset.id),p=b.produtos.find(x=>x.id===form.dataset.produto);
     pedidos.push({id:Date.now(),idLoja:b.id,produto:p.nome,preco:p.preco,cliente:document.querySelector('#comprador').value.trim(),telefone:document.querySelector('#tel-comprador').value.trim()});
@@ -243,6 +288,7 @@ document.addEventListener('submit',e=>{
     barbearias.push(novo); barbeariaPainel=novo.id; abaPainel='aparencia';
     salvar(); fecharModal(); telaPainel(); aviso('Barbearia adicionada à vitrine!');
   }
+  // [TCC-C17] Personalização: salva nome, bairro, profissionais e cores.
   if (form.id==='form-aparencia') {
     const b=loja(barbeariaPainel);
     const pessoas=document.querySelector('#editar-profissionais').value.split(',').map(x=>x.trim()).filter(Boolean);
@@ -251,6 +297,7 @@ document.addEventListener('submit',e=>{
     b.fotosProfissionais=Object.fromEntries(Object.entries(b.fotosProfissionais||{}).filter(([nome])=>pessoas.includes(nome)));
     salvar(); telaPainel(); aviso('Personalização salva!');
   }
+  // [TCC-C18] Cadastro de produto: valida preço e inclui na vitrine.
   if (form.id==='form-produto') {
     const b=loja(barbeariaPainel),preco=Number(document.querySelector('#novo-preco').value);
     if (preco<=0||!Number.isFinite(preco)) return;
@@ -258,6 +305,10 @@ document.addEventListener('submit',e=>{
     salvar(); telaPainel(); aviso('Produto adicionado ao catálogo!');
   }
 });
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-C19] INICIALIZAÇÃO — executa ao abrir o site              ║
+// ╚══════════════════════════════════════════════════════════════╝
+// hashchange atualiza a tela ao mudar #rota sem recarregar a página.
 window.addEventListener('hashchange',renderizar);
 prepararExemplosIniciais();
 aplicarTema();
