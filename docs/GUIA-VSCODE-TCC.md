@@ -13,9 +13,10 @@
 ```text
 barbersync/
 ├── index.html          ← estrutura e telas em HTML
-├── style.css           ← aparência do site
+├── style.css           ← carrega os arquivos CSS
 ├── js/
 │   └── app.js          ← regras e interações
+├── css/                ← estilos separados por área
 └── docs/               ← documentação e roteiros
 ```
 
@@ -52,3 +53,7 @@ Esse tipo de `script` é só um **modelo de HTML**, não um programa. O navegado
 ## Limitações que vocês devem saber explicar
 
 Não existe backend ou banco de dados; os registros ficam somente no navegador. As contas usam login demonstrativo e não são seguras para usuários reais. Pagamentos são simulados. Para produção seriam necessários servidor, autenticação adequada e armazenamento compartilhado.
+
+## Como estudar os estilos
+
+O arquivo `style.css` importa os estilos da pasta `css/`. Consulte `docs/ESTUDO-CSS.md` para entender o que cada arquivo faz e apresentar CSS para a banca.

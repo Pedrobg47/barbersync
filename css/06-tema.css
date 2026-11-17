@@ -1,0 +1,282 @@
+/* PERSONALIZAÇÃO VISUAL: azul-marinho e dourado */
+
+
+body {
+  background: var(--paper);
+}
+
+.site-header,.footer {
+  background: linear-gradient(100deg,#03060f 0%,#0a1531 78%,#060a16 100%);
+}
+
+.site-header {
+  border-bottom: 1px solid #d8aa5628;
+}
+
+.logo-mark {
+  background: linear-gradient(145deg,#f0cb7b,#bd8536);
+  color: #080f23;
+}
+
+.nav-links {
+  color: #d3ddf0;
+}
+
+.nav-admin {
+  border-color: #bb955d;
+  color: #f5e0b5;
+}
+
+.nav-admin:hover {
+  background: #d8aa56;
+  color: #081021;
+}
+
+.nav-client {
+  color: #d9e3f4;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  padding: 10px 4px;
+}
+
+.nav-client:hover {
+  color: #edbe68;
+}
+
+.hero {
+  background: #070e21;
+}
+
+.hero:before {
+  background: linear-gradient(90deg,#060b19 7%,#081127ed 44%,#07112575 100%),url('https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1600&q=85') center 49%/cover;
+}
+
+.hero .subtitle {
+  color: #cbd5e5;
+}
+
+.benefit-strip {
+  background: #e8edf6;
+}
+
+.benefit-icon {
+  background: #d9e2f3;
+  color: #172d57;
+}
+
+.benefit span:last-child {
+  color: #68758e;
+}
+
+.dot {
+  background: #d8aa56;
+}
+
+.tag {
+  background: #e7ecf8;
+  color: #29436c;
+}
+
+.btn-dark {
+  background: #101b34;
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: #263c65;
+}
+
+.btn-primary {
+  background: #d8aa56;
+  color: #0b1121;
+}
+
+.btn-primary:hover {
+  background: #eac17b;
+}
+
+.pill.active,.pill:hover {
+  background: #101b34;
+  border-color: #101b34;
+}
+
+.card-image {
+  background: #111b35;
+}
+
+.shop-card:hover {
+  box-shadow: 0 14px 34px #101a352a;
+}
+
+.card-foot strong {
+  color: #162544;
+}
+
+.detail-header,.page-intro {
+  background: linear-gradient(120deg,#050a17,#132a58);
+}
+
+.cover-header:before {
+  background: linear-gradient(90deg,#030918ec,#081633c4 62%,#06102da2);
+}
+
+.footer {
+  border-top: 1px solid #bf92484d;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 13px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+.footer-nav a {
+  color: #f3cf90;
+}
+
+.owner-note {
+  background: #fff5e5;
+  color: #755320;
+  border-color: #f0d6ab;
+}
+
+.login-example,.revenue-info {
+  background: #edf1f9;
+  color: #28406d;
+}
+
+.price-preview {
+  background: #eff3fa;
+}
+
+.theme-toggle {
+  background: #0e1c38;
+  border-color: #64799c;
+  color: #f6e8cd;
+}
+
+.theme-toggle:hover {
+  background: #20365e;
+}
+
+.color-preview {
+  background: #101b36;
+}
+
+.pro-avatar {
+  background: #dce6f3;
+  color: #264269;
+}
+
+.pro-card {
+  background: #f5f7fb;
+}
+
+.image-empty {
+  background: #d7e3f4;
+  color: #274569;
+}
+
+.product-icon {
+  color: #132952;
+}
+
+.side-btn.active,.side-btn:hover {
+  background: #e8eef9;
+  color: #152d5a;
+}
+
+
+
+body.theme-dark .shop-card,body.theme-dark .search-panel,body.theme-dark .panel, body.theme-dark .sidebar,body.theme-dark .stat,body.theme-dark .account-card, body.theme-dark .modal,body.theme-dark .product,body.theme-dark .empty, body.theme-dark .pro-card,body.theme-dark .image-tile, body.theme-dark .booking,body.theme-dark .card-body {
+  background: #111b32;
+  color: #f0f3fb;
+  border-color: #2a3958;
+}
+
+body.theme-dark .field input,body.theme-dark .field textarea,body.theme-dark .field select, body.theme-dark .owner-toolbar select {
+  background: #0a152c;
+  color: #f1f3fb;
+  border-color: #40527a;
+}
+
+body.theme-dark .field label,body.theme-dark .list-row span,body.theme-dark .card-desc, body.theme-dark .panel p,body.theme-dark .review p {
+  color: #bdc9e0;
+}
+
+body.theme-dark .benefit-strip {
+  background: #101c34;
+}
+
+body.theme-dark .benefit-icon,body.theme-dark .pro,body.theme-dark .pill, body.theme-dark .login-example {
+  background: #1c2c4b;
+  color: #e9effb;
+  border-color: #32486e;
+}
+
+body.theme-dark .pill.active,body.theme-dark .pill:hover {
+  background: #d8aa56;
+  color: #0a0f1f;
+}
+
+body.theme-dark .btn-outline {
+  color: #f1f3fb;
+  border-color: #7181a2;
+}
+
+body.theme-dark .btn-outline:hover {
+  background: #253a5e;
+}
+
+body.theme-dark .price-preview,body.theme-dark .revenue-info, body.theme-dark .color-preview {
+  background: #1d2f51;
+  color: #e8eefa;
+}
+
+body.theme-dark .owner-note {
+  background: #362c20;
+  color: #f5d8a7;
+  border-color: #6c5431;
+}
+
+body.theme-dark .card-foot,body.theme-dark .service-row,body.theme-dark .review, body.theme-dark .list-row,body.theme-dark td,body.theme-dark th {
+  border-color: #304263;
+}
+
+body.theme-dark .card-foot strong,body.theme-dark .card-body h3 {
+  color: #f0f3fb;
+}
+
+body.theme-dark .side-btn {
+  color: #aabbd8;
+}
+
+body.theme-dark .side-btn:hover,body.theme-dark .side-btn.active {
+  background: #24395e;
+  color: #f8f6ec;
+}
+
+body.theme-dark .image-empty {
+  background: #203559;
+  color: #d1ddf2;
+}
+
+body.theme-dark .tag {
+  background: #24385a;
+  color: #dfebff;
+}
+
+body.theme-dark .stat small {
+  color: #bbc9dd;
+}
+
+body.theme-dark .demo-note {
+  color: #c8d2e3;
+}
+
+body.theme-dark .product-icon {
+  color: #e4c383;
+}

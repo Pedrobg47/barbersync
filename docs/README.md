@@ -20,3 +20,5 @@ O arquivo `index.html` utiliza blocos `<script type="text/html" id="pagina-inici
 ## Limitações reais
 
 É um protótipo: utiliza `localStorage` e `sessionStorage` para guardar dados de teste. Não há banco de dados, servidor, autenticação segura, cobrança real ou sincronização entre computadores. Use somente dados fictícios.
+
+Para estudar a divisão dos estilos, consulte `docs/ESTUDO-CSS.md`.

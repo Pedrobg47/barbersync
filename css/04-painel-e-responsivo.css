@@ -1,0 +1,382 @@
+/* 6. RODAPÉ */
+.footer {
+  background: var(--dark);
+  color: #cbd8cc;
+  padding: 33px 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.footer strong {
+  letter-spacing: 1px;
+  color: white;
+}
+
+.footer p {
+  font-size: 12px;
+  margin: 7px 0 0;
+  color: #9daea0;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 6px;
+  color: #9cac9f;
+  font-size: 11px;
+}
+
+/* Ajustes para telas de até 960px */
+
+@media (max-width: 960px) {
+  .cards {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .search-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+  .search-panel .filter-btn {
+    width: 100%;
+  }
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking {
+    position: static;
+  }
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    display: flex;
+    gap: 5px;
+    overflow: auto;
+  }
+  .sidebar small {
+    display: none;
+  }
+  .side-btn {
+    width: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+/* Ajustes para telas de até 640px */
+
+@media (max-width: 640px) {
+  .wrap {
+    width: min(100% - 30px,1160px);
+  }
+  .nav {
+    height: auto;
+    min-height: 67px;
+    gap: 10px;
+    padding: 11px 0;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-size: 14px;
+  }
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+  .nav-links {
+    display: flex;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    padding-top: 8px;
+    border-top: 1px solid #ffffff22;
+    gap: 20px;
+    font-size: 11px;
+  }
+  .nav-admin {
+    font-size: 11px;
+    padding: 8px;
+    margin-left: auto;
+  }
+  .hero {
+    min-height: auto;
+  }
+  .hero-content {
+    padding: 54px 0 70px;
+  }
+  .hero h1 {
+    letter-spacing: -1px;
+  }
+  .hero .subtitle {
+    font-size: 14px;
+  }
+  .search-panel {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+  .search-wrap {
+    margin-top: -27px;
+  }
+  .section {
+    padding: 44px 0;
+  }
+  .section-head {
+    display: block;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .benefits {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .detail-header {
+    padding: 27px 0;
+  }
+  .detail-title-row {
+    display: block;
+  }
+  .gallery {
+    height: 180px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery img:first-child {
+    grid-column: 1/-1;
+  }
+  .gallery img:last-child {
+    display: none;
+  }
+  .product-grid,.form-grid,.stats {
+    grid-template-columns: 1fr;
+  }
+  .full {
+    grid-column: auto;
+  }
+  .page-intro h1 {
+    font-size: 30px;
+  }
+  .page-content {
+    padding: 25px 0 50px;
+  }
+  .panel {
+    padding: 18px;
+  }
+  .footer-inner {
+    flex-direction: column;
+  }
+  .footer-right {
+    align-items: start;
+  }
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 15px;
+  }
+}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[role=link]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none!important;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-left: auto;
+}
+
+.theme-toggle {
+  background: #24322a;
+  border: 1px solid #516355;
+  color: #f4f6ee;
+  padding: 10px 12px;
+  border-radius: 9px;
+  min-width: 87px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.theme-toggle:hover {
+  background: #35473b;
+}
+
+.shop-header-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 13px;
+  font-weight: 800;
+  max-width: 280px;
+  text-align: right;
+  font-size: 16px;
+}
+
+.shop-home-mark {
+  flex: 0 0 33px;
+  width: 33px;
+  height: 33px;
+  font-size: 21px;
+  text-align: center;
+}
+
+.cover-header {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cover-header .cover-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  object-fit: cover;
+}
+
+.cover-header:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,#0a1611f5,#0a1711c9 58%,#0a171197);
+  z-index: -1;
+}
+
+.gallery {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  height: auto;
+  gap: 11px;
+}
+
+.gallery img {
+  height: 190px;
+}
+
+.gallery img:first-child {
+  grid-column: span 2;
+}
+
+.professional-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(115px,1fr));
+  gap: 13px;
+}
+
+.pro-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 12px;
+  text-align: center;
+}
+
+.pro-card img,.pro-avatar {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 9px;
+  background: #b8c6b7;
+  display: grid;
+  place-items: center;
+  font-size: 29px;
+  font-weight: 800;
+  color: #294131;
+}
+
+.pro-card strong {
+  font-size: 13px;
+  display: block;
+}
+
+.pro-card span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.image-manager {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(125px,1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.image-tile {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  overflow: hidden;
+  padding: 7px;
+}
+
+.image-tile img {
+  width: 100%;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.image-tile button {
+  width: 100%;
+  margin-top: 7px;
+}
+
+.image-empty {
+  background: #dfe7dd;
+  display: grid;
+  place-items: center;
+  height: 90px;
+  font-size: 35px;
+  border-radius: 9px;
+  color: #3b6046;
+}
+
+.upload-label {
+  display: block;
+  border: 1px dashed #95a39a;
+  padding: 14px;
+  border-radius: 11px;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 11px;
+}
+
+.upload-label input {
+  display: block;
+  margin-top: 8px;
+  max-width: 100%;
+  font-size: 12px;
+}
+
+.upload-tip {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 8px 0;
+}
+
+.owner-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.owner-toolbar select {
+  max-width: 230px;
+  min-height: 37px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink);
+}
