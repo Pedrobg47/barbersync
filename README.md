@@ -44,3 +44,12 @@ Abra `index.html` pelo Live Server do VS Code ou pelo site publicado na Vercel.
 As quatro páginas de perfil (`estacao47.html`, `nobre.html`, `distrito.html` e `vertice.html`) têm uma **prévia visual em HTML** com serviço, profissional, data e horário. Essa prévia não necessita de JavaScript. O botão **Continuar agendamento** abre `agendar.html` com a barbearia correta selecionada; a escolha de data e horário é refeita na tela seguinte, onde o `app.js` registra a reserva local.
 
 Na banca: abra qualquer perfil, mostre os quatro campos e clique em **Continuar agendamento**. Explique que a prévia é uma interface HTML e que o salvamento ocorre na página separada.
+
+
+## Agendar dentro de cada barbearia
+
+Nas páginas `estacao47.html`, `nobre.html`, `distrito.html` e `vertice.html`, o visitante pode **escolher serviço, profissional, data, hora e preencher seus dados na própria página**. O botão **Confirmar agendamento** salva uma reserva demonstrativa e exibe a confirmação ali mesmo, sem abrir `agendar.html`.
+
+O botão no destaque da página apenas rola até o formulário. Os visitantes também podem usar esse formulário; quem estiver logado como cliente verá a reserva em Minha Conta. Sem login, o agendamento fica registrado somente no navegador e na agenda local da barbearia, sem histórico vinculado à conta.
+
+A página `agendar.html` continua disponível para o fluxo de agendamento independente e para novas barbearias cadastradas. O projeto segue com um único arquivo JavaScript.

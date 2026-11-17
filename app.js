@@ -153,7 +153,9 @@ if ($("form-agendar")) {
 
   $("form-agendar").addEventListener("submit", function (e) {
     e.preventDefault();
-    if (!sessao("cliente")) {
+    // Dentro do perfil, visitantes também podem agendar na demonstração.
+    // Na página separada de agendamento, mantemos o login de cliente.
+    if (!sessao("cliente") && !$("resultado-agendamento")) {
       alert("Faça login como cliente para agendar.");
       location.href = "cliente.html";
       return;
@@ -170,7 +172,16 @@ if ($("form-agendar")) {
     };
     salvar("reservas", ler("reservas").concat(reserva));
     sessionStorage.setItem(CHAVE + "ultimaReserva", String(reserva.id));
-    location.href = "confirmacao.html";
+    if ($("resultado-agendamento")) {
+      // No perfil da barbearia, mostramos a confirmação na mesma página.
+      $("reserva-detalhes").textContent = reserva.servico + " com " +
+        reserva.profissional + " em " + reserva.data.split("-").reverse().join("/") +
+        " às " + reserva.hora + ".";
+      $("form-agendar").hidden = true;
+      $("resultado-agendamento").hidden = false;
+    } else {
+      location.href = "confirmacao.html";
+    }
   });
 }
 

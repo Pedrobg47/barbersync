@@ -33,7 +33,7 @@
         <h1>Estação 47 Barber</h1>
         <div class="shop-rating">★ 4,9 <span>(128 avaliações demonstrativas)</span></div>
         <p>Um espaço moderno para cuidar do seu visual, com atendimento personalizado e clima descontraído.</p>
-        <a href="agendar.html?barbearia=estacao47" class="btn btn-primary">Ver demonstração de agendamento ↗</a>
+        <a href="#agendamento" class="btn btn-primary">Agendar nesta barbearia ↓</a>
       </div>
     </section>
 
@@ -87,33 +87,42 @@
             <p><strong>Endereço:</strong> Alphaville, Barueri — SP</p>
             <p><strong>Horários de exemplo:</strong> segunda a sexta, 9h–19h; sábado, 9h–17h.</p>
             <p class="demo-note" role="note">ⓘ A agenda de demonstração fica salva apenas neste navegador, sem reservas reais no estabelecimento.</p>
-            <!-- Prévia do agendamento: os campos são HTML puro. -->
-            <section class="agendamento-previa" aria-label="Simulador de agendamento">
-              <span class="eyebrow">AGENDE SEU CORTE</span>
+            <!-- Agendamento completo dentro da página desta barbearia. -->
+            <form id="form-agendar" class="agendamento-previa" action="#">
+              <span class="eyebrow" id="agendamento">AGENDE SEU CORTE</span>
               <h3>Escolha seu horário</h3>
+
+              <!-- A barbearia já está selecionada porque estamos no perfil dela. -->
+              <select id="barbearia" hidden>
+                <option value="estacao47" selected>Estação 47 Barber</option>
+              </select>
+
               <div class="field">
-                <label for="previa-servico">Serviço</label>
-                <select id="previa-servico">
+                <label for="servico">Serviço</label>
+                <select id="servico" required>
+                  <option value="">Escolha o serviço</option>
                   <option>Corte masculino — R$ 45,00</option>
                   <option>Barba completa — R$ 30,00</option>
                   <option>Corte + barba — R$ 65,00</option>
                 </select>
               </div>
+
               <div class="field">
-                <label for="previa-profissional">Profissional</label>
-                <select id="previa-profissional">
-                  <option>Lucas</option>
-                  <option>André</option>
-                  <option>Bruno</option>
+                <label for="profissional">Profissional</label>
+                <select id="profissional" required>
+                  <option value="">Escolha o profissional</option>
                 </select>
               </div>
+
               <div class="field">
-                <label for="previa-data">Data desejada</label>
-                <input id="previa-data" type="date">
+                <label for="data">Data desejada</label>
+                <input id="data" type="date" required>
               </div>
+
               <div class="field">
-                <label for="previa-hora">Horário</label>
-                <select id="previa-hora">
+                <label for="hora">Horário disponível</label>
+                <select id="hora" required>
+                  <option value="">Escolha um horário</option>
                   <option>09:00</option>
                   <option>10:00</option>
                   <option>11:00</option>
@@ -124,9 +133,34 @@
                   <option>17:00</option>
                 </select>
               </div>
-              <p class="help">Prévia visual. Para salvar o horário, faça a escolha na próxima tela.</p>
-              <a href="agendar.html?barbearia=estacao47" class="btn btn-primary btn-block">Continuar agendamento →</a>
-            </section>
+
+              <div class="field">
+                <label for="nome">Seu nome</label>
+                <input id="nome" type="text" maxlength="60" required>
+              </div>
+
+              <div class="field">
+                <label for="telefone">Telefone fictício</label>
+                <input id="telefone" type="tel" required>
+              </div>
+
+              <p class="help">Agendamento de demonstração salvo apenas neste navegador.
+                Se entrar como cliente, também poderá consultar e cancelar na Minha Conta.</p>
+              <button class="btn btn-primary btn-block" type="submit">
+                Confirmar agendamento →
+              </button>
+            </form>
+
+            <!-- O resultado aparece aqui, sem abrir outra página. -->
+            <div id="resultado-agendamento" class="agendamento-previa" role="status" hidden>
+              <span class="eyebrow">AGENDAMENTO REGISTRADO</span>
+              <h3>Horário confirmado na demonstração!</h3>
+              <p id="reserva-detalhes"></p>
+              <p class="help">A reserva foi salva somente neste navegador.</p>
+              <a class="btn btn-outline btn-block" href="index.html#barbearias">
+                Voltar às barbearias
+              </a>
+            </div>
           </div>
         </aside>
       </div>
