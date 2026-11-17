@@ -1,6 +1,7 @@
 # BarberSync — TCC | Protótipo Front-end
 
 > 📘 **Preparando a apresentação no VS Code?** Abra o **[GUIA-VSCODE-TCC.md](GUIA-VSCODE-TCC.md)**: explica como baixar/abrir o projeto e aponta os comentários `[TCC-M...]`, `[TCC-V...]` e `[TCC-C...]` diretamente no código.
+> 🎤 **Roteiro de apresentação em grupo:** [ROTEIRO-APRESENTACAO-TCC.md](ROTEIRO-APRESENTACAO-TCC.md) — quatro apresentadores, falas, exemplos MVC e perguntas da banca.
 
 
 Marketplace demonstrativo de barbearias de Barueri, com **vitrine**, **agendamentos**, **contas de cliente e barbeiro**, **painel administrativo**, **produtos com fotos**, **avaliações**, **planos mensais ilustrativos** e **página de políticas**.
