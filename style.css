@@ -1,4 +1,9 @@
-/* BARBERSYNC - Estilos do protótipo (HTML + CSS + JavaScript puro) */
+/* ===================================================================
+   [TCC-CSS01] VIEW / APARÊNCIA: o CSS controla cores, tamanhos e layout.
+   CSS não salva dados e não processa agendamentos: só define o visual.
+   PARA A BANCA: a paleta azul-marinho + dourado é declarada novamente
+   no bloco "NOVA IDENTIDADE" abaixo, que prevalece na cascata do CSS.
+   =================================================================== */
 :root{--dark:#111916;--ink:#1a2421;--muted:#68726e;--paper:#f6f6f2;--line:#e3e7e2;--accent:#c99457;--white:#fff}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -250,6 +255,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .photo-profile .btn{min-height:30px}
 .photo-profile:last-child{border-bottom:0}
 .side-btn.active{background:#e8eee7;color:#1b3423}
+/* [TCC-CSS03] MODO ESCURO: quando JavaScript adiciona theme-dark
+   ao body, estas variáveis e estilos substituem o tema claro. */
 body.theme-dark{
   --paper:#111b16;--ink:#eaf1eb;--muted:#abb9ad;--line:#33453a;--white:#202e25;--dark:#19271e
 }
@@ -300,7 +307,11 @@ body.theme-dark .modal h2,body.theme-dark .panel h3{color:#eaf1eb}
 @media(max-width:640px){.stats{grid-template-columns:1fr}}
 
 
-/* NOVA IDENTIDADE: AZUL-MARINHO, PRETO E DOURADO */
+/* ===================================================================
+   [TCC-CSS02] PALETA VISUAL PRINCIPAL — AZUL-MARINHO, PRETO E DOURADO
+   --dark: azul-marinho muito escuro; --accent: dourado dos destaques.
+   O seletor :root contém variáveis que reutilizamos no restante do CSS.
+   =================================================================== */
 :root{
  --dark:#080f23;--ink:#172033;--muted:#657085;--paper:#f3f5f9;
  --line:#dce2ec;--accent:#d8aa56;--white:#fff
