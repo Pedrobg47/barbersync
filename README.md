@@ -31,7 +31,7 @@ Abra a pasta no VS Code. Clique duas vezes em `index.html` ou use a extensão Li
 
 **Sem JavaScript nem backend, este site não faz login real, não salva contas, não grava agendamentos, não bloqueia horários ocupados, não altera pedidos ou produtos, e não possui pesquisa textual dinâmica.** A navegação funciona, os formulários demonstram seus campos e as áreas de cliente/barbeiro exibem dados ilustrativos.
 
-Os formulários usam `action` e `method="get"` para navegar a uma página de exemplo. Assim, os campos podem aparecer na URL. **Use apenas dados fictícios, nunca informações pessoais reais.** Em uma versão real, seria necessário backend e HTTPS com autenticação segura.
+Os formulários usam `action` e `method="get"` apenas para navegar até uma página ilustrativa. Os campos não possuem atributo `name`, portanto o navegador **não inclui os valores digitados no endereço**. Mesmo assim, **use apenas dados fictícios, nunca informações pessoais reais.** Em uma versão real, seria necessário backend e HTTPS com autenticação segura.
 
 ## Como apresentar em grupo (5 integrantes)
 
