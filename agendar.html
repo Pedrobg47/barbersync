@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080f23">
+  <meta name="description" content="Encontre barbearias em Barueri, conheça profissionais e veja o protótipo acadêmico do BarberSync.">
+  <title>Agendamento demonstrativo | BarberSync</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="logo" href="index.html" aria-label="BarberSync, voltar ao início">
+        <span class="logo-mark">B<span>✦</span></span>
+        <span>BARBER<span class="gold">SYNC</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Menu principal">
+        <a href="index.html#barbearias">Explorar</a>
+        <a href="planos.html">Planos</a>
+        <a href="cliente.html">Área do cliente</a>
+        <a href="barbeiro.html">Área do barbeiro</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+  <section class="page-intro">
+    <div class="wrap">
+      <span class="eyebrow">AGENDAMENTO</span>
+      <h1>Escolha seu horário.</h1>
+      <p>Preencha o formulário para conhecer a experiência proposta.</p>
+    </div>
+  </section>
+    <section class="section">
+      <div class="wrap form-layout">
+        <div class="panel">
+          <p class="demo-note" role="note">ⓘ Nenhum horário é verificado ou reservado nesta versão feita apenas com HTML e CSS.</p>
+          <form action="confirmacao.html" method="get">
+            <div class="field">
+              <label for="barbearia">Barbearia</label>
+              <select name="barbearia" id="barbearia" required>
+                <option value="">Selecione uma barbearia</option>
+                <option value="estacao47">Estação 47 Barber</option>
+                <option value="nobre">Nobre Barbearia</option>
+                <option value="distrito">Distrito do Corte</option>
+                <option value="vertice">Vértice Barber</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="servico">Serviço</label>
+              <select name="servico" id="servico" required>
+                <option value="">Selecione o serviço</option>
+                <option>Corte masculino — R$ 45,00</option>
+                <option>Barba completa — R$ 30,00</option>
+                <option>Corte + barba — R$ 65,00</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="profissional">Profissional</label>
+              <select name="profissional" id="profissional" required>
+                <option value="">Escolha um profissional de exemplo</option>
+                <option>Lucas</option><option>André</option><option>Bruno</option>
+                <option>Gustavo</option><option>Matheus</option><option>Pedro</option>
+                <option>Diego</option><option>Caio</option><option>Renato</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="field">
+            <label for="data">Data desejada</label>
+            <input id="data" name="data" type="date" required>
+          </div>
+              <div class="field">
+                <label for="hora">Horário desejado</label>
+                <select name="hora" id="hora" required>
+                  <option value="">Escolha uma hora</option>
+                  <option>09:00</option><option>10:00</option><option>11:00</option>
+                  <option>13:00</option><option>14:00</option><option>15:00</option>
+                  <option>16:00</option><option>17:00</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+            <label for="nome">Seu nome</label>
+            <input id="nome" name="nome" type="text" required maxlength="60">
+          </div>
+            <div class="field">
+            <label for="telefone">Telefone fictício</label>
+            <input id="telefone" name="telefone" type="tel" required>
+          </div>
+            <button class="btn btn-primary btn-block" type="submit">Continuar simulação →</button>
+          </form>
+          <p class="help">O botão abre apenas uma página explicativa. Não confirma reservas.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong>BARBER<span class="gold">SYNC</span></strong>
+        <p>Seu estilo, sua escolha. Feito para Barueri.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Início</a>
+        <a href="planos.html">Planos</a>
+        <a href="politicas.html">Políticas</a>
+        <span>Protótipo acadêmico • HTML e CSS</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
