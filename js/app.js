@@ -259,37 +259,37 @@ function atualizarCabecalho() {
   cliente.href=clienteLogado()?'#conta-cliente':'#login-cliente';
 }
 function abasAcesso(tipo) {
-  return htmlTela("html-abasAcesso-1", [((tipo==='cliente'?'active':'')), ((tipo==='barbeiro'?'active':''))]);
+  return htmlTela("componente-abas-acesso", [((tipo==='cliente'?'active':'')), ((tipo==='barbeiro'?'active':''))]);
 }
 // Atenção: aqui apenas DESENHAMOS os formulários.
 function telaLogin() {
   if (donoLogado()) { location.hash='#painel';return; }
   document.documentElement.style.setProperty('--accent','#d8aa56');
-  app.innerHTML=htmlTela("html-telaLogin-2", [(abasAcesso('barbeiro')), (campo('Usuário','login-usuario','')), (campo('Senha','login-senha','','password'))]);
+  app.innerHTML=htmlTela("pagina-login-barbeiro", [(abasAcesso('barbeiro')), (campo('Usuário','login-usuario','')), (campo('Senha','login-senha','','password'))]);
 }
 function telaLoginCliente() {
   if (clienteLogado()) { location.hash='#conta-cliente';return; }
-  app.innerHTML=htmlTela("html-telaLoginCliente-3", [(abasAcesso('cliente')), (campo('Usuário','cliente-usuario','')), (campo('Senha','cliente-senha','','password'))]);
+  app.innerHTML=htmlTela("pagina-login-cliente", [(abasAcesso('cliente')), (campo('Usuário','cliente-usuario','')), (campo('Senha','cliente-senha','','password'))]);
 }
 function telaCadastroCliente() {
-  app.innerHTML=htmlTela("html-telaCadastroCliente-4", [(abasAcesso('cliente')), (campo('Nome para demonstração','cliente-nome','')), (campo('Usuário (mín. 4 caracteres)','novo-cliente-usuario','')), (campo('Senha demonstrativa (mín. 4 caracteres)','novo-cliente-senha','','password')), (campo('Telefone fictício (opcional)','novo-cliente-telefone','','tel').replace(' required>','>'))]);
+  app.innerHTML=htmlTela("pagina-cadastro-cliente", [(abasAcesso('cliente')), (campo('Nome para demonstração','cliente-nome','')), (campo('Usuário (mín. 4 caracteres)','novo-cliente-usuario','')), (campo('Senha demonstrativa (mín. 4 caracteres)','novo-cliente-senha','','password')), (campo('Telefone fictício (opcional)','novo-cliente-telefone','','tel').replace(' required>','>'))]);
 }
 function telaCadastroBarbeiro() {
   const escolhido=(location.hash.split('/')[1]||'profissional').toLowerCase();
-  app.innerHTML=htmlTela("html-telaCadastroBarbeiro-5", [(abasAcesso('barbeiro')), (campo('Nome do responsável','dono-nome','')), (campo('Usuário (mín. 4 caracteres)','dono-usuario','')), (campo('Senha demonstrativa (mín. 4 caracteres)','dono-senha','','password')), (campo('Nome da barbearia','dono-barbearia','')), (PLANOS.map(p=>'<option value="'+p.id+'" '+(p.id===escolhido?'selected':'')+'>'+p.nome+' — '+dinheiro(p.preco)+'/mês</option>').join(''))]);
+  app.innerHTML=htmlTela("pagina-cadastro-barbeiro", [(abasAcesso('barbeiro')), (campo('Nome do responsável','dono-nome','')), (campo('Usuário (mín. 4 caracteres)','dono-usuario','')), (campo('Senha demonstrativa (mín. 4 caracteres)','dono-senha','','password')), (campo('Nome da barbearia','dono-barbearia','')), (PLANOS.map(p=>'<option value="'+p.id+'" '+(p.id===escolhido?'selected':'')+'>'+p.nome+' — '+dinheiro(p.preco)+'/mês</option>').join(''))]);
 }
 function telaContaCliente() {
   if (!clienteLogado()) { location.hash='#login-cliente';return; }
   const usuario=dadosCliente();
   const seus=agendamentos.filter(a=>a.clienteUsuario===clienteLogado());
-  app.innerHTML=htmlTela("html-telaContaCliente-6", [(seguro(usuario?.nome||'cliente')), (cardsAgendamentos(seus))]);
+  app.innerHTML=htmlTela("pagina-minha-conta", [(seguro(usuario?.nome||'cliente')), (cardsAgendamentos(seus))]);
 }
 function telaPlanos() {
-  app.innerHTML=htmlTela("html-telaPlanos-7", [(PLANOS.map((p,i)=>
-      htmlTela("html-telaPlanos-29", [((i===1?'featured':'')), ((i===1?'✦ MAIS POPULAR':'BARBERSYNC')), (p.nome), (p.descricao), (dinheiro(p.preco)), (p.recursos.map(t=>'<li>'+seguro(t)+'</li>').join('')), ((i===1?'btn-primary':'btn-dark')), (p.id)])).join(''))]);
+  app.innerHTML=htmlTela("pagina-planos", [(PLANOS.map((p,i)=>
+      htmlTela("componente-card-plano", [((i===1?'featured':'')), ((i===1?'✦ MAIS POPULAR':'BARBERSYNC')), (p.nome), (p.descricao), (dinheiro(p.preco)), (p.recursos.map(t=>'<li>'+seguro(t)+'</li>').join('')), ((i===1?'btn-primary':'btn-dark')), (p.id)])).join(''))]);
 }
 function telaPoliticas() {
-  app.innerHTML=htmlTela("html-telaPoliticas-8", []);
+  app.innerHTML=htmlTela("pagina-politicas", []);
 }
 
 function aviso(mensagem) {
@@ -304,10 +304,10 @@ function abrirModal(html) {
 }
 function fecharModal() { document.querySelector('#modal-root').innerHTML=''; }
 function cabecalhoModal(titulo) {
-  return htmlTela("html-cabecalhoModal-9", [(seguro(titulo))]);
+  return htmlTela("componente-cabecalho-modal", [(seguro(titulo))]);
 }
 function campo(rotulo,id,valor,tipo) {
-  return htmlTela("html-campo-10", [(id), (rotulo), (id), (id), ((tipo||'text')), (seguro(valor||''))]);
+  return htmlTela("componente-campo-formulario", [(id), (rotulo), (id), (id), ((tipo||'text')), (seguro(valor||''))]);
 }
 function botao(texto,classe) {
   return '<button class="btn '+(classe||'btn-primary')+'" type="submit">'+texto+'</button>';
@@ -318,7 +318,7 @@ function botao(texto,classe) {
 function telaInicio() {
   document.documentElement.style.setProperty('--accent','#d8aa56');
   app.innerHTML =
-    htmlTela("html-telaInicio-11", [(seguro(filtro.busca)), ([...new Set(barbearias.map(b=>b.bairro))].sort().map(b=>'<option '+(filtro.bairro===b?'selected':'')+'>'+seguro(b)+'</option>').join('')), (['Todos','Corte','Barba','Produtos'].map(t=>'<button class="pill '+(filtro.tipo===t?'active':'')+'" data-tipo="'+t+'">'+t+'</button>').join(''))]);
+    htmlTela("pagina-inicio-vitrine", [(seguro(filtro.busca)), ([...new Set(barbearias.map(b=>b.bairro))].sort().map(b=>'<option '+(filtro.bairro===b?'selected':'')+'>'+seguro(b)+'</option>').join('')), (['Todos','Corte','Barba','Produtos'].map(t=>'<button class="pill '+(filtro.tipo===t?'active':'')+'" data-tipo="'+t+'">'+t+'</button>').join(''))]);
   document.querySelector('#ordenacao').value=filtro.ordenacao;
   atualizarCards();
 }
@@ -332,7 +332,7 @@ function atualizarCards() {
   resultados.sort((a,b)=>filtro.ordenacao==='preco'?menorPreco(a)-menorPreco(b):filtro.ordenacao==='avaliacoes'?totalAvaliacoes(b)-totalAvaliacoes(a):notaMedia(b)-notaMedia(a));
   document.querySelector('#quantidade').textContent=resultados.length+' barbearia(s)';
   document.querySelector('#cards').innerHTML=resultados.length ? resultados.map(b=>
-    htmlTela("html-atualizarCards-30", [(seguro(b.id)), (seguro(b.nome)), (seguro(b.fotos[0])), (seguro(b.bairro)), (seguro(b.nome)), (estrelas(b)), (seguro(b.descricao)), (dinheiro(menorPreco(b)))])).join('') : '<div class="empty">Nenhuma barbearia encontrada. Tente outro filtro.</div>';
+    htmlTela("componente-card-vitrine", [(seguro(b.id)), (seguro(b.nome)), (seguro(b.fotos[0])), (seguro(b.bairro)), (seguro(b.nome)), (estrelas(b)), (seguro(b.descricao)), (dinheiro(menorPreco(b)))])).join('') : '<div class="empty">Nenhuma barbearia encontrada. Tente outro filtro.</div>';
 }
 
 // 4. Perfil individual, horários, serviços, produtos e avaliações.
@@ -342,9 +342,9 @@ function telaBarbearia(id) {
   if (!b) { location.hash='#inicio'; return; }
   document.documentElement.style.setProperty('--accent',/^#[0-9a-f]{6}$/i.test(b.cor)?b.cor:'#d8aa56');
   app.innerHTML=
-    htmlTela("html-telaBarbearia-12", [(seguro(b.capa||b.fotos[0])), (seguro(b.nome)), (seguro(b.bairro.toUpperCase())), (seguro(b.nome)), (seguro(b.bairro)), (estrelas(b)), ((podeEditar(b)?'<p style="margin:18px 0 0"><button class="btn btn-primary btn-sm" data-editar-loja="'+seguro(b.id)+'">✎ Editar minha barbearia</button></p>':'')), (b.fotos.map((foto,i)=>'<img src="'+seguro(foto)+'" alt="Foto '+(i+1)+' da barbearia" loading="lazy">').join('')), (seguro(b.descricao)), (seguro(b.bairro)), (seguro(b.horario)), (b.servicos.map(s=>htmlTela("html-telaBarbearia-31", [(seguro(s.nome)), (seguro(s.duracao)), (dinheiro(s.preco))])).join('')), (b.profissionais.map(p=>
-        htmlTela("html-telaBarbearia-32", [(((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')), (seguro(p))])).join('')), (estrelas(b)), ([...b.avaliacoes].reverse().map(a=>htmlTela("html-telaBarbearia-33", [(seguro(a.nome)), (('★'.repeat(Number(a.estrelas)))), (seguro(a.texto))])).join('')), (seguro(b.id)), ((b.produtos.length ? '<section class="panel"><span class="eyebrow">PRODUTOS DISPONÍVEIS</span><h3>Leve seu estilo para casa</h3><div class="product-grid">'+
-        b.produtos.map(p=>htmlTela("html-telaBarbearia-34", [((p.imagem?'<img src="'+seguro(p.imagem)+'" alt="Foto de '+seguro(p.nome)+'">':'<span aria-label="Sem foto cadastrada">'+seguro(p.emoji||'🧴')+'</span>')), (seguro(p.nome)), (dinheiro(p.preco)), (seguro(b.id)), (seguro(p.id))])).join('')+
+    htmlTela("pagina-perfil-barbearia", [(seguro(b.capa||b.fotos[0])), (seguro(b.nome)), (seguro(b.bairro.toUpperCase())), (seguro(b.nome)), (seguro(b.bairro)), (estrelas(b)), ((podeEditar(b)?'<p style="margin:18px 0 0"><button class="btn btn-primary btn-sm" data-editar-loja="'+seguro(b.id)+'">✎ Editar minha barbearia</button></p>':'')), (b.fotos.map((foto,i)=>'<img src="'+seguro(foto)+'" alt="Foto '+(i+1)+' da barbearia" loading="lazy">').join('')), (seguro(b.descricao)), (seguro(b.bairro)), (seguro(b.horario)), (b.servicos.map(s=>htmlTela("componente-linha-servico", [(seguro(s.nome)), (seguro(s.duracao)), (dinheiro(s.preco))])).join('')), (b.profissionais.map(p=>
+        htmlTela("componente-card-profissional", [(((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')), (seguro(p))])).join('')), (estrelas(b)), ([...b.avaliacoes].reverse().map(a=>htmlTela("componente-avaliacao-barbearia", [(seguro(a.nome)), (('★'.repeat(Number(a.estrelas)))), (seguro(a.texto))])).join('')), (seguro(b.id)), ((b.produtos.length ? '<section class="panel"><span class="eyebrow">PRODUTOS DISPONÍVEIS</span><h3>Leve seu estilo para casa</h3><div class="product-grid">'+
+        b.produtos.map(p=>htmlTela("componente-produto-barbearia", [((p.imagem?'<img src="'+seguro(p.imagem)+'" alt="Foto de '+seguro(p.nome)+'">':'<span aria-label="Sem foto cadastrada">'+seguro(p.emoji||'🧴')+'</span>')), (seguro(p.nome)), (dinheiro(p.preco)), (seguro(b.id)), (seguro(p.id))])).join('')+
       '</div></section>' : '')), (b.servicos.map((s,i)=>'<option value="'+i+'">'+seguro(s.nome)+' — '+dinheiro(s.preco)+'</option>').join('')), (b.profissionais.map(p=>'<option>'+seguro(p)+'</option>').join('')), (hoje()), (proximaDataDisponivel(b.id,b.profissionais[0])), (seguro(nomeCliente())), (seguro(telefoneCliente()))]);
   atualizarHorarios();
 }
@@ -375,25 +375,25 @@ function telaPainel() {
   document.documentElement.style.setProperty('--accent','#d8aa56');
   const abas=[['visao','▦ Visão geral'],['agenda','▤ Agenda'],['faturamento','▥ Faturamento'],['avaliacoes','☆ Avaliações'],['pedidos','▣ Pedidos'],['aparencia','◐ Informações e cores'],['fotos','▧ Fotos e equipe'],['catalogo','◈ Produtos']];
   app.innerHTML=
-    htmlTela("html-telaPainel-13", [(seguro((PLANOS.find(p=>p.id===b.plano)||PLANOS[1]).nome)), (abas.map(a=>'<button class="side-btn '+(abaPainel===a[0]?'active':'')+'" data-aba="'+a[0]+'">'+a[1]+'</button>').join('')), (seguro(b.nome)), (disponiveis.map(x=>'<option value="'+seguro(x.id)+'" '+(x.id===b.id?'selected':'')+'>'+seguro(x.nome)+'</option>').join('')), (conteudoPainel(b,agenda,vendas,financeiro))]);
+    htmlTela("pagina-painel-barbeiro", [(seguro((PLANOS.find(p=>p.id===b.plano)||PLANOS[1]).nome)), (abas.map(a=>'<button class="side-btn '+(abaPainel===a[0]?'active':'')+'" data-aba="'+a[0]+'">'+a[1]+'</button>').join('')), (seguro(b.nome)), (disponiveis.map(x=>'<option value="'+seguro(x.id)+'" '+(x.id===b.id?'selected':'')+'>'+seguro(x.nome)+'</option>').join('')), (conteudoPainel(b,agenda,vendas,financeiro))]);
 }
 function tabelaAgenda(agenda) {
-  if (!agenda.length) return htmlTela("html-tabelaAgenda-14", []);
-  return htmlTela("html-tabelaAgenda-15", [([...agenda].sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).map(a=>
-      htmlTela("html-tabelaAgenda-35", [(seguro(a.cliente)), ((a.exemplo?'<span class="tag">EXEMPLO</span>':'')), (seguro(a.telefone)), (seguro(a.servico)), (seguro(a.profissional)), (dataBR(a.data)), (seguro(a.hora)), (seguro(a.status)), ((a.status==='Confirmado'?'<button class="btn btn-primary btn-sm" data-concluir="'+seguro(a.id)+'">Concluir</button>':'—'))])).join(''))]);
+  if (!agenda.length) return htmlTela("componente-agenda-vazia", []);
+  return htmlTela("componente-tabela-agenda", [([...agenda].sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).map(a=>
+      htmlTela("componente-linha-agendamento", [(seguro(a.cliente)), ((a.exemplo?'<span class="tag">EXEMPLO</span>':'')), (seguro(a.telefone)), (seguro(a.servico)), (seguro(a.profissional)), (dataBR(a.data)), (seguro(a.hora)), (seguro(a.status)), ((a.status==='Confirmado'?'<button class="btn btn-primary btn-sm" data-concluir="'+seguro(a.id)+'">Concluir</button>':'—'))])).join(''))]);
 }
 function conteudoPainel(b,agenda,vendas,financeiro) {
-  if (abaPainel==='visao') return     htmlTela("html-conteudoPainel-16", [(agenda.filter(a=>a.status==='Confirmado').length), (dinheiro(financeiro.servicos)), (dinheiro(financeiro.produtos)), (dinheiro(financeiro.total)), (tabelaAgenda(agenda.filter(a=>a.status==='Confirmado' && a.data>=hoje()))), (tabelaFaturamento(financeiro.profissionais)), (painelAvaliacoes(b)), (seguro(b.id))]);
-  if (abaPainel==='agenda') return     htmlTela("html-conteudoPainel-17", [(tabelaAgenda(agenda))]);
-  if (abaPainel==='faturamento') return     htmlTela("html-conteudoPainel-18", [(dinheiro(financeiro.servicos)), (dinheiro(financeiro.produtos)), (dinheiro(financeiro.total)), (tabelaFaturamento(financeiro.profissionais))]);
-  if (abaPainel==='avaliacoes') return htmlTela("html-conteudoPainel-19", [(painelAvaliacoes(b)), (seguro(b.nome)), ([...b.avaliacoes].reverse().map(a=>htmlTela("html-conteudoPainel-36", [(seguro(a.nome)), (('★'.repeat(Number(a.estrelas)))), (seguro(a.texto))])).join(''))]);
-  if (abaPainel==='pedidos') return htmlTela("html-conteudoPainel-20", [((vendas.length ? '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Produto</th><th>Valor</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
-     [...vendas].reverse().map(p=>htmlTela("html-conteudoPainel-37", [(seguro(p.cliente)), (seguro(p.produto)), (dinheiro(p.preco)), (seguro(p.status||'Aguardando retirada')), ((p.status==='Entregue'?'—':'<button class="btn btn-primary btn-sm" data-entregar="'+seguro(p.id)+'">Entregue</button>'))])).join('')+
+  if (abaPainel==='visao') return     htmlTela("painel-visao-geral", [(agenda.filter(a=>a.status==='Confirmado').length), (dinheiro(financeiro.servicos)), (dinheiro(financeiro.produtos)), (dinheiro(financeiro.total)), (tabelaAgenda(agenda.filter(a=>a.status==='Confirmado' && a.data>=hoje()))), (tabelaFaturamento(financeiro.profissionais)), (painelAvaliacoes(b)), (seguro(b.id))]);
+  if (abaPainel==='agenda') return     htmlTela("painel-agenda", [(tabelaAgenda(agenda))]);
+  if (abaPainel==='faturamento') return     htmlTela("painel-faturamento", [(dinheiro(financeiro.servicos)), (dinheiro(financeiro.produtos)), (dinheiro(financeiro.total)), (tabelaFaturamento(financeiro.profissionais))]);
+  if (abaPainel==='avaliacoes') return htmlTela("painel-avaliacoes", [(painelAvaliacoes(b)), (seguro(b.nome)), ([...b.avaliacoes].reverse().map(a=>htmlTela("componente-comentario-painel", [(seguro(a.nome)), (('★'.repeat(Number(a.estrelas)))), (seguro(a.texto))])).join(''))]);
+  if (abaPainel==='pedidos') return htmlTela("painel-pedidos", [((vendas.length ? '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Produto</th><th>Valor</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
+     [...vendas].reverse().map(p=>htmlTela("componente-linha-pedido", [(seguro(p.cliente)), (seguro(p.produto)), (dinheiro(p.preco)), (seguro(p.status||'Aguardando retirada')), ((p.status==='Entregue'?'—':'<button class="btn btn-primary btn-sm" data-entregar="'+seguro(p.id)+'">Entregue</button>'))])).join('')+
      '</tbody></table></div>' : '<p class="muted">Nenhum pedido por enquanto.</p>'))]);
-  if (abaPainel==='aparencia') return htmlTela("html-conteudoPainel-21", [(campo('Nome da barbearia','editar-nome',b.nome)), (seguro(b.bairro)), (seguro(b.cor)), (seguro(b.descricao)), (seguro(b.horario)), (seguro(b.profissionais.join(', '))), (seguro(b.cor)), (seguro(b.nome)), (botao('Salvar alterações'))]);
-  if (abaPainel==='fotos') return     htmlTela("html-conteudoPainel-22", [(seguro(b.capa||b.fotos[0])), (b.fotos.map((foto,i)=>htmlTela("html-conteudoPainel-38", [(seguro(foto)), ((i+1)), (i), ((b.fotos.length===1?'disabled':''))])).join('')), (b.profissionais.map(p=>htmlTela("html-conteudoPainel-39", [(((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')), (seguro(p)), (seguro(p)), (((b.fotosProfissionais||{})[p]?'<button class="btn btn-outline btn-sm" data-remover-foto-prof="'+seguro(p)+'">Remover foto</button>':''))])).join(''))]);
-  if (abaPainel==='catalogo') return htmlTela("html-conteudoPainel-23", [(botao('+ Adicionar produto')), ((b.produtos.length?b.produtos.map(p=>
-        htmlTela("html-conteudoPainel-40", [((p.imagem?'<img class="product-photo-small" src="'+seguro(p.imagem)+'" alt="Foto de '+seguro(p.nome)+'">':'<div class="product-thumb product-photo-small">'+seguro(p.emoji||'🧴')+'</div>')), (seguro(p.nome)), (dinheiro(p.preco)), (seguro(p.id)), (seguro(p.id))])).join(''):'<p class="muted">Nenhum produto cadastrado.</p>'))]);
+  if (abaPainel==='aparencia') return htmlTela("painel-informacoes", [(campo('Nome da barbearia','editar-nome',b.nome)), (seguro(b.bairro)), (seguro(b.cor)), (seguro(b.descricao)), (seguro(b.horario)), (seguro(b.profissionais.join(', '))), (seguro(b.cor)), (seguro(b.nome)), (botao('Salvar alterações'))]);
+  if (abaPainel==='fotos') return     htmlTela("painel-fotos-equipe", [(seguro(b.capa||b.fotos[0])), (b.fotos.map((foto,i)=>htmlTela("componente-foto-galeria", [(seguro(foto)), ((i+1)), (i), ((b.fotos.length===1?'disabled':''))])).join('')), (b.profissionais.map(p=>htmlTela("componente-foto-profissional", [(((b.fotosProfissionais||{})[p]?'<img src="'+seguro(b.fotosProfissionais[p])+'" alt="Foto de '+seguro(p)+'">':'<div class="pro-avatar">'+seguro(p.slice(0,1).toUpperCase())+'</div>')), (seguro(p)), (seguro(p)), (((b.fotosProfissionais||{})[p]?'<button class="btn btn-outline btn-sm" data-remover-foto-prof="'+seguro(p)+'">Remover foto</button>':''))])).join(''))]);
+  if (abaPainel==='catalogo') return htmlTela("painel-catalogo", [(botao('+ Adicionar produto')), ((b.produtos.length?b.produtos.map(p=>
+        htmlTela("componente-item-produto-painel", [((p.imagem?'<img class="product-photo-small" src="'+seguro(p.imagem)+'" alt="Foto de '+seguro(p.nome)+'">':'<div class="product-thumb product-photo-small">'+seguro(p.emoji||'🧴')+'</div>')), (seguro(p.nome)), (dinheiro(p.preco)), (seguro(p.id)), (seguro(p.id))])).join(''):'<p class="muted">Nenhum produto cadastrado.</p>'))]);
   return '';
 }
 function painelAvaliacoes(b) {
@@ -402,37 +402,37 @@ function painelAvaliacoes(b) {
   const linhas=[5,4,3,2,1].map(n=>{
     const q=lista.filter(a=>Number(a.estrelas)===n).length;
     const largura=total?Math.round(q*100/total):0;
-    return htmlTela("html-painelAvaliacoes-24", [(n), (largura), (q)]);
+    return htmlTela("componente-linha-avaliacao", [(n), (largura), (q)]);
   }).join('');
-  return htmlTela("html-painelAvaliacoes-25", [(media.toFixed(1)), (total), (linhas), (notaMedia(b).toFixed(1))]);
+  return htmlTela("componente-resumo-avaliacoes", [(media.toFixed(1)), (total), (linhas), (notaMedia(b).toFixed(1))]);
 }
 function tabelaFaturamento(profissionais) {
-  return htmlTela("html-tabelaFaturamento-26", [(profissionais.map(p=>'<tr><td>'+seguro(p.nome)+'</td><td>'+p.atendimentos+'</td><td>'+dinheiro(p.total)+'</td></tr>').join(''))]);
+  return htmlTela("componente-tabela-faturamento", [(profissionais.map(p=>'<tr><td>'+seguro(p.nome)+'</td><td>'+p.atendimentos+'</td><td>'+dinheiro(p.total)+'</td></tr>').join(''))]);
 }
 
 // 6. Histórico local, cadastro, avaliações e checkout fictício.
 function cardsAgendamentos(lista) {
-  if (!lista.length) return htmlTela("html-cardsAgendamentos-27", []);
+  if (!lista.length) return htmlTela("componente-agendamentos-vazios", []);
   return [...lista].reverse().map(a=>
-    htmlTela("html-cardsAgendamentos-41", [(seguro(a.status)), (seguro((loja(a.idLoja)||{}).nome||'Barbearia')), (seguro(a.servico)), (seguro(a.profissional)), (dataBR(a.data)), (seguro(a.hora)), (dinheiro(a.preco)), ((a.status==='Confirmado'?'<button class="btn btn-outline btn-sm" data-cancelar="'+a.id+'">Cancelar agendamento</button>':'<span class="muted small">'+(a.status==='Concluído'?'Atendimento realizado':'Cancelado')+'</span>'))])).join('');
+    htmlTela("componente-card-agendamento", [(seguro(a.status)), (seguro((loja(a.idLoja)||{}).nome||'Barbearia')), (seguro(a.servico)), (seguro(a.profissional)), (dataBR(a.data)), (seguro(a.hora)), (dinheiro(a.preco)), ((a.status==='Confirmado'?'<button class="btn btn-outline btn-sm" data-cancelar="'+a.id+'">Cancelar agendamento</button>':'<span class="muted small">'+(a.status==='Concluído'?'Atendimento realizado':'Cancelado')+'</span>'))])).join('');
 }
 function telaMeusAgendamentos() {
   document.documentElement.style.setProperty('--accent','#d8aa56');
   const logado=!!clienteLogado();
   const seus=agendamentos.filter(a=>logado?a.clienteUsuario===clienteLogado():!a.clienteUsuario&&!a.exemplo);
-  app.innerHTML=htmlTela("html-telaMeusAgendamentos-28", [((logado?'Mostrando reservas vinculadas à sua conta de demonstração.':'Você está como visitante. <a href="#login-cliente">Entre como cliente</a> para vincular novos agendamentos à sua conta.')), (cardsAgendamentos(seus))]);
+  app.innerHTML=htmlTela("pagina-meus-agendamentos", [((logado?'Mostrando reservas vinculadas à sua conta de demonstração.':'Você está como visitante. <a href="#login-cliente">Entre como cliente</a> para vincular novos agendamentos à sua conta.')), (cardsAgendamentos(seus))]);
 }
 function modalAvaliacao(id) {
-  abrirModal(htmlTela("html-modalAvaliacao-42", [(cabecalhoModal('Avaliar barbearia')), (seguro(id)), (campo('Seu nome','avaliador','')), (botao('Publicar avaliação'))]));
+  abrirModal(htmlTela("modal-avaliacao", [(cabecalhoModal('Avaliar barbearia')), (seguro(id)), (campo('Seu nome','avaliador','')), (botao('Publicar avaliação'))]));
 }
 function modalCompra(idLoja,idProduto) {
   const b=loja(idLoja);
   const p=b && b.produtos.find(x=>x.id===idProduto);
   if (!p) return;
-  abrirModal(htmlTela("html-modalCompra-43", [(cabecalhoModal('Finalizar pedido')), (seguro(p.nome)), (dinheiro(p.preco)), (seguro(idLoja)), (seguro(idProduto)), (campo('Seu nome','comprador','')), (campo('Telefone','tel-comprador','','tel')), (dinheiro(p.preco)), (botao('Confirmar pedido de demonstração'))]));
+  abrirModal(htmlTela("modal-compra", [(cabecalhoModal('Finalizar pedido')), (seguro(p.nome)), (dinheiro(p.preco)), (seguro(idLoja)), (seguro(idProduto)), (campo('Seu nome','comprador','')), (campo('Telefone','tel-comprador','','tel')), (dinheiro(p.preco)), (botao('Confirmar pedido de demonstração'))]));
 }
 function modalCadastro() {
-  abrirModal(htmlTela("html-modalCadastro-44", [(cabecalhoModal('Cadastrar nova barbearia')), (campo('Nome da barbearia','cad-nome','')), (botao('Criar barbearia'))]));
+  abrirModal(htmlTela("modal-cadastro-barbearia", [(cabecalhoModal('Cadastrar nova barbearia')), (campo('Nome da barbearia','cad-nome','')), (botao('Criar barbearia'))]));
 }
 // Reduz as fotos no próprio navegador (sem upload, servidor ou API).
 
@@ -665,7 +665,7 @@ document.addEventListener('submit',e=>{
     if (!cliente||!telefone) return;
     agendamentos.push({id:Date.now(),idLoja:b.id,cliente:cliente,clienteUsuario:clienteLogado()||'',telefone:telefone,servico:servico.nome,profissional:profissional,data:data,hora:hora,preco:servico.preco,status:'Confirmado'});
     salvar(); telaBarbearia(b.id);
-    abrirModal(htmlTela("html-renderizar-45", [(cabecalhoModal('Agendamento registrado!')), (seguro(b.nome)), (dataBR(data)), (seguro(hora))]));
+    abrirModal(htmlTela("modal-agendamento-confirmado", [(cabecalhoModal('Agendamento registrado!')), (seguro(b.nome)), (dataBR(data)), (seguro(hora))]));
     aviso('Horário registrado com sucesso!');
   }
   if (form.id==='form-avaliacao') {

@@ -1,53 +1,54 @@
-# Guia rápido para localizar o código no VS Code
+# Guia para apresentar o código do BarberSync
 
-Abra a pasta inteira do BarberSync com **Arquivo → Abrir Pasta**.
+## Abrir no VS Code
 
-## Estrutura
+1. Baixe a pasta ZIP do GitHub e extraia.
+2. No VS Code, use **Arquivo → Abrir Pasta**.
+3. Abra `index.html`, `style.css` e `js/app.js` no Explorador.
+4. Use `Ctrl + F` para buscar um trecho do arquivo e `Ctrl + Shift + F` para pesquisar no projeto.
+5. Para ver o site, abra `index.html` no navegador ou rode com a extensão Live Server.
+
+## Organização simplificada
 
 ```text
 barbersync/
-├── index.html
-├── style.css
+├── index.html          ← estrutura e telas em HTML
+├── style.css           ← aparência do site
 ├── js/
-│   └── app.js
-└── docs/
-    ├── README.md
-    ├── GUIA-VSCODE-TCC.md
-    ├── ROTEIRO-APRESENTACAO-TCC.md
-    └── ROTEIRO-DEMONSTRACAO-SITE-TCC.md
+│   └── app.js          ← regras e interações
+└── docs/               ← documentação e roteiros
 ```
 
-## Como localizar uma funcionalidade
+### Onde está cada parte?
 
-Use `Ctrl+F` no arquivo aberto ou `Ctrl+Shift+F` na pasta inteira.
-
-| Tema | Pesquisar |
+| Funcionalidade | Código para localizar |
 | --- | --- |
-| Estação 47 | `estacao47` |
-| Lista de barbearias | `EXEMPLOS` ou `telaInicio()` |
-| Cards da vitrine | `VITRINE` em `style.css` |
-| Perfil da barbearia | `telaBarbearia()` |
-| Login de barbeiro | `telaLogin()` |
-| Login de cliente | `telaLoginCliente()` |
-| Cadastro de cliente | `telaCadastroCliente()` |
-| Cadastro de barbeiro | `telaCadastroBarbeiro()` |
-| Horários livres | `horariosLivres()` |
-| Envio de agendamento | `form-agendar` |
-| Agenda no painel | `tabelaAgenda()` |
-| Receita demonstrativa | `resumoReceita()` |
-| Ações de botões | `addEventListener('click'` |
-| Navegação | `renderizar()` |
+| Página inicial e vitrine | `index.html` → `pagina-inicio-vitrine` |
+| Card da Estação 47 | `index.html` → `componente-card-vitrine`; dados `estacao47` no JS |
+| Perfil da barbearia | `index.html` → `pagina-perfil-barbearia` |
+| Serviços e profissionais | `index.html` → `componente-linha-servico`, `componente-card-profissional` |
+| Login e cadastro de cliente | `index.html` → `pagina-login-cliente`, `pagina-cadastro-cliente` |
+| Cadastro e painel do barbeiro | `index.html` → `pagina-cadastro-barbeiro`, `pagina-painel-barbeiro` |
+| Agenda / faturamento / produtos | `index.html` → `painel-agenda`, `painel-faturamento`, `painel-catalogo` |
+| Reserva e confirmação | `index.html` → `pagina-perfil-barbearia`, `modal-agendamento-confirmado` |
+| Cores, fontes, espaçamento | `style.css` (buscar `VITRINE`, `LOGIN`, `PERFIL`) |
+| Dados da Estação 47 | `js/app.js` → `estacao47` |
+| Verificar horários disponíveis | `js/app.js` → `horariosLivres()` |
+| Processar agendamento | `js/app.js` → `form-agendar` |
+| Armazenamento e dados | `js/app.js` → `salvar()` |
+| Renderização de telas | `js/app.js` → `htmlTela()`, `renderizar()` |
 
-## Entenda o fluxo de um agendamento
+## Por que os blocos HTML usam `script type="text/html"`?
 
-1. `telaBarbearia()` monta a interface da barbearia.
-2. `horariosLivres()` ajuda a mostrar horários disponíveis.
-3. O evento de envio do formulário `form-agendar` lê os campos e valida a escolha.
-4. O agendamento é incluído nos dados em memória e `salvar()` grava a alteração no armazenamento local.
-5. O navegador mostra a confirmação e a interface é atualizada.
+Esse tipo de `script` é só um **modelo de HTML**, não um programa. O navegador não o executa. Quando alguém entra numa tela, `htmlTela()` pega o conteúdo do modelo e preenche marcadores como `__BS_VAL_0__` com nomes, imagens, avaliações e horários. A página final é inserida no `<main id="app"></main>`. Isso evita colocar dezenas de HTMLs longos dentro do JavaScript e preserva a navegação dinâmica.
 
-## Explicação técnica importante
+## Exemplo do fluxo de agendamento
 
-A interface é gerada dinamicamente dentro de `<main id="app"></main>`, no `index.html`. O CSS define o visual, e o JavaScript contém os dados e os comportamentos.
+1. O modelo `pagina-perfil-barbearia` define a interface.
+2. A função `horariosLivres()` informa os horários para o profissional e o dia escolhido.
+3. O envio de `form-agendar` valida os campos, registra a reserva e chama `salvar()`.
+4. A confirmação utiliza `modal-agendamento-confirmado`, também armazenado no HTML.
 
-Os dados desta versão não ficam disponíveis em todos os computadores. A aplicação não tem backend nem banco de dados e não deve ser usada com senhas reais.
+## Limitações que vocês devem saber explicar
+
+Não existe backend ou banco de dados; os registros ficam somente no navegador. As contas usam login demonstrativo e não são seguras para usuários reais. Pagamentos são simulados. Para produção seriam necessários servidor, autenticação adequada e armazenamento compartilhado.

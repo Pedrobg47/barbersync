@@ -1,33 +1,22 @@
 # BarberSync
 
-Protótipo web de barbearias feito com HTML, CSS e JavaScript.
+Projeto demonstrativo de plataforma para barbearias em Barueri, desenvolvido com HTML, CSS e JavaScript puro.
 
 ## Como abrir
 
-1. Abra a pasta do projeto no Visual Studio Code.
-2. Abra `index.html` no navegador.
-3. Se quiser testar com servidor local, use a extensão Live Server do VS Code.
+Baixe o ZIP pelo GitHub, extraia a pasta e abra `index.html` no navegador. Para estudar o código, abra a pasta inteira no VS Code.
 
-## Arquivos
+## Principais arquivos
 
-- `index.html`: estrutura do site e elemento `#app`.
-- `style.css`: aparência do site. Pesquise por **VITRINE**, **PERFIL DA BARBEARIA**, **LOGIN** e **CABEÇALHO**.
-- `js/app.js`: dados de exemplo, telas, formulários e eventos.
-- `docs/`: orientações e roteiros de apresentação.
+- `index.html` — cabeçalho, rodapé e **modelos HTML das telas** (vitrine, perfil das barbearias, logins, cadastros, agendamentos e painel).
+- `style.css` — identidade visual, layout e estilos, agrupados por seções.
+- `js/app.js` — dados de exemplo, eventos, navegação, horários, formulários, validações e armazenamento local.
+- `docs/` — guia de código e roteiros para apresentação.
 
-## Funções importantes
+## Como o HTML dinâmico funciona
 
-| O que localizar | Onde procurar |
-| --- | --- |
-| Barbearias de exemplo, incluindo Estação 47 | `EXEMPLOS` ou `estacao47` em `js/app.js` |
-| Página inicial e vitrine | `telaInicio()` |
-| Perfil da barbearia | `telaBarbearia()` |
-| Disponibilidade de horários | `horariosLivres()` |
-| Agendamentos | `form-agendar` |
-| Painel da barbearia | `telaPainel()` |
-| Faturamento demonstrativo | `resumoReceita()` |
-| Mudança de tela | `renderizar()` |
+O arquivo `index.html` utiliza blocos `<script type="text/html" id="pagina-inicio-vitrine">` e semelhantes para guardar o HTML das páginas. Apesar do nome `script`, o tipo `text/html` **não executa JavaScript**. A função `htmlTela()` do `js/app.js` lê esses blocos e insere os valores que mudam conforme o usuário e a barbearia. Assim o projeto roda diretamente no navegador, mesmo sem servidor local.
 
-## Limitações desta versão
+## Limitações reais
 
-É uma demonstração local, sem banco de dados ou servidor. Os cadastros, agendamentos e pedidos ficam no navegador através de `localStorage`. As contas e senhas de demonstração não implementam autenticação segura. Os pagamentos são simulados e algumas imagens dependem de conexão com a internet. Uma versão real precisaria de backend, banco de dados, autenticação adequada e integração com serviços externos.
+É um protótipo: utiliza `localStorage` e `sessionStorage` para guardar dados de teste. Não há banco de dados, servidor, autenticação segura, cobrança real ou sincronização entre computadores. Use somente dados fictícios.
