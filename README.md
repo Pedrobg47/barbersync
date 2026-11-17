@@ -1,53 +1,40 @@
-# BarberSync — Versão HTML e CSS
+# BarberSync — HTML, CSS e JavaScript básico
 
-Este projeto é um **protótipo acadêmico estático**, feito para estudar e apresentar páginas de um site de barbearias.
+Protótipo acadêmico de site de barbearias. A estrutura e a aparência continuam em **15 páginas HTML e um CSS**. O site utiliza **um único arquivo JS** (`app.js`, cerca de 255 linhas) para os recursos que precisam guardar dados.
 
-## Tecnologias
+## Funcionalidades
 
-- HTML5: estrutura de todas as páginas e formulários.
-- CSS3: cores, cards, responsividade e filtro por bairro usando radio buttons.
-- JavaScript: **não utilizado**. Não há arquivos `.js`, frameworks, bibliotecas ou geração dinâmica de HTML.
+- Home com quatro barbearias demonstrativas e filtro por bairro feito somente com HTML e CSS.
+- Cadastro e login de clientes com dados fictícios.
+- Cadastro e login de proprietários; novos estabelecimentos aparecem na vitrine do mesmo navegador.
+- Agendamento por barbearia, profissional, dia e hora; bloqueio de horários ocupados naquele navegador.
+- Área do cliente com histórico e cancelamento de reservas.
+- Painel do proprietário com os agendamentos da própria barbearia.
+- Botão de tema claro/escuro presente em todas as páginas; preferência salva.
 
-## Como abrir
+## Muito importante: limitação acadêmica
 
-Abra a pasta no VS Code. Clique duas vezes em `index.html` ou use a extensão Live Server. Você também pode publicar os arquivos diretamente na Vercel como site estático, sem comando de build.
+**Não existe backend ou banco de dados.** O JavaScript usa `localStorage` para guardar as informações neste navegador e `sessionStorage` para indicar quem entrou nesta aba.
 
-## Páginas
+- Outro aparelho/navegador não compartilha os dados e pode escolher o mesmo horário.
+- Nenhuma barbearia recebe reservas reais.
+- **Senhas demonstrativas são armazenadas em texto simples.** Nunca use credenciais, nomes ou telefones reais. Não é um sistema de autenticação segura.
+- Produtos, avaliações e faturamento ainda são conteúdos ilustrativos.
 
-| Arquivo | O que mostra |
-| --- | --- |
-| `index.html` | Página inicial, vitrine e filtro por bairro |
-| `estacao47.html`, `nobre.html`, `distrito.html`, `vertice.html` | Perfis das quatro barbearias |
-| `agendar.html` | Formulário visual de agendamento |
-| `confirmacao.html` | Aviso de fim da demonstração |
-| `cliente.html` e `cadastro-cliente.html` | Formulários demonstrativos de cliente |
-| `conta.html` | Área de cliente ilustrativa |
-| `barbeiro.html` e `cadastro-barbearia.html` | Formulários demonstrativos do proprietário |
-| `painel.html` | Exemplo estático de agenda, faturamento, equipe e produtos |
-| `planos.html` e `politicas.html` | Planos propostos e regras de uso |
-| `style.css` | Todos os estilos, inclusive celular |
+## Testar
 
-## Limites importantes
+Abra `index.html` pelo Live Server do VS Code ou pelo site publicado na Vercel.
 
-**Sem JavaScript nem backend, este site não faz login real, não salva contas, não grava agendamentos, não bloqueia horários ocupados, não altera pedidos ou produtos, e não possui pesquisa textual dinâmica.** A navegação funciona, os formulários demonstram seus campos e as áreas de cliente/barbeiro exibem dados ilustrativos.
+**Cliente:** acesse `cliente.html` com usuário `cliente` e senha `demo123`, ou crie uma conta em `cadastro-cliente.html`. Entre em uma barbearia, agende e veja em `conta.html`. Teste também cancelar um horário.
 
-Os formulários usam `action` e `method="get"` apenas para navegar até uma página ilustrativa. Os campos não possuem atributo `name`, portanto o navegador **não inclui os valores digitados no endereço**. Mesmo assim, **use apenas dados fictícios, nunca informações pessoais reais.** Em uma versão real, seria necessário backend e HTTPS com autenticação segura.
+**Proprietário:** acesse `barbeiro.html` com `estacao47` / `demo123` e veja `painel.html`. Ou crie outra barbearia em `cadastro-barbearia.html` e confira a vitrine inicial.
 
-## Como apresentar em grupo (5 integrantes)
+**Tema:** clique em Modo escuro / Modo claro no menu. Navegue e confira se a escolha permanece.
 
-1. **HTML da página inicial:** cabeçalho, cartões, links e filtros por bairro. Perguntas: como funciona um link? Para que serve `section`?
-2. **CSS e responsividade:** Flexbox, Grid, media queries e filtro com radio buttons. Perguntas: diferença entre Grid e Flexbox? Como ajustar para celular?
-3. **Perfis das barbearias:** fotos, profissionais, serviços e avaliações ilustrativas. Perguntas: como inserir imagens acessíveis? O que é uma classe CSS?
-4. **Formulários de cliente e agendamento:** campos nativos, `required`, `select` e navegação. Perguntas: o que `required` valida? Por que os dados não são salvos?
-5. **Painel e planos:** tabelas, informações, cards de planos e limitações. Perguntas: como foi construída a tabela? O que falta para o painel ser funcional?
+## Explicação para o professor
 
-## Testar antes da banca
+- **HTML:** cabeçalho, páginas, campos, cards e tabela.
+- **CSS:** cores, layout responsivo, filtro por bairro e tema visual.
+- **JavaScript:** cadastro local, login demonstrativo, horários, cancelamento e botão de tema.
 
-- Clique nas quatro barbearias da vitrine.
-- Selecione cada bairro no filtro.
-- Abra o formulário e navegue até a tela de demonstração.
-- Abra cliente, barbeiro, cadastro, painel, planos e políticas.
-- Confira o layout pelo DevTools em celular (390px) e desktop.
-- Confirme que não há arquivos JS nem referências a scripts.
-
-A simplificação para HTML/CSS foi solicitada como prioridade. O resultado é um **site visual de demonstração**, não a mesma aplicação funcional que existia antes.
+`app.js` está dividido com comentários numerados para facilitar sua apresentação. É uma simulação local, não uma aplicação comercial.

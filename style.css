@@ -840,3 +840,69 @@ th {
     flex-direction: column;
   }
 }
+
+/* Botão do tema, sem mudar a estrutura original do menu. */
+.theme-button {
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Tema escuro: mudamos as cores, não o layout do site. */
+.tema-escuro {
+  --paper: #0c1425;
+  --text: #eef2fa;
+  --muted: #b0bdd3;
+  --line: #394762;
+}
+
+.tema-escuro .panel,
+.tema-escuro .shop-card,
+.tema-escuro .plan-card,
+.tema-escuro .pill {
+  background: #18243c;
+  color: var(--text);
+}
+
+.tema-escuro .field input,
+.tema-escuro .field select,
+.tema-escuro .btn-outline {
+  background: #101b30;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.tema-escuro .benefit-strip {
+  background: #121c31;
+}
+
+.tema-escuro .tag,
+.tema-escuro .status,
+.tema-escuro .stats > div {
+  background: #263653;
+  color: var(--text);
+}
+
+.tema-escuro .demo-note {
+  background: #302a20;
+  color: #f2ddb0;
+}
+
+.tema-escuro .plan-features,
+.tema-escuro .plan-price small {
+  color: var(--muted);
+}
+
+.tema-escuro .avatar {
+  background: #493b29;
+  color: #f6ddb0;
+}
+
+.tema-escuro .footer,
+.tema-escuro .site-header {
+  background: #070d1a;
+}
