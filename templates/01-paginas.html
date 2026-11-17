@@ -213,7 +213,46 @@
   </section>
   <section class="section">
     <div class="wrap">
-      <div class="plans-grid">__BS_VAL_0__</div>
+      <div class="plans-grid">
+        <article class="plan-card">
+          <span class="eyebrow">BARBERSYNC</span>
+          <h3>Essencial</h3>
+          <p class="muted">Para começar sua presença digital.</p>
+          <div class="plan-price">R$ 39,90 <small>/mês</small></div>
+          <ul class="plan-features">
+            <li>Vitrine com fotos e avaliações</li>
+            <li>Agendamento demonstrativo</li>
+            <li>Cadastro de serviços e equipe</li>
+          </ul>
+          <a class="btn btn-dark btn-block" href="#cadastro-barbeiro/essencial">Selecionar plano →</a>
+        </article>
+        <article class="plan-card featured">
+          <span class="eyebrow">✦ MAIS POPULAR</span>
+          <h3>Profissional</h3>
+          <p class="muted">Para organizar a rotina da barbearia.</p>
+          <div class="plan-price">R$ 79,90 <small>/mês</small></div>
+          <ul class="plan-features">
+            <li>Tudo do plano Essencial</li>
+            <li>Painel de agenda e faturamento</li>
+            <li>Fotos de profissionais e produtos</li>
+            <li>Visão geral das avaliações</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="#cadastro-barbeiro/profissional">Selecionar plano →</a>
+        </article>
+        <article class="plan-card">
+          <span class="eyebrow">BARBERSYNC</span>
+          <h3>Premium</h3>
+          <p class="muted">Uma experiência completa para seu negócio.</p>
+          <div class="plan-price">R$ 129,90 <small>/mês</small></div>
+          <ul class="plan-features">
+            <li>Tudo do plano Profissional</li>
+            <li>Destaque visual na vitrine</li>
+            <li>Personalização ampliada</li>
+            <li>Suporte prioritário (proposta futura)</li>
+          </ul>
+          <a class="btn btn-dark btn-block" href="#cadastro-barbeiro/premium">Selecionar plano →</a>
+        </article>
+      </div>
       <p class="demo-note" style="margin-top:24px">* Valores e funcionalidades propostos para o TCC, sem cobrança real, renovação automática ou diferenciação técnica de acesso entre planos.</p>
       <p style="margin-top:12px">
         <a href="#politicas" class="btn btn-outline">Consultar políticas e termos ↗</a></p>
@@ -269,11 +308,16 @@
   <div class="wrap search-wrap">
     <div class="search-panel">
       <div class="field">
-        <label for="busca">O que você procura?</label><input id="busca" placeholder="Nome da barbearia ou bairro" value="__BS_VAL_0__"></div>
+        <label for="busca">O que você procura?</label><input id="busca" placeholder="Nome da barbearia ou bairro"></div>
       <div class="field">
         <label for="bairro">Região</label>
         <select id="bairro">
-          <option>Todos</option>__BS_VAL_1__
+          <option>Todos</option>
+          <option>Alphaville</option>
+          <option>Centro</option>
+          <option>Jardim Belval</option>
+          <option>Jardim Silveira</option>
+          <option>Parque Imperial</option>
         </select>
       </div>
       <div class="field">
@@ -296,7 +340,12 @@
           <p class="muted">Uma vitrine para descobrir seu próximo lugar favorito.</p>
         </div><span id="quantidade" class="tag">0 resultados</span>
       </div>
-      <div class="category-row" id="categorias">__BS_VAL_2__</div>
+      <div class="category-row" id="categorias">
+        <button type="button" class="pill active" data-tipo="Todos">Todos</button>
+        <button type="button" class="pill" data-tipo="Corte">Corte</button>
+        <button type="button" class="pill" data-tipo="Barba">Barba</button>
+        <button type="button" class="pill" data-tipo="Produtos">Produtos</button>
+      </div>
       <div id="cards" class="cards"></div>
     </div>
   </section>
@@ -397,19 +446,29 @@
   <div class="wrap page-content">
     <div class="owner-note">⚠ Login de demonstração, sem autenticação real ou banco de dados. Dados e imagens ficam neste navegador. Use somente informações fictícias. Plano selecionado: <strong>__BS_VAL_0__</strong> (sem cobrança).</div>
     <div class="dashboard">
-      <aside class="sidebar"><small>Minha barbearia</small>__BS_VAL_1__</aside>
+      <aside class="sidebar">
+        <small>Minha barbearia</small>
+        <button type="button" class="side-btn" data-aba="visao">▦ Visão geral</button>
+        <button type="button" class="side-btn" data-aba="agenda">▤ Agenda</button>
+        <button type="button" class="side-btn" data-aba="faturamento">▥ Faturamento</button>
+        <button type="button" class="side-btn" data-aba="avaliacoes">☆ Avaliações</button>
+        <button type="button" class="side-btn" data-aba="pedidos">▣ Pedidos</button>
+        <button type="button" class="side-btn" data-aba="aparencia">◐ Informações e cores</button>
+        <button type="button" class="side-btn" data-aba="fotos">▧ Fotos e equipe</button>
+        <button type="button" class="side-btn" data-aba="catalogo">◈ Produtos</button>
+      </aside>
       <div class="owner-main">
         <div class="owner-top">
           <div>
             <div class="eyebrow">PAINEL DO PARCEIRO</div>
-            <h2>__BS_VAL_2__</h2>
+            <h2>__BS_VAL_1__</h2>
           </div>
           <div class="owner-toolbar">
-            <select id="selecionar-loja" aria-label="Selecionar minha barbearia">__BS_VAL_3__</select>
+            <select id="selecionar-loja" aria-label="Selecionar minha barbearia">__BS_VAL_2__</select>
             <button class="btn btn-dark btn-sm" data-cadastrar>+ Nova barbearia</button>
             <button class="btn btn-outline btn-sm" data-logout>Sair</button>
           </div>
-        </div>__BS_VAL_4__
+        </div>__BS_VAL_3__
       </div>
     </div>
     <div style="margin-top:28px">

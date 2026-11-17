@@ -105,11 +105,9 @@ function telaContaCliente() {
   const seus=agendamentos.filter(a=>a.clienteUsuario===clienteLogado());
   app.innerHTML=htmlTela("pagina-minha-conta", [(seguro(usuario?.nome||'cliente')), (cardsAgendamentos(seus))]);
 }
+// A página de planos é HTML estático. Não precisa criar cards via JS.
 function telaPlanos() {
-  app.innerHTML=htmlTela("pagina-planos", [(PLANOS.map((p,i)=>
-      htmlTela("componente-card-plano", [((i===1?'featured':'')), ((i===1?'✦ MAIS POPULAR':'BARBERSYNC')),
-           (p.nome), (p.descricao), (dinheiro(p.preco)), (p.recursos.map(t=>'<li>'+seguro(t)+'</li>').join('')),
-           ((i===1?'btn-primary':'btn-dark')), (p.id)])).join(''))]);
+  app.innerHTML = htmlTela('pagina-planos');
 }
 function telaPoliticas() {
   app.innerHTML=htmlTela("pagina-politicas", []);
@@ -143,11 +141,17 @@ function botao(texto,classe) {
 // 3. Página inicial: busca, filtros e vitrine de barbearias.
 // Cria a página HTML da vitrine. A busca/ordenacão atualiza os cards.
 function telaInicio() {
-  document.documentElement.style.setProperty('--accent','#d8aa56');
-  app.innerHTML =
-    htmlTela("pagina-inicio-vitrine", [(seguro(filtro.busca)), ([...new Set(barbearias.map(b=>b.bairro))].sort().map(b=>'<option '+(filtro.bairro===b?'selected':'')+'>'+seguro(b)+'</option>').join('')),
-         (['Todos','Corte','Barba','Produtos'].map(t=>'<button class="pill '+(filtro.tipo===t?'active':'')+'" data-tipo="'+t+'">'+t+'</button>').join(''))]);
-  document.querySelector('#ordenacao').value=filtro.ordenacao;
+  document.documentElement.style.setProperty('--accent', '#d8aa56');
+
+  // Busca, bairros e botões de filtro já estão escritos no HTML.
+  app.innerHTML = htmlTela('pagina-inicio-vitrine');
+  document.querySelector('#busca').value = filtro.busca;
+  document.querySelector('#bairro').value = filtro.bairro;
+  document.querySelector('#ordenacao').value = filtro.ordenacao;
+
+  document.querySelectorAll('#categorias [data-tipo]').forEach(botao => {
+    botao.classList.toggle('active', botao.dataset.tipo === filtro.tipo);
+  });
   atualizarCards();
 }
 function atualizarCards() {
@@ -223,14 +227,21 @@ function telaPainel() {
   const vendas=pedidos.filter(p=>p.idLoja===b.id);
   const financeiro=resumoReceita(b,agenda,vendas);
   document.documentElement.style.setProperty('--accent','#d8aa56');
-  const abas=[['visao','▦ Visão geral'],['agenda','▤ Agenda'],['faturamento','▥ Faturamento'],
-      ['avaliacoes','☆ Avaliações'],['pedidos','▣ Pedidos'],['aparencia','◐ Informações e cores'],
-      ['fotos','▧ Fotos e equipe'],['catalogo','◈ Produtos']];
-  app.innerHTML=
-    htmlTela("pagina-painel-barbeiro", [(seguro((PLANOS.find(p=>p.id===b.plano)||PLANOS[1]).nome)),
-         (abas.map(a=>'<button class="side-btn '+(abaPainel===a[0]?'active':'')+'" data-aba="'+a[0]+'">'+a[1]+'</button>').join('')),
-         (seguro(b.nome)), (disponiveis.map(x=>'<option value="'+seguro(x.id)+'" '+(x.id===b.id?'selected':'')+'>'+seguro(x.nome)+'</option>').join('')),
-         (conteudoPainel(b,agenda,vendas,financeiro))]);
+  app.innerHTML = htmlTela('pagina-painel-barbeiro', [
+    seguro((PLANOS.find(plano => plano.id === b.plano) || PLANOS[1]).nome),
+    seguro(b.nome),
+    disponiveis.map(loja => {
+      const selecionado = loja.id === b.id ? ' selected' : '';
+      return '<option value="' + seguro(loja.id) + '"' + selecionado + '>' +
+        seguro(loja.nome) + '</option>';
+    }).join(''),
+    conteudoPainel(b, agenda, vendas, financeiro)
+  ]);
+
+  // Apenas destaca o botão da aba que o dono abriu.
+  document.querySelectorAll('.sidebar [data-aba]').forEach(botao => {
+    botao.classList.toggle('active', botao.dataset.aba === abaPainel);
+  });
 }
 function tabelaAgenda(agenda) {
   if (!agenda.length) return htmlTela("componente-agenda-vazia", []);

@@ -89,16 +89,11 @@ const dadosCliente = () => [...CONTAS_CLIENTE_DEMO,...contasClientes].find(c=>c.
 const contaBarbeiro = usuario => [...CONTAS_DEMO,...contasBarbeiros].find(c=>c.usuario===usuario);
 const nomeCliente = () => (dadosCliente()||{}).nome || '';
 const telefoneCliente = () => (dadosCliente()||{}).telefone || '';
+// Os valores e benefícios dos planos estão escritos diretamente no HTML.
 const PLANOS = [
-  {id:'essencial',nome:'Essencial',preco:39.90,descricao:'Para começar sua presença digital.',
-      recursos:['Vitrine com fotos e avaliações','Agendamento demonstrativo','Cadastro de serviços e equipe']},
-      
-  {id:'profissional',nome:'Profissional',preco:79.90,descricao:'Para organizar a rotina da barbearia.',
-      recursos:['Tudo do plano Essencial','Painel de agenda e faturamento','Fotos de profissionais e produtos',
-      'Visão geral das avaliações']},
-  {id:'premium',nome:'Premium',preco:129.90,descricao:'Uma experiência completa para seu negócio.',
-      recursos:['Tudo do plano Profissional','Destaque visual na vitrine','Personalização ampliada',
-      'Suporte prioritário (proposta futura)']}
+  {id: 'essencial', nome: 'Essencial'},
+  {id: 'profissional', nome: 'Profissional'},
+  {id: 'premium', nome: 'Premium'}
 ];
 const minhasLojas = () => barbearias.filter(b=>(b.dono || b.id)===donoLogado());
 const podeEditar = b => !!b && !!donoLogado() && (b.dono || b.id)===donoLogado();
