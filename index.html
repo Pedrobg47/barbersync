@@ -8,13 +8,14 @@
   <title>BarberSync | Seu próximo corte começa aqui</title>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="style.css">
-  <!-- MVC no front-end: ordem importa: Model → View → Controller -->
+  <!-- [TCC-HTML01] MVC: carregamos Model, View e Controller nesta ORDEM.
+       Model define as regras, View monta as telas, Controller controla os cliques. -->
   <script src="js/model.js" defer></script>
   <script src="js/view.js" defer></script>
   <script src="js/controller.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
+  <!-- [TCC-HTML02] CABEÇALHO: logo, navegação e botões de acesso. -->
     <div class="wrap nav">
       <a class="logo" id="logo-home" href="#inicio" aria-label="BarberSync, voltar ao início">
         <span class="logo-mark">B<span>✦</span></span><span>BARBER<span class="logo-gold">SYNC</span></span>
@@ -34,16 +35,18 @@
     </div>
   </header>
 
+  <!-- [TCC-HTML03] ÁREA PRINCIPAL: a View escreve o HTML aqui pelo JavaScript.
+       As páginas são dinâmicas, por isso quase não há conteúdo nesta tag. -->
   <main id="app"></main>
 
-  <footer class="footer">
+  <!-- [TCC-HTML04] RODAPÉ: links de planos, políticas e aviso de demonstração. -->
     <div class="wrap footer-inner">
       <div><strong>BARBER<span class="logo-gold">SYNC</span></strong><p>Seu estilo, sua escolha. Feito para Barueri.</p></div>
       <div class="footer-right"><div class="footer-nav"><a href="#planos">Planos</a><a href="#politicas">Políticas e privacidade</a><a href="#login-cliente">Área do cliente</a></div><span>Projeto acadêmico demonstrativo • TCC</span><span>Cadastros e pagamentos simulados • Sem Google Maps</span></div>
     </div>
   </footer>
 
-  <div id="modal-root"></div>
+  <!-- [TCC-HTML05] JANELAS E AVISOS: a View usa estes elementos para confirmação e alertas. -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
