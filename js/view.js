@@ -1,12 +1,18 @@
 /* MVC — VIEW (Visão): funções que mostram HTML e atualizam a tela.
    Exemplo: telaBarbearia() usa dados do Model para montar o perfil. */
 
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-V01] IDENTIDADE VISUAL — claro/escuro e cabeçalho        ║
+// ╚══════════════════════════════════════════════════════════════╝
+// A View muda o que é mostrado; o CSS define as cores finais.
 function aplicarTema() {
   const escuro = localStorage.getItem(CHAVE+'tema')!=='claro';
   document.body.classList.toggle('theme-dark',escuro);
   document.querySelector('#theme-label').textContent=escuro?'Claro':'Escuro';
   document.querySelector('#theme-toggle').setAttribute('aria-label',escuro?'Ativar modo claro':'Ativar modo escuro');
 }
+// [TCC-V02] Ao abrir uma barbearia, mostra o nome dela e o logo B.
+// O logo leva de volta à página inicial da plataforma.
 function atualizarCabecalho() {
   const rota=decodeURIComponent(location.hash||'#inicio');
   const b=rota.startsWith('#barbearia/')?loja(rota.split('/')[1]):null;
@@ -29,6 +35,11 @@ function abasAcesso(tipo) {
     '<a href="#login-cliente" class="'+(tipo==='cliente'?'active':'')+'">Sou cliente</a>'+
     '<a href="#login" class="'+(tipo==='barbeiro'?'active':'')+'">Sou barbeiro</a></div>';
 }
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-V03] TELAS DE LOGIN E CADASTRO (interface HTML)          ║
+// ╚══════════════════════════════════════════════════════════════╝
+// Atenção: aqui apenas DESENHAMOS os formulários.
+// A ação de entrar/criar conta está no Controller.
 function telaLogin() {
   if (donoLogado()) { location.hash='#painel';return; }
   document.documentElement.style.setProperty('--accent','#d8aa56');
@@ -65,6 +76,7 @@ function telaCadastroCliente() {
     '<div class="auth-switch">Já tem conta? <a href="#login-cliente">Fazer login</a></div>'+
     '<p class="help">Não existe cadastro real, servidor ou criptografia. Não forneça dados pessoais verdadeiros.</p></div></div></section>';
 }
+// [TCC-V04] Formulário onde o proprietário escolhe nome, loja e plano mensal.
 function telaCadastroBarbeiro() {
   const escolhido=(location.hash.split('/')[1]||'profissional').toLowerCase();
   app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEIROS</span><h1>Cadastre seu negócio.</h1><p>Crie sua vitrine em Barueri e experimente o painel completo.</p></div></section>'+
@@ -84,6 +96,7 @@ function telaCadastroBarbeiro() {
     '<div class="auth-switch">Já tem cadastro? <a href="#login">Fazer login</a></div>'+
     '<p class="help">Senha demonstrativa armazenada localmente. Não use credenciais reais.</p></div></div></section>';
 }
+// [TCC-V05] Área do cliente com os agendamentos vinculados à conta local.
 function telaContaCliente() {
   if (!clienteLogado()) { location.hash='#login-cliente';return; }
   const usuario=dadosCliente();
@@ -93,6 +106,7 @@ function telaContaCliente() {
     cardsAgendamentos(seus)+
     '<a href="#inicio" class="btn btn-primary">Agendar novo atendimento →</a></div>';
 }
+// [TCC-V06] Página dos planos mensais. Preços ilustrativos, sem pagamento.
 function telaPlanos() {
   app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">PARA BARBEARIAS DE BARUERI</span><h1>Seu negócio merece destaque.</h1><p>Planos mensais ilustrativos para demonstrar o modelo de receita do BarberSync.</p></div></section>'+
     '<section class="section"><div class="wrap"><div class="plans-grid">'+PLANOS.map((p,i)=>
@@ -105,6 +119,7 @@ function telaPlanos() {
     '<p class="demo-note" style="margin-top:24px">* Valores e funcionalidades propostos para o TCC, sem cobrança real, renovação automática ou diferenciação técnica de acesso entre planos.</p>'+
     '<p style="margin-top:12px"><a href="#politicas" class="btn btn-outline">Consultar políticas e termos ↗</a></p></div></section>';
 }
+// [TCC-V07] Página de termos e políticas proposta para a apresentação.
 function telaPoliticas() {
   app.innerHTML='<section class="page-intro"><div class="wrap"><span class="eyebrow">TRANSPARÊNCIA</span><h1>Políticas e termos.</h1><p>Modelo de política para a apresentação acadêmica do BarberSync.</p></div></section>'+
     '<section class="page-content"><div class="wrap policy-content">'+
@@ -121,6 +136,9 @@ function telaPoliticas() {
     '<a class="btn btn-primary" href="#inicio">Voltar à vitrine</a></div></section>';
 }
 
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-V08] COMPONENTES REUTILIZÁVEIS — alertas e formulários   ║
+// ╚══════════════════════════════════════════════════════════════╝
 function aviso(mensagem) {
   const el = document.querySelector('#toast');
   el.textContent=mensagem;
@@ -143,6 +161,10 @@ function botao(texto,classe) {
 }
 
 // 3. Página inicial: busca, filtros e vitrine de barbearias.
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-V09] VITRINE — PÁGINA INICIAL COM AS BARBEARIAS           ║
+// ╚══════════════════════════════════════════════════════════════╝
+// Cria a página HTML da vitrine. A busca/ordenacão atualiza os cards.
 function telaInicio() {
   document.documentElement.style.setProperty('--accent','#d8aa56');
   app.innerHTML =
@@ -169,6 +191,7 @@ function telaInicio() {
   document.querySelector('#ordenacao').value=filtro.ordenacao;
   atualizarCards();
 }
+// [TCC-V10] Usa filter() e sort() para filtrar/ordenar as barbearias.
 function atualizarCards() {
   const busca=filtro.busca.trim().toLowerCase();
   const resultados=barbearias.filter(b=>
@@ -188,6 +211,11 @@ function atualizarCards() {
 }
 
 // 4. Perfil individual, horários, serviços, produtos e avaliações.
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-V11] PERFIL DA BARBEARIA + FORMULÁRIO DE AGENDAMENTO     ║
+// ╚══════════════════════════════════════════════════════════════╝
+// Monta capa, galeria, fotos da equipe, produtos e o formulário de reserva.
+// Confirmar o agendamento é responsabilidade do Controller.
 function telaBarbearia(id) {
   const b=loja(id);
   if (!b) { location.hash='#inicio'; return; }
@@ -228,6 +256,8 @@ function telaBarbearia(id) {
   atualizarHorarios();
 }
 
+// [TCC-V12] Atualiza a lista de horários na tela usando horariosLivres()
+// definido no Model. Desabilita Confirmar quando não houver horário.
 function atualizarHorarios() {
   const b=loja(location.hash.split('/')[1]);
   if (!b || !document.querySelector('#form-agendar')) return;
@@ -241,6 +271,10 @@ function atualizarHorarios() {
 
 // Exemplos fictícios evitam painel vazio na apresentação do TCC.
 
+// ╔══════════════════════════════════════════════════════════════╗
+// ║ [TCC-V13] PAINEL DO PROPRIETÁRIO — MENU E VISÃO GERAL          ║
+// ╚══════════════════════════════════════════════════════════════╝
+// Recebe os dados já armazenados, escolhe a barbearia e monta o painel.
 function telaPainel() {
   if (!donoLogado()) { telaLogin(); return; }
   const disponiveis=minhasLojas();
@@ -263,6 +297,7 @@ function telaPainel() {
     conteudoPainel(b,agenda,vendas,financeiro)+
     '</div></div><div style="margin-top:28px"><button class="btn btn-outline btn-sm" data-reset>↺ Restaurar dados da demonstração</button></div></div>';
 }
+// [TCC-V14] Exibe os agendamentos como tabela, com botão Concluir.
 function tabelaAgenda(agenda) {
   if (!agenda.length) return '<div class="showcase-empty"><p>Nenhum agendamento ainda. Faça uma reserva na vitrine ou insira dados fictícios para o TCC.</p><button class="btn btn-primary btn-sm" data-exemplos>Inserir agendamentos de demonstração</button></div>';
   return '<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Profissional</th><th>Data / Hora</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+
@@ -271,6 +306,8 @@ function tabelaAgenda(agenda) {
       '<td>'+(a.status==='Confirmado'?'<button class="btn btn-primary btn-sm" data-concluir="'+seguro(a.id)+'">Concluir</button>':'—')+'</td></tr>'
     ).join('')+'</tbody></table></div>';
 }
+// [TCC-V15] Alterna as abas Agenda, Faturamento, Avaliações, Fotos e Produtos.
+// Cada aba apresenta os dados do Model em HTML.
 function conteudoPainel(b,agenda,vendas,financeiro) {
   if (abaPainel==='visao') return     '<div class="stats"><div class="stat"><small>Agendamentos ativos</small><strong>'+agenda.filter(a=>a.status==='Confirmado').length+'</strong><span>Aguardando atendimento</span></div>'+
     '<div class="stat"><small>Serviços concluídos</small><strong>'+dinheiro(financeiro.servicos)+'</strong><span>Valor simulado</span></div>'+
@@ -336,6 +373,7 @@ function conteudoPainel(b,agenda,vendas,financeiro) {
       ).join(''):'<p class="muted">Nenhum produto cadastrado.</p>')+'</div>';
   return '';
 }
+// [TCC-V16] Resumo gráfico das avaliações: média, quantidade e notas por estrela.
 function painelAvaliacoes(b) {
   const lista=b.avaliacoes||[],total=lista.length;
   const media=total?lista.reduce((s,a)=>s+Number(a.estrelas),0)/total:0;
@@ -347,6 +385,7 @@ function painelAvaliacoes(b) {
   return '<div class="rating-overview"><div class="rating-big"><strong>'+media.toFixed(1)+'</strong><span class="stars">★★★★★</span><p class="small">Média de '+total+' comentário(s) cadastrados</p></div><div>'+linhas+'</div></div>'+
     '<p class="help">Os números acima resumem os comentários disponíveis na demonstração. A nota histórica ilustrativa da vitrine é '+notaMedia(b).toFixed(1)+'. Não são dados reais do Google.</p>';
 }
+// [TCC-V17] Exibe os resultados por profissional já calculados pelo Model.
 function tabelaFaturamento(profissionais) {
   return '<div class="table-wrap"><table class="revenue-table"><thead><tr><th>Barbeiro</th><th>Atendimentos concluídos</th><th>Faturamento demonstrativo</th></tr></thead><tbody>'+
     profissionais.map(p=>'<tr><td>'+seguro(p.nome)+'</td><td>'+p.atendimentos+'</td><td>'+dinheiro(p.total)+'</td></tr>').join('')+
@@ -354,6 +393,7 @@ function tabelaFaturamento(profissionais) {
 }
 
 // 6. Histórico local, cadastro, avaliações e checkout fictício.
+// [TCC-V18] Lista as reservas na página Minha Conta do cliente.
 function cardsAgendamentos(lista) {
   if (!lista.length) return '<div class="empty"><h3>Nenhuma reserva registrada</h3><p>Escolha uma barbearia e faça seu primeiro agendamento de demonstração.</p><a class="btn btn-primary" href="#inicio">Explorar barbearias →</a></div>';
   return [...lista].reverse().map(a=>
@@ -371,6 +411,7 @@ function telaMeusAgendamentos() {
     '<div class="wrap page-content"><div class="book-alert">'+(logado?'Mostrando reservas vinculadas à sua conta de demonstração.':'Você está como visitante. <a href="#login-cliente">Entre como cliente</a> para vincular novos agendamentos à sua conta.')+'</div>'+
     cardsAgendamentos(seus)+'</div>';
 }
+// [TCC-V19] Formulários em janelas de diálogo para avaliações e pedidos.
 function modalAvaliacao(id) {
   abrirModal(cabecalhoModal('Avaliar barbearia')+
     '<p class="muted small">Avaliação de demonstração, sem publicação no Google.</p>'+
