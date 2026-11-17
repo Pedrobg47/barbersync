@@ -8,8 +8,12 @@
   <title>BarberSync | Seu próximo corte começa aqui</title>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="style.css">
-  <!-- Código principal do site -->
-  <script src="js/app.js" defer></script>
+  <!-- Arquivos JavaScript por assunto -->
+  <script src="js/01-dados.js" defer></script>
+  <script src="js/02-telas.js" defer></script>
+  <script src="js/03-navegacao.js" defer></script>
+  <script src="js/04-interacoes.js" defer></script>
+  <script src="js/05-formularios.js" defer></script>
 </head>
 <body>
   <!-- Cabeçalho e menu -->
@@ -34,7 +38,7 @@
     </div>
   </header>
 
-  <!-- As páginas são montadas neste elemento pelo JavaScript -->
+  <!-- O conteúdo da página escolhida aparece aqui -->
   <main id="app"></main>
 
   <!-- Rodapé -->
@@ -60,7 +64,7 @@
   <div id="modal-root"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- Modelos de HTML são carregados pelo JavaScript nesta área. -->
+  <!-- Recebe o HTML das telas da pasta templates -->
   <div id="modelos-html" hidden></div>
 </body>
 </html>
