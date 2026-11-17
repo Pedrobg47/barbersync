@@ -1,66 +1,41 @@
-# Guia para apresentar o código do BarberSync
+# Guia rápido para explicar o código no VS Code
 
-## Abrir no VS Code
+## Abrir e apresentar
 
-1. Baixe a pasta ZIP do GitHub e extraia.
-2. No VS Code, use **Arquivo → Abrir Pasta**.
-3. Abra `index.html`, `style.css` e `js/app.js` no Explorador.
-4. Use `Ctrl + F` para buscar um trecho do arquivo e `Ctrl + Shift + F` para pesquisar no projeto.
-5. Para ver o site, abra `index.html` no navegador ou rode com a extensão Live Server.
+Abra a pasta no VS Code e inicie `index.html` com o **Live Server** (ou visite a versão da Vercel). Se abrir o arquivo com duplo clique, o carregamento dos modelos HTML por `fetch` poderá falhar.
 
-## Organização simplificada
+## Onde procurar cada parte
 
-```text
-barbersync/
-├── index.html          ← estrutura e telas em HTML
-├── style.css           ← carrega os arquivos CSS
-├── js/
-│   └── app.js          ← regras e interações
-├── css/                ← estilos separados por área
-└── docs/               ← documentação e roteiros
-```
+| Funcionalidade | Arquivo | Pesquise por |
+| --- | --- | --- |
+| Menu e estrutura | `index.html` | `nav-links`, `id="app"` |
+| Página inicial e filtros | `templates/01-paginas.html`, `js/02-telas.js` | `pagina-inicio-vitrine`, `telaInicio` |
+| Dados das barbearias | `js/01-dados.js` | `EXEMPLOS` |
+| Cadastro e login | `templates/01-paginas.html`, `js/05-formularios.js` | `form-login`, `form-cadastro-cliente` |
+| Perfil e formulário de reserva | `templates/01-paginas.html` | `pagina-perfil-barbearia`, `form-agendar` |
+| Regras dos horários | `js/01-dados.js` | `horariosLivres` |
+| Registrar agendamento | `js/05-formularios.js` | `form-agendar` |
+| Área do proprietário | `templates/02-painel.html`, `js/02-telas.js` | `telaPainel`, `painel-agenda` |
+| Guardar os dados | `js/01-dados.js` | `salvar` |
+| Cancelar e concluir | `js/04-interacoes.js` | `data-cancelar`, `data-concluir` |
+| Trocar de página | `js/03-navegacao.js` | `renderizar` |
+| Visual e responsividade | `css/` | `.shop-card`, `@media` |
 
-### Onde está cada parte?
+## Perguntas comuns
 
-| Funcionalidade | Código para localizar |
-| --- | --- |
-| Página inicial e vitrine | `index.html` → `pagina-inicio-vitrine` |
-| Card da Estação 47 | `index.html` → `componente-card-vitrine`; dados `estacao47` no JS |
-| Perfil da barbearia | `index.html` → `pagina-perfil-barbearia` |
-| Serviços e profissionais | `index.html` → `componente-linha-servico`, `componente-card-profissional` |
-| Login e cadastro de cliente | `index.html` → `pagina-login-cliente`, `pagina-cadastro-cliente` |
-| Cadastro e painel do barbeiro | `index.html` → `pagina-cadastro-barbeiro`, `pagina-painel-barbeiro` |
-| Agenda / faturamento / produtos | `index.html` → `painel-agenda`, `painel-faturamento`, `painel-catalogo` |
-| Reserva e confirmação | `index.html` → `pagina-perfil-barbearia`, `modal-agendamento-confirmado` |
-| Cores, fontes, espaçamento | `style.css` (buscar `VITRINE`, `LOGIN`, `PERFIL`) |
-| Dados da Estação 47 | `js/app.js` → `estacao47` |
-| Verificar horários disponíveis | `js/app.js` → `horariosLivres()` |
-| Processar agendamento | `js/app.js` → `form-agendar` |
-| Armazenamento e dados | `js/app.js` → `salvar()` |
-| Renderização de telas | `js/app.js` → `htmlTela()`, `renderizar()` |
+**Por que o HTML das telas está separado?** Para deixar a estrutura das páginas no HTML em vez de colocar grandes textos HTML dentro do JavaScript. A função `htmlTela()` substitui os marcadores pelos dados.
 
-## Por que os blocos HTML usam `script type="text/html"`?
+**Para que serve `#painel` na URL?** É uma rota simples. Ao mudar a parte depois de `#`, `renderizar()` mostra a página correspondente.
 
-Esse tipo de `script` é só um **modelo de HTML**, não um programa. O navegador não o executa. Quando alguém entra numa tela, `htmlTela()` pega o conteúdo do modelo e preenche marcadores como `__BS_VAL_0__` com nomes, imagens, avaliações e horários. A página final é inserida no `<main id="app"></main>`. Isso evita colocar dezenas de HTMLs longos dentro do JavaScript e preserva a navegação dinâmica.
+**O login é seguro?** Não. É um login fictício de demonstração. Um sistema real exigiria servidor e autenticação adequada.
 
-## Exemplo do fluxo de agendamento
+**Uma reserva aparece em outro celular?** Não. Os registros ficam no `localStorage` daquele navegador.
 
-1. O modelo `pagina-perfil-barbearia` define a interface.
-2. A função `horariosLivres()` informa os horários para o profissional e o dia escolhido.
-3. O envio de `form-agendar` valida os campos, registra a reserva e chama `salvar()`.
-4. A confirmação utiliza `modal-agendamento-confirmado`, também armazenado no HTML.
+## Roteiro de estudo
 
-## Limitações que vocês devem saber explicar
+1. Mostre no HTML os campos de `form-agendar`.
+2. Localize o envio do formulário em `js/05-formularios.js`.
+3. Explique os horários livres em `js/01-dados.js`.
+4. Mostre `salvar()` e depois a agenda do proprietário.
 
-Não existe backend ou banco de dados; os registros ficam somente no navegador. As contas usam login demonstrativo e não são seguras para usuários reais. Pagamentos são simulados. Para produção seriam necessários servidor, autenticação adequada e armazenamento compartilhado.
-
-## Como estudar os estilos
-
-O arquivo `style.css` importa os estilos da pasta `css/`. Consulte `docs/ESTUDO-CSS.md` para entender o que cada arquivo faz e apresentar CSS para a banca.
-
-## Estrutura HTML atualizada
-
-O `index.html` tem apenas a estrutura principal. As telas estão em `templates/01-paginas.html`, `02-painel.html`, `03-componentes.html` e `04-janelas.html`.
-
-Abra o site com **Live Server** no VS Code (ou pela Vercel). A abertura direta com `file://` não é suportada nesta divisão, pois o JavaScript carrega os modelos por `fetch`.
-Veja `docs/GUIA-HTML-TCC.md`.
+Também há guias em `docs/GUIA-HTML-TCC.md` e `docs/ESTUDO-CSS.md`.
