@@ -87,16 +87,13 @@ function telaCadastroCliente() {
 }
 
 function telaCadastroBarbeiro() {
-  const escolhido = (location.hash.split('/')[1] || 'profissional').toLowerCase();
-  const opcoes = PLANOS.map(plano => {
-    const selecionado = plano.id === escolhido ? ' selected' : '';
-    return '<option value="' + plano.id + '"' + selecionado + '>' +
-      plano.nome + ' — ' + dinheiro(plano.preco) + '/mês</option>';
-  }).join('');
+  app.innerHTML = htmlTela('pagina-cadastro-barbeiro');
 
-  app.innerHTML = htmlTela('pagina-cadastro-barbeiro', [
-    '', '', '', '', '', opcoes
-  ]);
+  // O plano aparece selecionado quando a pessoa vem da página de planos.
+  const escolhido = location.hash.split('/')[1] || 'profissional';
+  if (PLANOS.some(plano => plano.id === escolhido)) {
+    document.querySelector('#dono-plano').value = escolhido;
+  }
 }
 
 function telaContaCliente() {
